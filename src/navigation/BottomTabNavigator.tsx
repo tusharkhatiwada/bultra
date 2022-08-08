@@ -1,16 +1,16 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Pressable } from "react-native";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
-import { RootTabParamList, RootTabScreenProps } from "../models/Navigation";
+import { FontAwesome } from "@expo/vector-icons"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Pressable } from "react-native"
+import Colors from "../constants/Colors"
+import useColorScheme from "../hooks/useColorScheme"
+import TabOneScreen from "../screens/TabOneScreen"
+import TabTwoScreen from "../screens/TabTwoScreen"
+import { RootTabParamList, RootTabScreenProps } from "../models/Navigation"
 
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const BottomTab = createBottomTabNavigator<RootTabParamList>()
 
 export function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <BottomTab.Navigator
@@ -36,7 +36,6 @@ export function BottomTabNavigator() {
                 name="info-circle"
                 size={25}
                 color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
               />
             </Pressable>
           ),
@@ -51,12 +50,12 @@ export function BottomTabNavigator() {
         }}
       />
     </BottomTab.Navigator>
-  );
+  )
 }
 
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
+  name: React.ComponentProps<typeof FontAwesome>["name"]
+  color: string
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={30} {...props} />
 }

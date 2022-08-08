@@ -1,12 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
-import { RootTabScreenProps } from "../models/Navigation";
+import EditScreenInfo from "../components/EditScreenInfo"
+import { Text, View } from "../components/Themed"
 
-export default function TabOneScreen({
-  navigation,
-}: RootTabScreenProps<"TabOne">) {
+export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
@@ -17,7 +14,7 @@ export default function TabOneScreen({
       />
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -35,4 +32,4 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
-});
+})
