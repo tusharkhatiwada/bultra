@@ -10,6 +10,8 @@ jest.mock("react-native-safe-area-context", () => ({
   }),
 }))
 
+jest.useFakeTimers()
+
 afterEach(() => {
   jest.clearAllMocks()
   jest.restoreAllMocks()

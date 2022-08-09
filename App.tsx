@@ -1,22 +1,36 @@
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ApiProvider } from "context/ApiContext"
+import { StatusBar } from "expo-status-bar"
+import { SafeAreaProvider } from "react-native-safe-area-context"
 
-import useCachedResources from "./src/hooks/useCachedResources";
-import useColorScheme from "./src/hooks/useColorScheme";
-import Navigation from "./src/navigation/NavigationContainer";
+import useCachedResources from "./src/hooks/useCachedResources"
+import useColorScheme from "./src/hooks/useColorScheme"
+import Navigation from "./src/navigation/NavigationContainer"
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+  const isLoadingComplete = useCachedResources()
+  const colorScheme = useColorScheme()
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+      },
+    },
+  })
 
   if (!isLoadingComplete) {
-    return null;
+    return null
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
+      <QueryClientProvider client={queryClient}>
+        <ApiProvider>
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider>
+        </ApiProvider>
+      </QueryClientProvider>
+    )
   }
 }

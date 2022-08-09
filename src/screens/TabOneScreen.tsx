@@ -1,15 +1,19 @@
 import { Pressable, StyleSheet, TextInput } from "react-native"
 import { Text, View } from "../components/Themed"
 
-import { useLoginForm } from "hooks/useLoginForm"
+import { useLoginForm } from "hooks/auth/useLoginForm"
+import { useLogin } from "hooks/auth/useLogin"
 
 export default function TabOneScreen() {
+  const { login } = useLogin()
+
   const { getTextFieldProps, handleSubmit } = useLoginForm({
     onSubmit: (values) => {
-      console.log(
-        "🚀 ~ file: TabOneScreen.tsx ~ line 10 ~ TabOneScreen ~ values",
-        values,
-      )
+      login(values, {
+        onSuccess: (response) => {
+          console.log("onSuccess", { response })
+        },
+      })
     },
   })
 
@@ -23,18 +27,29 @@ export default function TabOneScreen() {
       />
       <View>
         <Text>Email</Text>
-        <TextInput style={styles.textfield} {...getTextFieldProps("email")} />
+        <TextInput
+          {...getTextFieldProps("email")}
+          accessibilityLabel="email"
+          placeholder="email"
+          style={styles.textfield}
+        />
       </View>
       <View>
         <Text>Password</Text>
 
         <TextInput
-          style={styles.textfield}
-          secureTextEntry
           {...getTextFieldProps("password")}
+          secureTextEntry
+          accessibilityLabel="password"
+          placeholder="password"
+          style={styles.textfield}
         />
       </View>
-      <Pressable onPress={() => handleSubmit()}>
+      <Pressable
+        accessibilityLabel="submit"
+        accessibilityRole="button"
+        onPress={() => handleSubmit()}
+      >
         <Text>Submit</Text>
       </Pressable>
     </View>
