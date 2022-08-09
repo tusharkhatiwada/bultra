@@ -8,6 +8,9 @@ module.exports = function (api) {
         {
           extensions: [".ts", ".tsx"],
           root: ["src"],
+          alias: {
+            types: "./types",
+          },
         },
       ],
     ],
