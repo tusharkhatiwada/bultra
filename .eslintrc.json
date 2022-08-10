@@ -17,7 +17,25 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "react", "react-native"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-native",
+    "testing-library",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"],
+      "rules": {
+        "testing-library/prefer-screen-queries": 0
+      }
+    }
+  ],
   "rules": {
     "@typescript-eslint/ban-ts-comment": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
