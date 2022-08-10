@@ -1,10 +1,11 @@
 import {
-  useMutation,
   UseMutationOptions,
   UseMutationResult,
+  useMutation,
 } from "@tanstack/react-query"
-import { Login } from "api/domain/auth"
+
 import { AxiosError } from "axios"
+import { Login } from "api/domain/auth"
 import { useApi } from "context/ApiContext"
 
 type Options = UseMutationOptions<Login.Response, AxiosError, Login.Params>
