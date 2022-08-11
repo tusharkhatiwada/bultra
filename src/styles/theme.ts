@@ -1,35 +1,20 @@
 import { extendTheme } from "native-base"
+import { darkColors, lightColors } from "./colors"
+import { fonts } from "./typography"
 
-export const createTheme = (theme: "dark" | "light" = "light") =>
-  extendTheme({
-    components: {
-      Input: {
-        defaultProps: {
-          colorScheme: "red",
-        },
-      },
-    },
-    colors: {
-      // Add new color
-      primary: {
-        50: "#E3F2F9",
-        100: "#C5E4F3",
-        200: "#A2D4EC",
-        300: "#7AC1E4",
-        400: "#47A9DA",
-        500: "#0088CC",
-        600: "#007AB8",
-        700: "#006BA1",
-        800: "#005885",
-        900: "#003F5E",
-      },
-      // Redefining only one shade, rest of the color will remain same.
-      amber: {
-        400: "#d97706",
-      },
+export const createTheme = (theme: "dark" | "light" = "light") => {
+  const colors = theme === "dark" ? darkColors : lightColors
+
+  return extendTheme({
+    colors,
+    fontConfig: fonts,
+    fonts: {
+      heading: "Ubuntu",
+      body: "Ubuntu",
+      mono: "Ubuntu",
     },
     config: {
-      // Changing initialColorMode to 'dark'
       initialColorMode: theme,
     },
   })
+}
