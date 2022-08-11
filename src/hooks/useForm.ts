@@ -18,11 +18,7 @@ export interface UseFormProps<Values> {
   schema: AnyObjectSchema
 }
 
-export function useForm<Values>({
-  onSubmit,
-  schema,
-  defaultValues,
-}: UseFormProps<Values>) {
+export function useForm<Values>({ onSubmit, schema, defaultValues }: UseFormProps<Values>) {
   // TODO: Handle translations
   // const { t } = useTranslation()
   const {

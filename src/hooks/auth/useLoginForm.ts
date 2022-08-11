@@ -19,10 +19,7 @@ export interface LoginFormProps {
   defaultValues?: LoginForm
 }
 
-export const useLoginForm = ({
-  onSubmit,
-  defaultValues = DEFAULT_VALUES,
-}: LoginFormProps) => {
+export const useLoginForm = ({ onSubmit, defaultValues = DEFAULT_VALUES }: LoginFormProps) => {
   return useForm({
     defaultValues,
     onSubmit,
