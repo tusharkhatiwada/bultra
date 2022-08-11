@@ -1,12 +1,14 @@
-import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import "@testing-library/jest-native/extend-expect"
-import { render as rtlRender } from "@testing-library/react-native"
-import { createApiFake } from "api/createApiFake"
+
+import { FC, ReactElement } from "react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
 import { ApiContext } from "context/ApiContext"
 import { NativeBaseProvider } from "native-base"
-import { FC, ReactElement } from "react"
+import { NavigationContainer } from "@react-navigation/native"
+import { createApiFake } from "api/createApiFake"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { render as rtlRender } from "@testing-library/react-native"
 
 const Stack = createNativeStackNavigator()
 

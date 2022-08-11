@@ -12,10 +12,10 @@ describe("TabOneScreen", () => {
   it("calls login endpoint", async () => {
     jest.spyOn(api.auth, "login")
 
-    const { findByPlaceholderText, findByRole } = await render(<TabOneScreen />)
+    const { getByText, findByRole } = await render(<TabOneScreen />)
 
-    const emailInput = await findByPlaceholderText("email")
-    const passwordInput = await findByPlaceholderText("password")
+    const emailInput = getByText("Email")
+    const passwordInput = getByText("Password")
 
     const button = await findByRole("button")
 
