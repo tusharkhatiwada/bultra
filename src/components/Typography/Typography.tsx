@@ -14,7 +14,7 @@ export const Typography: FC<TypographyProps> = ({
   children,
   ...rest
 }) => {
-  const headingSizes = ["h1", "h2", "h3", "h4", "h5", "h6"]
+  const headingSizes = ["h1", "h2", "h3"]
   const isHeading = headingSizes.includes(size)
 
   return (

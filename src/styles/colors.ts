@@ -21,6 +21,8 @@ export const lightColors = {
     800: "#383C43",
     900: "#0E0F11",
   },
+  white: "#FFFFFF",
+  black: "#000000",
 } as const
 
 export const darkColors = lightColors

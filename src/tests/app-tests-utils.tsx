@@ -15,6 +15,7 @@ const Stack = createNativeStackNavigator()
 
 type customRenderOptions = {
   routeParams?: never
+  darkMode?: boolean
 }
 
 const queryClient = new QueryClient({
@@ -35,13 +36,15 @@ const nativeBaseInsets = {
 
 export const customRender = async (
   component: ReactElement<unknown>,
-  { routeParams, ...renderOptions }: customRenderOptions = {},
+  { routeParams, darkMode = false, ...renderOptions }: customRenderOptions = {},
 ) => {
+  const theme = createTheme(darkMode ? "dark" : "light")
+
   const Wrapper: FC = ({ children }) => {
     return (
       <QueryClientProvider client={queryClient}>
         <ApiContext.Provider value={api}>
-          <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={createTheme()}>
+          <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
             <NavigationContainer>
               <Stack.Navigator>
                 <Stack.Screen name="MockedScreen" initialParams={routeParams}>

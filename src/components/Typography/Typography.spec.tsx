@@ -30,30 +30,6 @@ describe("Typography", () => {
       },
     ],
     [
-      "h4",
-      {
-        fontSize: FontSizes.h4,
-        lineHeight: LineHeights.h4,
-        fontFamily: "Ubuntu-Bold",
-      },
-    ],
-    [
-      "h5",
-      {
-        fontSize: FontSizes.h5,
-        lineHeight: LineHeights.h5,
-        fontFamily: "Ubuntu-Bold",
-      },
-    ],
-    [
-      "h6",
-      {
-        fontSize: FontSizes.h6,
-        lineHeight: LineHeights.h6,
-        fontFamily: "Ubuntu-Bold",
-      },
-    ],
-    [
       "headline",
       {
         fontSize: FontSizes.headline,
