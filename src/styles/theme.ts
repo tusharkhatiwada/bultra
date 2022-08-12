@@ -1,5 +1,6 @@
-import { extendTheme } from "native-base"
 import { darkColors, lightColors } from "./colors"
+
+import { extendTheme } from "native-base"
 import { fonts } from "./typography"
 
 export const createTheme = (theme: "dark" | "light" = "light") => {

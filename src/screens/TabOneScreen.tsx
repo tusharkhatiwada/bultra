@@ -9,7 +9,7 @@ import { useLoginForm } from "hooks/auth/useLoginForm"
 export default function TabOneScreen() {
   const { login } = useLogin()
 
-  const { getTextFieldProps, handleSubmit } = useLoginForm({
+  const { getTextFieldProps, handleSubmit, dirty, isValid } = useLoginForm({
     onSubmit: (values) => {
       login(values, {
         onSuccess: (response) => {
@@ -22,16 +22,26 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <View>
-        <TextInput label="Email" {...getTextFieldProps("email")} />
-      </View>
-      <View>
-        <TextInput type="password" label="Password" {...getTextFieldProps("password")} />
-      </View>
 
-      <Button accessibilityLabel="submit" onPress={() => handleSubmit()}>
-        Submit
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+
+      <TextInput label="Email" autoCapitalize="none" {...getTextFieldProps("email")} />
+      <TextInput
+        type="password"
+        label="Password"
+        autoCapitalize="none"
+        autoComplete="off"
+        {...getTextFieldProps("password")}
+      />
+
+      <Button
+        w="100%"
+        accessibilityLabel="submit"
+        onPress={() => handleSubmit()}
+        disabled={!dirty || !isValid}
+        bgColor="black"
+      >
+        Create account
       </Button>
     </View>
   )

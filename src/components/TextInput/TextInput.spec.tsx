@@ -5,9 +5,7 @@ import { TextInput } from "./TextInput"
 
 describe("TextInput", () => {
   it("renders properly", async () => {
-    const { getByText } = await render(
-      <TextInput label="Email" value="" name="email" onChangeText={() => undefined} />,
-    )
+    const { getByText } = await render(<TextInput label="Email" name="email" />)
 
     expect(getByText("Email")).toBeTruthy()
   })
@@ -15,7 +13,7 @@ describe("TextInput", () => {
   it("calls onChangeText on keyboard type", async () => {
     const onChangeMock = jest.fn()
     const { getByText } = await render(
-      <TextInput label="Email" value="" name="email" onChangeText={onChangeMock} />,
+      <TextInput label="Email" name="email" onChangeText={onChangeMock} />,
     )
 
     fireEvent.changeText(getByText("Email"), "a")
@@ -26,13 +24,7 @@ describe("TextInput", () => {
   it("calls onBlur on keyboard type", async () => {
     const onChangeMock = jest.fn()
     const { getByText } = await render(
-      <TextInput
-        label="Email"
-        value=""
-        name="email"
-        onChangeText={() => undefined}
-        onBlur={onChangeMock}
-      />,
+      <TextInput label="Email" name="email" onBlur={onChangeMock} />,
     )
 
     fireEvent(getByText("Email"), "onBlur")
@@ -42,14 +34,7 @@ describe("TextInput", () => {
 
   it("displays error message on status error", async () => {
     const { getByText } = await render(
-      <TextInput
-        label="Email"
-        value=""
-        status="error"
-        name="email"
-        message="Im an error"
-        onChangeText={() => undefined}
-      />,
+      <TextInput label="Email" status="error" name="email" message="Im an error" />,
     )
 
     expect(getByText("Im an error")).toBeTruthy()
@@ -57,13 +42,7 @@ describe("TextInput", () => {
 
   it("displays the placeholder passed by prop", async () => {
     const { getByPlaceholderText } = await render(
-      <TextInput
-        label="Email"
-        value=""
-        name="email"
-        placeholder="placeholder"
-        onChangeText={() => undefined}
-      />,
+      <TextInput label="Email" name="email" placeholder="placeholder" />,
     )
 
     expect(getByPlaceholderText("placeholder")).toBeTruthy()
