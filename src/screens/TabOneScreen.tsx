@@ -1,8 +1,8 @@
-import { Text, View } from "../components/Themed"
-
 import { Button } from "native-base"
 import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
+import { Typography } from "components/Typography"
+import { View } from "../components/Themed"
 import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 
@@ -21,7 +21,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <Typography size="h1">Tab One</Typography>
 
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
@@ -54,10 +54,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingLeft: "10%",
     paddingRight: "10%",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,

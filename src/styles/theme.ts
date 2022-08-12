@@ -1,7 +1,7 @@
 import { darkColors, lightColors } from "./colors"
+import { fonts, themeFontSizes, themeLineHeights } from "./typography"
 
 import { extendTheme } from "native-base"
-import { fonts } from "./typography"
 
 export const createTheme = (theme: "dark" | "light" = "light") => {
   const colors = theme === "dark" ? darkColors : lightColors
@@ -14,6 +14,8 @@ export const createTheme = (theme: "dark" | "light" = "light") => {
       body: "Ubuntu",
       mono: "Ubuntu",
     },
+    lineHeights: themeLineHeights,
+    fontSizes: themeFontSizes,
     config: {
       initialColorMode: theme,
     },

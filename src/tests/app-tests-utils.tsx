@@ -8,6 +8,7 @@ import { NativeBaseProvider } from "native-base"
 import { NavigationContainer } from "@react-navigation/native"
 import { createApiFake } from "api/createApiFake"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createTheme } from "styles/theme"
 import { render as rtlRender } from "@testing-library/react-native"
 
 const Stack = createNativeStackNavigator()
@@ -40,7 +41,7 @@ export const customRender = async (
     return (
       <QueryClientProvider client={queryClient}>
         <ApiContext.Provider value={api}>
-          <NativeBaseProvider initialWindowMetrics={nativeBaseInsets}>
+          <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={createTheme()}>
             <NavigationContainer>
               <Stack.Navigator>
                 <Stack.Screen name="MockedScreen" initialParams={routeParams}>

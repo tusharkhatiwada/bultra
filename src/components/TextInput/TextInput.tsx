@@ -3,6 +3,7 @@ import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData } from "react
 
 import { FC } from "react"
 import { IInputProps } from "native-base/lib/typescript/components/primitives/Input/types"
+import { Typography } from "components/Typography"
 import _ from "lodash"
 
 export type TextInputProps = IInputProps & {
@@ -32,7 +33,9 @@ export const TextInput: FC<TextInputProps> = ({
 
   return (
     <FormControl isInvalid={isError} w="100%" style={styles.container}>
-      <FormControl.Label accessibilityLabel={label}>{label}</FormControl.Label>
+      <Typography accessibilityLabel={label} size="small" style={styles.label}>
+        {label}
+      </Typography>
 
       <Input
         isFullWidth
@@ -66,6 +69,9 @@ export const TextInput: FC<TextInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 8,
+  },
+  label: {
     marginBottom: 8,
   },
   input: {
