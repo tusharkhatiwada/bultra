@@ -1,9 +1,9 @@
-import { Button, View } from "native-base"
-
+import { Button } from "components/Button"
 import { RootView } from "components/RootView"
 import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
 import { Typography } from "components/Typography"
+import { View } from "native-base"
 import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 
@@ -35,13 +35,7 @@ export default function TabOneScreen() {
         {...getTextFieldProps("password")}
       />
 
-      <Button
-        w="100%"
-        accessibilityLabel="submit"
-        onPress={() => handleSubmit()}
-        disabled={!dirty || !isValid}
-        bgColor="black"
-      >
+      <Button onPress={() => handleSubmit()} isDisabled={!dirty || !isValid}>
         Create account
       </Button>
     </RootView>

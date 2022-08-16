@@ -2,6 +2,7 @@ import { darkColors, lightColors } from "./colors"
 import { fonts, themeFontSizes, themeLineHeights } from "./typography"
 
 import { extendTheme } from "native-base"
+import { themeButton } from "components/Button/Button.styles"
 
 export const createTheme = (theme: "dark" | "light" = "light") => {
   const colors = theme === "dark" ? darkColors : lightColors
@@ -18,6 +19,9 @@ export const createTheme = (theme: "dark" | "light" = "light") => {
     fontSizes: themeFontSizes,
     config: {
       initialColorMode: theme,
+    },
+    components: {
+      Button: themeButton,
     },
   })
 }
