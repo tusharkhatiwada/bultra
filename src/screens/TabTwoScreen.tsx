@@ -3,6 +3,10 @@ import { StyleSheet, View } from "react-native"
 import { RootView } from "components/RootView"
 import { Typography } from "components/Typography"
 
+/**
+ * TODO: Remove this screen
+ * @deprecated
+ */
 export default function TabTwoScreen() {
   return (
     <RootView style={styles.container}>

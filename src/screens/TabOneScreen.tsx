@@ -7,6 +7,10 @@ import { View } from "native-base"
 import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 
+/**
+ * TODO: Remove this screen
+ * @deprecated
+ */
 export default function TabOneScreen() {
   const { login } = useLogin()
 

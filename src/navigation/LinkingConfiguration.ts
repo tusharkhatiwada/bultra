@@ -4,33 +4,32 @@
  * https://reactnavigation.org/docs/configuring-links
  */
 
-import { LinkingOptions } from "@react-navigation/native";
-import * as Linking from "expo-linking";
-
-import { RootStackParamList } from "../models/Navigation";
+import { LinkingOptions } from "@react-navigation/native"
+import { RootStackParamList } from "../models/Navigation"
+import { Routes } from "models/Routes"
 
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl("/")],
+  prefixes: ["https://fast-growing.com"],
   config: {
     screens: {
-      Root: {
+      [Routes.main.navigator]: {
         screens: {
-          TabOne: {
-            screens: {
-              TabOneScreen: "one",
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: "two",
-            },
-          },
+          [Routes.main.home]: Routes.main.home,
+          [Routes.main.wallet]: Routes.main.wallet,
+          [Routes.main.referrals]: Routes.main.referrals,
+          [Routes.main.account]: Routes.main.account,
+        },
+      },
+      [Routes.auth.navigator]: {
+        screens: {
+          [Routes.auth.login]: Routes.auth.login,
+          [Routes.auth.signup]: Routes.auth.signup,
         },
       },
       Modal: "modal",
       NotFound: "*",
     },
   },
-};
+}
 
-export default linking;
+export default linking

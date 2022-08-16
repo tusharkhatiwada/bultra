@@ -1,16 +1,16 @@
 ---
 to: "<%= files.includes('styles') ? `src/${path}/${h.changeCase.pascal(name)}/${h.changeCase.pascal(name)}.tsx` : null %>"
 ---
-import { FC } from 'react'
 import { Text, View, StyleSheet } from "react-native"
+import { Typography } from "components/Typography"
 
 export type <%= h.changeCase.pascal(name) %>Props = {}
 
 export const <%= h.changeCase.pascal(name) %>: FC<<%= h.changeCase.pascal(name) %>Props> = (_props) => {
   return (
     <View style={styles.container}>
-      <Text><%= h.changeCase.pascal(name) %></Text>
-      <Text>This is the <%= h.changeCase.pascal(name) %> component!</Text>
+      <Typography size="h3"><%= h.changeCase.pascal(name) %></Typography>
+      <Typography>This is the <%= h.changeCase.pascal(name) %> component!</Typography>
     </View>    
   )
 }

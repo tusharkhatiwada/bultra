@@ -1,4 +1,26 @@
 export const themeButton = {
+  sizes: {
+    lg: {
+      _text: {
+        fontSize: "lg",
+      },
+    },
+    md: {
+      _text: {
+        fontSize: "md",
+      },
+    },
+    sm: {
+      _text: {
+        fontSize: "sm",
+      },
+    },
+    xs: {
+      _text: {
+        fontSize: "xs",
+      },
+    },
+  },
   variants: {
     solid: ({ colorScheme }: { colorScheme: string }) => {
       return {
