@@ -1,7 +1,9 @@
-import axios from "axios"
-import { createLoginFake } from "./auth/fake/createLoginFake"
-import { createApiFake } from "./createApiFake"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
+
 import { Api } from "./domain/api"
+import axios from "axios"
+import { createApiFake } from "./createApiFake"
+import { createLoginFake } from "./auth/fake/createLoginFake"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -10,9 +12,10 @@ export function createApi(offline: boolean): Api {
     baseURL: "https://staging-api-core.fast-growing.com/api",
   })
 
+  const secureStorage = createSecureStorage()
+
   httpClient.interceptors.request.use(async function (config) {
-    // TODO: Handle token
-    const token = "test_token"
+    const token = await secureStorage.get(StorageKey.ACCESS_TOKEN)
 
     if (config.headers) {
       if (config.headers.Authorization) return config

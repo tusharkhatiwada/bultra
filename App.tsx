@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ApiProvider } from "context/ApiContext"
+import { AuthProvider } from "context/AuthContext"
 import { NativeBaseProvider } from "native-base"
 import Navigation from "./src/navigation/NavigationContainer"
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -27,12 +28,14 @@ export default function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <ApiProvider>
-          <SafeAreaProvider>
-            <NativeBaseProvider theme={createTheme(colorScheme)}>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-            </NativeBaseProvider>
-          </SafeAreaProvider>
+          <AuthProvider>
+            <SafeAreaProvider>
+              <NativeBaseProvider theme={createTheme(colorScheme)}>
+                <Navigation colorScheme={colorScheme} />
+                <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+              </NativeBaseProvider>
+            </SafeAreaProvider>
+          </AuthProvider>
         </ApiProvider>
       </QueryClientProvider>
     )

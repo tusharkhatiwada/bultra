@@ -1,5 +1,6 @@
 import "@testing-library/jest-native/extend-expect"
 
+import { AuthContext, AuthContextProps } from "context/AuthContext"
 import { FC, ReactElement } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
@@ -29,6 +30,12 @@ const queryClient = new QueryClient({
 
 const api = createApiFake()
 
+const authContext = {
+  token: "stateToken",
+  setToken: jest.fn(),
+  logout: jest.fn(() => Promise.resolve()),
+} as AuthContextProps
+
 const nativeBaseInsets = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
   insets: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -44,15 +51,17 @@ export const customRender = async (
     return (
       <QueryClientProvider client={queryClient}>
         <ApiContext.Provider value={api}>
-          <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
-            <NavigationContainer>
-              <Stack.Navigator>
-                <Stack.Screen name="MockedScreen" initialParams={routeParams}>
-                  {() => children}
-                </Stack.Screen>
-              </Stack.Navigator>
-            </NavigationContainer>
-          </NativeBaseProvider>
+          <AuthContext.Provider value={authContext}>
+            <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen name="MockedScreen" initialParams={routeParams}>
+                    {() => children}
+                  </Stack.Screen>
+                </Stack.Navigator>
+              </NavigationContainer>
+            </NativeBaseProvider>
+          </AuthContext.Provider>
         </ApiContext.Provider>
       </QueryClientProvider>
     )
