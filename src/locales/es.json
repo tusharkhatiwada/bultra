@@ -1,0 +1,29 @@
+{
+  "translation": {
+    "common": {},
+
+    "login": {
+      "title": "Iniciar sesión"
+    },
+
+    "signup": {
+      "title": "Registro"
+    },
+
+    "home": {
+      "title": "Inicio"
+    },
+
+    "wallet": {
+      "title": "Cartera"
+    },
+
+    "referrals": {
+      "title": "Referidos"
+    },
+
+    "account": {
+      "title": "Cuenta"
+    }
+  }
+}

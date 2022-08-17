@@ -6,12 +6,15 @@ import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useTranslation } from "react-i18next"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
 export const Home: FC<HomeProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   return (
     <RootView
@@ -24,7 +27,7 @@ export const Home: FC<HomeProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">Home</Typography>
+      <Typography size="h3">{t("home.title")}</Typography>
     </RootView>
   )
 }

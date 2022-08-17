@@ -8,6 +8,6 @@ describe("Wallet", () => {
   it("displays the default message", async () => {
     const { getByText } = await render(<Wallet {...props} />)
 
-    expect(getByText("Wallet")).toBeTruthy()
+    expect(getByText("wallet.title")).toBeTruthy()
   })
 })

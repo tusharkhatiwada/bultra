@@ -6,12 +6,15 @@ import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useTranslation } from "react-i18next"
 
 export type ReferralsProps = MainTabScreenProps<typeof Routes.main.referrals>
 
 export const Referrals: FC<ReferralsProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   return (
     <RootView
@@ -24,7 +27,7 @@ export const Referrals: FC<ReferralsProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">Referrals</Typography>
+      <Typography size="h3">{t("referrals.title")}</Typography>
     </RootView>
   )
 }

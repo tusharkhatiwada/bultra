@@ -1,0 +1,29 @@
+{
+  "translation": {
+    "common": {},
+
+    "login": {
+      "title": "Login"
+    },
+
+    "signup": {
+      "title": "Sign up"
+    },
+
+    "home": {
+      "title": "Home"
+    },
+
+    "wallet": {
+      "title": "Wallet"
+    },
+
+    "referrals": {
+      "title": "Referrals"
+    },
+
+    "account": {
+      "title": "Account"
+    }
+  }
+}

@@ -8,12 +8,14 @@ import { Wallet } from "screens/Main/Wallet"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import useColorScheme from "../hooks/useColorScheme"
 import { useTheme } from "native-base"
+import { useTranslation } from "react-i18next"
 
 const BottomTab = createBottomTabNavigator<MainTabParamList>()
 
 export function MainNavigator() {
   const colorScheme = useColorScheme()
   const { colors } = useTheme()
+  const { t } = useTranslation()
 
   return (
     <BottomTab.Navigator
@@ -27,7 +29,7 @@ export function MainNavigator() {
         name={Routes.main.home}
         component={Home}
         options={() => ({
-          title: "Home",
+          title: t("home.title"),
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         })}
       />
@@ -35,7 +37,7 @@ export function MainNavigator() {
         name={Routes.main.wallet}
         component={Wallet}
         options={() => ({
-          title: "Wallet",
+          title: t("wallet.title"),
           tabBarIcon: ({ color }) => <TabBarIcon name="wallet" color={color} />,
         })}
       />
@@ -43,7 +45,7 @@ export function MainNavigator() {
         name={Routes.main.referrals}
         component={Referrals}
         options={() => ({
-          title: "Referrals",
+          title: t("referrals.title"),
           tabBarIcon: ({ color }) => <TabBarIcon name="user-plus" color={color} />,
         })}
       />
@@ -51,7 +53,7 @@ export function MainNavigator() {
         name={Routes.main.account}
         component={Account}
         options={() => ({
-          title: "Account",
+          title: t("account.title"),
           tabBarIcon: ({ color }) => <TabBarIcon name="user-circle" color={color} />,
         })}
       />

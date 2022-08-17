@@ -12,6 +12,6 @@ describe("Account", () => {
   it("displays the default message", async () => {
     const { getByText } = await render(<Account {...props} />)
 
-    expect(getByText("Account")).toBeTruthy()
+    expect(getByText("account.title")).toBeTruthy()
   })
 })

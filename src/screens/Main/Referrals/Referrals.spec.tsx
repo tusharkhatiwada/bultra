@@ -8,6 +8,6 @@ describe("Referrals", () => {
   it("displays the default message", async () => {
     const { getByText } = await render(<Referrals {...props} />)
 
-    expect(getByText("Referrals")).toBeTruthy()
+    expect(getByText("referrals.title")).toBeTruthy()
   })
 })

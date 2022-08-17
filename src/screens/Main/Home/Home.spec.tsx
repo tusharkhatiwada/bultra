@@ -8,6 +8,6 @@ describe("Home", () => {
   it("displays the default message", async () => {
     const { getByText } = await render(<Home {...props} />)
 
-    expect(getByText("Home")).toBeTruthy()
+    expect(getByText("home.title")).toBeTruthy()
   })
 })

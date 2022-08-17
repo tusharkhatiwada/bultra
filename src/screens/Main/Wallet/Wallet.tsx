@@ -6,12 +6,15 @@ import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useTranslation } from "react-i18next"
 
 export type WalletProps = MainTabScreenProps<typeof Routes.main.wallet>
 
 export const Wallet: FC<WalletProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   return (
     <RootView
@@ -24,7 +27,7 @@ export const Wallet: FC<WalletProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">Wallet</Typography>
+      <Typography size="h3">{t("wallet.title")}</Typography>
     </RootView>
   )
 }
