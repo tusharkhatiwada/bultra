@@ -3,6 +3,7 @@ import { StorageKey, createSecureStorage } from "services/SecureStorage"
 import { Api } from "./domain/api"
 import axios from "axios"
 import { createApiFake } from "./createApiFake"
+import { createCreateAccountFake } from "./auth/fake/createCreateAccountFake"
 import { createLoginFake } from "./auth/fake/createLoginFake"
 
 export function createApi(offline: boolean): Api {
@@ -53,6 +54,7 @@ export function createApi(offline: boolean): Api {
   return {
     auth: {
       login: createLoginFake(),
+      createAccount: createCreateAccountFake(),
     },
   }
 }

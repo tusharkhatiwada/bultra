@@ -4,6 +4,7 @@ import { StorageKey, createSecureStorage } from "services/SecureStorage"
 export type AuthContextProps = {
   token: string | null
   setToken: (token: string) => void
+  isLoggedIn: boolean
   logout: () => Promise<void>
 }
 
@@ -31,10 +32,13 @@ export const AuthProvider: FC = ({ children }) => {
     })
   }
 
+  const isLoggedIn = Boolean(stateToken)
+
   const value = useMemo(
     () => ({
       token: stateToken,
       setToken,
+      isLoggedIn,
       logout,
     }),
     [stateToken, setToken],

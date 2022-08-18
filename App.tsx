@@ -1,4 +1,5 @@
 import "./src/config/i18n"
+import "./src/config/yupLocale"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 

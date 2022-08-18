@@ -17,6 +17,7 @@ const Stack = createNativeStackNavigator()
 type customRenderOptions = {
   routeParams?: never
   darkMode?: boolean
+  isLoggedIn?: boolean
 }
 
 const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ const api = createApiFake()
 const authContext = {
   token: "stateToken",
   setToken: jest.fn(),
+  isLoggedIn: true,
   logout: jest.fn(() => Promise.resolve()),
 } as AuthContextProps
 
@@ -43,7 +45,7 @@ const nativeBaseInsets = {
 
 export const customRender = async (
   component: ReactElement<unknown>,
-  { routeParams, darkMode = false, ...renderOptions }: customRenderOptions = {},
+  { routeParams, darkMode = false, isLoggedIn = true, ...renderOptions }: customRenderOptions = {},
 ) => {
   const theme = createTheme(darkMode ? "dark" : "light")
 
@@ -51,7 +53,7 @@ export const customRender = async (
     return (
       <QueryClientProvider client={queryClient}>
         <ApiContext.Provider value={api}>
-          <AuthContext.Provider value={authContext}>
+          <AuthContext.Provider value={{ ...authContext, isLoggedIn }}>
             <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
               <NavigationContainer>
                 <Stack.Navigator>
@@ -73,4 +75,4 @@ export const customRender = async (
 // re-export everything
 export * from "@testing-library/react-native"
 // override render method
-export { customRender as render, api }
+export { customRender as render, api, authContext }

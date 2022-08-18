@@ -7,7 +7,30 @@
     },
 
     "createAccount": {
-      "title": "Sign up"
+      "title": "Create an account",
+
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Introduce an email"
+        },
+        "referralId": {
+          "label": "Referral ID (optional)",
+          "placeholder": "Introduce a referral ID"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Write your password"
+        },
+        "repeatPassword": {
+          "label": "Repeat Password",
+          "placeholder": "Repeat your password"
+        },
+        "submit": "Create account"
+      },
+
+      "disclaimer": "By registering, you agree to our <bold>Privacy Policy</bold> and <bold>Terms and Conditions</bold>",
+      "login": "Already have an account? <bold>Log in</bold>"
     },
 
     "home": {
@@ -23,7 +46,43 @@
     },
 
     "profile": {
-      "title": "Profile"
+      "title": "Profile",
+      "logout": "Log out"
+    },
+
+    "validations": {
+      "mixed": {
+        "default": "** Default",
+        "required": "Required field",
+        "oneOf": "** oneOf",
+        "notOneOf": "** notOneOf",
+        "defined": "** defined"
+      },
+      "string": {
+        "length": "** length {{length}}",
+        "min": "** min {{min}}",
+        "max": "** max {{max}}",
+        "email": "Invalid email address",
+        "url": "** url",
+        "phone": "** phone"
+      },
+      "number": {
+        "min": "** min {{min}}",
+        "max": "** max {{max}}",
+        "lessThan": "** lessThan {{less}}",
+        "moreThan": "** moreThan {{more}}",
+        "notEqual": "** notEqual {{notEqual}}",
+        "positive": "** positive",
+        "negative": "** negative",
+        "integer": "** integer"
+      },
+      "date": {
+        "min": "** min {{min}}",
+        "max": "** max {{max}}"
+      },
+      "password": {
+        "match": "Passwords must match"
+      }
     }
   }
 }

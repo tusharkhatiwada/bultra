@@ -7,7 +7,30 @@
     },
 
     "createAccount": {
-      "title": "Registro"
+      "title": "Crear una cuenta",
+
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Introduce un email"
+        },
+        "referralId": {
+          "label": "ID de referencia (opcional)",
+          "placeholder": "Introduce un ID de referencia"
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Escribe tu contraseña"
+        },
+        "repeatPassword": {
+          "label": "Repetir contraseña",
+          "placeholder": "Repite tu contraseña"
+        },
+        "submit": "Crear cuenta"
+      },
+
+      "disclaimer": "Creando una cuenta, aceptas nuestra <bold>Política de Privacidad</bold> y nuestros <bold>Términos y Condiciones</bold>",
+      "login": "¿Ya tienes una cuenta? <bold>Inicia sesión</bold>"
     },
 
     "home": {
@@ -23,7 +46,43 @@
     },
 
     "profile": {
-      "title": "Perfil"
+      "title": "Perfil",
+      "logout": "Cerrar sesión"
+    },
+
+    "validations": {
+      "mixed": {
+        "default": "** Por defecto",
+        "required": "Campo requerido",
+        "oneOf": "** oneOf",
+        "notOneOf": "** notOneOf",
+        "defined": "** defined"
+      },
+      "string": {
+        "length": "** length {{length}}",
+        "min": "** min {{min}}",
+        "max": "** max {{max}}",
+        "email": "Dirección de email no válida",
+        "url": "** url",
+        "phone": "** phone"
+      },
+      "number": {
+        "min": "** min {{min}}",
+        "max": "** max {{max}}",
+        "lessThan": "** lessThan {{less}}",
+        "moreThan": "** moreThan {{more}}",
+        "notEqual": "** notEqual {{notEqual}}",
+        "positive": "** positive",
+        "negative": "** negative",
+        "integer": "** integer"
+      },
+      "date": {
+        "min": "** min {{min}}",
+        "max": "** max {{max}}"
+      },
+      "password": {
+        "match": "Las contraseñas no coinciden"
+      }
     }
   }
 }

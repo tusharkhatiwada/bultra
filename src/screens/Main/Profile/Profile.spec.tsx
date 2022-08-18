@@ -1,6 +1,5 @@
 import { Profile, ProfileProps } from "./Profile"
-
-import { render } from "tests/app-tests-utils"
+import { authContext, fireEvent, render, waitFor } from "tests/app-tests-utils"
 
 const props = {
   navigation: {
@@ -13,5 +12,17 @@ describe("Profile", () => {
     const { getByText } = await render(<Profile {...props} />)
 
     expect(getByText("profile.title")).toBeTruthy()
+  })
+
+  it("can log out", async () => {
+    const { getByText } = await render(<Profile {...props} />)
+
+    const logoutButton = getByText("profile.logout")
+
+    fireEvent.press(logoutButton)
+
+    await waitFor(() => {
+      expect(authContext.logout).toHaveBeenCalled()
+    })
   })
 })

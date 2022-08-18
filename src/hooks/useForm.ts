@@ -1,10 +1,9 @@
 import { FormikConfig, useFormik } from "formik"
+import { get, isObject } from "lodash"
 
 import { AnyObjectSchema } from "yup"
-// import { useTranslation } from "react-i18next"
-// import { FieldStatusTypes } from "components/FieldMessage/FieldMessage"
 import { Path } from "types/Path"
-import { get } from "lodash"
+import { useTranslation } from "react-i18next"
 
 type ExternalErrors<Keys> = { field: Keys; message: string }[]
 
@@ -19,8 +18,8 @@ export interface UseFormProps<Values> {
 }
 
 export function useForm<Values>({ onSubmit, schema, defaultValues }: UseFormProps<Values>) {
-  // TODO: Handle translations
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
+
   const {
     values,
     errors,
@@ -45,16 +44,16 @@ export function useForm<Values>({ onSubmit, schema, defaultValues }: UseFormProp
   }
 
   const getErrorProps = (path: string) => {
-    const message = get(errors, path)
+    let message = get(errors, path)
     const hasError = Boolean(message)
     const isTouched = Boolean(get(touched, path))
     const showError = hasError && isTouched
 
     // TODO: Hanlde translations
-    // if (isObject(message)) {
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   message = t((message as any).key, (message as any).attrs)
-    // }
+    if (isObject(message)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      message = t((message as any).key, (message as any).attrs)
+    }
 
     return {
       ...(showError && { status: "error" as FieldStatusTypes }),
