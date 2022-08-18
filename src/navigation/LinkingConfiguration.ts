@@ -17,13 +17,13 @@ const linking: LinkingOptions<RootStackParamList> = {
           [Routes.main.home]: Routes.main.home,
           [Routes.main.wallet]: Routes.main.wallet,
           [Routes.main.referrals]: Routes.main.referrals,
-          [Routes.main.account]: Routes.main.account,
+          [Routes.main.profile]: Routes.main.profile,
         },
       },
       [Routes.auth.navigator]: {
         screens: {
           [Routes.auth.login]: Routes.auth.login,
-          [Routes.auth.signup]: Routes.auth.signup,
+          [Routes.auth.create_account]: Routes.auth.create_account,
         },
       },
       Modal: "modal",

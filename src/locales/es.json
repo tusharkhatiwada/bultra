@@ -6,7 +6,7 @@
       "title": "Iniciar sesión"
     },
 
-    "signup": {
+    "createAccount": {
       "title": "Registro"
     },
 
@@ -22,8 +22,8 @@
       "title": "Referidos"
     },
 
-    "account": {
-      "title": "Cuenta"
+    "profile": {
+      "title": "Perfil"
     }
   }
 }

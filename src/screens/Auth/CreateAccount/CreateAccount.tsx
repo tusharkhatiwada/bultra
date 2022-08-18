@@ -7,9 +7,9 @@ import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 
-export type SignUpProps = AuthStackScreenProps<typeof Routes.auth.signup>
+export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_account>
 
-export const SignUp: FC<SignUpProps> = () => {
+export const CreateAccount: FC<CreateAccountProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
 
@@ -24,7 +24,7 @@ export const SignUp: FC<SignUpProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">SignUp</Typography>
+      <Typography size="h3">CreateAccount</Typography>
     </RootView>
   )
 }

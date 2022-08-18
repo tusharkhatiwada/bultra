@@ -2,14 +2,14 @@ export const Routes = {
   auth: {
     navigator: "auth",
     login: "auth/login",
-    signup: "auth/signup",
+    create_account: "auth/create_account",
   },
   main: {
     navigator: "main",
     home: "main/home",
     wallet: "main/wallet",
     referrals: "main/referrals",
-    account: "main/account",
+    profile: "main/profile",
   },
   notFound: "notFound",
 } as const

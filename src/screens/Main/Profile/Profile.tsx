@@ -11,9 +11,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
-export type AccountProps = MainTabScreenProps<typeof Routes.main.account>
+export type ProfileProps = MainTabScreenProps<typeof Routes.main.profile>
 
-export const Account: FC<AccountProps> = ({ navigation }) => {
+export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const [language, setLanguage] = useState("en-GB")
 
   const { space } = useTheme()
@@ -29,7 +29,7 @@ export const Account: FC<AccountProps> = ({ navigation }) => {
 
   const goToSignUp = () => {
     navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.signup,
+      screen: Routes.auth.create_account,
     })
   }
 
@@ -51,14 +51,14 @@ export const Account: FC<AccountProps> = ({ navigation }) => {
       ]}
     >
       <Typography size="h3" style={styles.button}>
-        {t("account.title")}
+        {t("profile.title")}
       </Typography>
 
       <Button onPress={goToLogin} style={styles.button}>
         {t("login.title")}
       </Button>
       <Button onPress={goToSignUp} style={styles.button}>
-        {t("signup.title")}
+        {t("createAccount.title")}
       </Button>
 
       <Button onPress={handleChangeLanguage} style={styles.button}>

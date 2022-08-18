@@ -30,10 +30,10 @@ export type MainTabParamList = {
   [Routes.main.home]: undefined
   [Routes.main.wallet]: undefined
   [Routes.main.referrals]: undefined
-  [Routes.main.account]: undefined
+  [Routes.main.profile]: undefined
 }
 
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
-  [Routes.auth.signup]: undefined
+  [Routes.auth.create_account]: undefined
 }
