@@ -1,6 +1,9 @@
 {
   "translation": {
-    "common": {},
+    "common": {
+      "continue": "Continuar",
+      "finish": "Finalizar"
+    },
 
     "login": {
       "title": "Iniciar sesion",

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
@@ -57,7 +57,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         },
       ]}
     >
-      <ScrollView>
+      <View>
         <Typography size="h3" style={styles.title}>
           {t("login.title")}
         </Typography>
@@ -86,7 +86,9 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             }}
           />
         </Typography>
+      </View>
 
+      <View>
         <Button
           isDisabled={!isValid || !dirty}
           onPress={() => handleSubmit()}
@@ -103,7 +105,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             }}
           />
         </Typography>
-      </ScrollView>
+      </View>
     </RootView>
   )
 }
@@ -111,6 +113,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
   },
   title: {
     marginBottom: 16,

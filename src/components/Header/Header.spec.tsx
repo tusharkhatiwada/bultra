@@ -6,6 +6,7 @@ const props = {
     goBack: jest.fn(),
   },
   title: "Header Component",
+  canGoBack: true,
 } as unknown as HeaderProps
 
 describe("Header", () => {

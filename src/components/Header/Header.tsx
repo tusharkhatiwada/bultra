@@ -1,5 +1,6 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native"
+import { DeviceEventEmitter, StyleSheet, TouchableOpacity, View } from "react-native"
 
+import { Events } from "models/Events"
 import { FC } from "react"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
@@ -11,13 +12,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 export type HeaderProps = {
   navigation: NativeStackNavigationProp<ParamListBase>
   title: string
+  canGoBack?: boolean
 }
 
-export const Header: FC<HeaderProps> = ({ navigation, title }) => {
+export const Header: FC<HeaderProps> = ({ navigation, title, canGoBack = false }) => {
   const { top } = useSafeAreaInsets()
 
   const handleGoBack = () => {
-    navigation.goBack()
+    canGoBack ? navigation.goBack() : DeviceEventEmitter.emit(Events.HeaderBackButtonPress)
   }
 
   return (
