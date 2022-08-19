@@ -12,6 +12,7 @@ const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ["https://fast-growing.com"],
   config: {
     screens: {
+      [Routes.home]: Routes.home,
       [Routes.main.navigator]: {
         screens: {
           [Routes.main.home]: Routes.main.home,
@@ -24,6 +25,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           [Routes.auth.login]: Routes.auth.login,
           [Routes.auth.create_account]: Routes.auth.create_account,
+          [Routes.auth.plans]: Routes.auth.plans,
         },
       },
       Modal: "modal",

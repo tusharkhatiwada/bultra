@@ -1,7 +1,9 @@
 ---
 to: "<%= files.includes('styles') ? null : `src/${path}/${h.changeCase.pascal(name)}/${h.changeCase.pascal(name)}.tsx` %>"
 ---
-import { Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
+
+import { FC } from "react"
 import { Typography } from "components/Typography"
 
 export type <%= h.changeCase.pascal(name) %>Props = {}

@@ -64,6 +64,10 @@
       "logout": "Log out"
     },
 
+    "plans": {
+      "title": "Select a plan"
+    },
+
     "validations": {
       "mixed": {
         "default": "** Default",

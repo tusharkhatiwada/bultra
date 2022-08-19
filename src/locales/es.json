@@ -64,6 +64,10 @@
       "logout": "Cerrar sesión"
     },
 
+    "plans": {
+      "title": "Selecciona un plan"
+    },
+
     "validations": {
       "mixed": {
         "default": "** Por defecto",

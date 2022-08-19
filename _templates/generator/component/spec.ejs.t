@@ -1,7 +1,6 @@
 ---
 to: src/<%= path %>/<%= h.changeCase.pascal(name) %>/<%= h.changeCase.pascal(name) %>.spec.tsx
 ---
-import React from 'react'
 import { render } from 'tests/app-tests-utils'
 import { <%= h.changeCase.pascal(name) %> } from './<%= h.changeCase.pascal(name) %>'
 

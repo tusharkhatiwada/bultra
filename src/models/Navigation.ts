@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Routes } from "./Routes"
 
 export type RootStackParamList = {
+  [Routes.home]: undefined
   [Routes.main.navigator]: NavigatorScreenParams<MainTabParamList> | undefined
   [Routes.auth.navigator]: NavigatorScreenParams<AuthStackParamList> | undefined
   Modal: undefined
@@ -36,4 +37,5 @@ export type MainTabParamList = {
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
   [Routes.auth.create_account]: undefined
+  [Routes.auth.plans]: undefined
 }

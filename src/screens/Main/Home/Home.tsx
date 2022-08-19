@@ -26,9 +26,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  const goToLogin = () => {
+  const goToPlans = () => {
     navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.login,
+      screen: Routes.auth.plans,
     })
   }
 
@@ -45,7 +45,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     >
       <Typography size="h3">{t("home.title")}</Typography>
 
-      <Button onPress={goToLogin}>{t("login.title")}</Button>
+      {isLoggedIn && <Button onPress={goToPlans}>{t("plans.title")}</Button>}
+
       {!isLoggedIn && <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>}
     </RootView>
   )

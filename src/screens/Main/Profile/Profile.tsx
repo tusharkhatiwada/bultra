@@ -33,9 +33,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const handleLogout = async () => {
     await logout()
 
-    navigation.dispatch(
-      CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-    )
+    navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: Routes.home }] }))
   }
 
   return (

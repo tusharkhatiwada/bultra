@@ -29,4 +29,18 @@ describe("Home", () => {
       })
     })
   })
+
+  it("shows the plans button if not logged in", async () => {
+    const { getByText } = await render(<Home {...props} />)
+
+    const plansButton = getByText("plans.title")
+
+    fireEvent.press(plansButton)
+
+    await waitFor(() => {
+      expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
+        screen: Routes.auth.plans,
+      })
+    })
+  })
 })
