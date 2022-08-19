@@ -6,7 +6,7 @@
     },
 
     "login": {
-      "title": "Iniciar sesion",
+      "title": "Iniciar sesión",
 
       "form": {
         "email": {
@@ -19,8 +19,8 @@
         },
         "submit": "Entrar"
       },
-      "forgotPassword": "<bold>Olvidé mi contraseña</bold>",
-      "signUp": "¿No tienes cuenta todavia? <bold>Registrate</bold>"
+      "forgotPassword": "Olvidé mi contraseña",
+      "signUp": "¿No tienes cuenta todavía? <bold>Regístrate</bold>"
     },
 
     "createAccount": {
@@ -68,7 +68,18 @@
     },
 
     "plans": {
-      "title": "Selecciona un plan"
+      "title": "Selecciona un plan",
+
+      "selectPlan": {
+        "title": "Escoge tu plan",
+        "description": "Selecciona uno de nuestros planes y empieza a recibir beneficios lo más pronto posible:",
+
+        "BASIC": "Plan Básico",
+        "PREMIUM": "Plan Premium",
+        "VIP": "Plan VIP",
+
+        "yield": "{{from}} - {{to}}% <small>rendimiento mensual</small>"
+      }
     },
 
     "validations": {

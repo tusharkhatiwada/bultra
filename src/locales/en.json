@@ -19,7 +19,7 @@
         },
         "submit": "Log In"
       },
-      "forgotPassword": "<bold>Forgot my password</bold>",
+      "forgotPassword": "Forgot my password",
       "signUp": "Don't have an account yet? <bold>Sign up</bold>"
     },
 
@@ -68,7 +68,18 @@
     },
 
     "plans": {
-      "title": "Select a plan"
+      "title": "Select a plan",
+
+      "selectPlan": {
+        "title": "Choose your plan",
+        "description": "Select one of our plans and start getting benefits as soon as possible:",
+
+        "BASIC": "Basic Plan",
+        "PREMIUM": "Premium Plan",
+        "VIP": "VIP Plan",
+
+        "yield": "{{from}} - {{to}}% <small>monthly yield</small>"
+      }
     },
 
     "validations": {

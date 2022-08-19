@@ -5,6 +5,7 @@ import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
+import { PlanTypes } from "models/Plans"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
@@ -22,6 +23,7 @@ export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 
 export const Plans: FC<PlansProps> = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(1)
+  const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
@@ -65,7 +67,10 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
     >
       <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />
 
-      {currentStep === PLAN_STEP && <SelectPlan />}
+      {currentStep === PLAN_STEP && (
+        <SelectPlan selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
+      )}
+
       {currentStep === SUBSCRIPTION_STEP && <SelectSubscription />}
 
       <Button onPress={handleButtonPress}>

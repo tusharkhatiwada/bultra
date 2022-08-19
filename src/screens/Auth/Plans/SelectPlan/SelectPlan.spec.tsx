@@ -1,10 +1,20 @@
-import { render } from 'tests/app-tests-utils'
-import { SelectPlan } from './SelectPlan'
+import { fireEvent, render } from "tests/app-tests-utils"
 
-describe('SelectPlan', () => {
-  it('displays the default message', async () => {
-    const { getByText } = await render(<SelectPlan />)
+import { PlanTypes } from "models/Plans"
+import { SelectPlan } from "./SelectPlan"
 
-    expect(getByText('This is the SelectPlan component!')).toBeTruthy()
+const setSelectedPlan = jest.fn()
+
+describe("SelectPlan", () => {
+  it("can select a different plan", async () => {
+    const { getAllByRole } = await render(
+      <SelectPlan selectedPlan={PlanTypes.PREMIUM} setSelectedPlan={setSelectedPlan} />,
+    )
+
+    const [basicPlan] = getAllByRole("radio")
+
+    fireEvent.press(basicPlan)
+
+    expect(setSelectedPlan).toHaveBeenCalledWith(PlanTypes.BASIC)
   })
 })

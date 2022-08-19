@@ -1,7 +1,6 @@
+import { FC, useMemo } from "react"
 import { FontSizeTypes, themeSizeMapper } from "styles/typography"
 import { ITextProps, Text } from "native-base"
-
-import { FC } from "react"
 
 export type TypographyProps = Omit<ITextProps, "size"> & {
   size?: FontSizeTypes
@@ -11,18 +10,29 @@ export type TypographyProps = Omit<ITextProps, "size"> & {
 export const Typography: FC<TypographyProps> = ({
   size = "body",
   align = "left",
+  bold = false,
   children,
   ...rest
 }) => {
-  const headingSizes = ["h1", "h2", "h3"]
+  const headingSizes = ["h1", "h2", "h3", "headline"]
+
   const isHeading = headingSizes.includes(size)
+  const isBold = isHeading || bold
+
+  const fontFamily = useMemo(() => {
+    if (isHeading) return "Ubuntu-Bold"
+    if (bold) return "Ubuntu-Medium"
+
+    return "Ubuntu-Regular"
+  }, [isHeading, bold])
 
   return (
     <Text
       fontSize={themeSizeMapper[size]}
       lineHeight={themeSizeMapper[size]}
       textAlign={align}
-      bold={isHeading}
+      fontFamily={fontFamily}
+      bold={isBold}
       {...rest}
     >
       {children}

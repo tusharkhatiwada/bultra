@@ -94,11 +94,11 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
           {...getTextFieldProps("repeatPassword")}
         />
 
-        <Typography color="primary.400" fontWeight={500} style={styles.disclaimer}>
+        <Typography color="primary.400" style={styles.disclaimer}>
           <Trans
             i18nKey="createAccount.disclaimer"
             components={{
-              bold: <Typography color="black" />,
+              bold: <Typography color="black" bold />,
             }}
           />
         </Typography>
@@ -111,7 +111,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
           {t("createAccount.form.submit")}
         </Button>
 
-        <Typography color="primary.400" fontWeight={500} align="center">
+        <Typography color="primary.400" align="center">
           <Trans
             i18nKey="createAccount.login"
             components={{

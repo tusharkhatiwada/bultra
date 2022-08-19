@@ -78,13 +78,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
           {...getTextFieldProps("password")}
         />
 
-        <Typography color="primary.400" fontWeight={500} style={styles.forgotPassword}>
-          <Trans
-            i18nKey="login.forgotPassword"
-            components={{
-              bold: <Typography color="black" textAlign="right" />,
-            }}
-          />
+        <Typography textAlign="right" bold style={styles.forgotPassword}>
+          {t("login.forgotPassword")}
         </Typography>
       </View>
 
@@ -97,7 +92,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
           {t("login.form.submit")}
         </Button>
 
-        <Typography color="primary.400" fontWeight={500} align="center">
+        <Typography color="primary.400" align="center">
           <Trans
             i18nKey="login.signUp"
             components={{

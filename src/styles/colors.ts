@@ -1,3 +1,24 @@
+export const accentColors = {
+  white: "#FFFFFF",
+  black: "#000000",
+  red: {
+    light: "#FCA5A5",
+    dark: "#DC2626",
+  },
+  green: {
+    light: "#E8F8F4",
+    dark: "#52B89E",
+  },
+  blue: {
+    light: "#EBF0FF",
+    dark: "#2380D7",
+  },
+  yellow: {
+    light: "#FDF4E1",
+    dark: "#EEB74D",
+  },
+}
+
 export const lightColors = {
   primary: {
     100: "#F4F4F5",
@@ -23,6 +44,7 @@ export const lightColors = {
   },
   white: "#FFFFFF",
   black: "#000000",
+  accentColors, // TODO: Type this correctly
 } as const
 
 export const darkColors = lightColors
