@@ -1,17 +1,50 @@
+import { ScrollView, StyleSheet } from "react-native"
+import { Trans, useTranslation } from "react-i18next"
+
 import { AuthStackScreenProps } from "models/Navigation"
+import { Button } from "components/Button"
+import { CommonActions } from "@react-navigation/native"
 import { FC } from "react"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
-import { StyleSheet } from "react-native"
+import { TextInput } from "components/TextInput"
 import { Typography } from "components/Typography"
+import { useAuthContext } from "context/AuthContext"
+import { useLogin } from "hooks/auth/useLogin"
+import { useLoginForm } from "hooks/auth/useLoginForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
-export const Login: FC<LoginProps> = () => {
+export const Login: FC<LoginProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+
+  const { login } = useLogin()
+  const { setToken } = useAuthContext()
+
+  const { t } = useTranslation()
+
+  const { getTextFieldProps, handleSubmit, dirty, isValid } = useLoginForm({
+    onSubmit: ({ email, password }) => {
+      login(
+        { email, password },
+        {
+          onSuccess: (token) => {
+            setToken(token)
+            navigation.dispatch(
+              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+            )
+          },
+        },
+      )
+    },
+  })
+
+  const goTologin = () => {
+    navigation.navigate(Routes.auth.create_account)
+  }
 
   return (
     <RootView
@@ -24,7 +57,53 @@ export const Login: FC<LoginProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">Login</Typography>
+      <ScrollView>
+        <Typography size="h3" style={styles.title}>
+          {t("login.title")}
+        </Typography>
+
+        <TextInput
+          label={t("login.form.email.label")}
+          placeholder={t("login.form.email.placeholder")}
+          autoCapitalize="none"
+          {...getTextFieldProps("email")}
+        />
+
+        <TextInput
+          type="password"
+          label={t("login.form.password.label")}
+          placeholder={t("login.form.password.placeholder")}
+          autoCapitalize="none"
+          autoComplete="off"
+          {...getTextFieldProps("password")}
+        />
+
+        <Typography color="primary.400" fontWeight={500} style={styles.forgotPassword}>
+          <Trans
+            i18nKey="login.forgotPassword"
+            components={{
+              bold: <Typography color="black" textAlign="right" />,
+            }}
+          />
+        </Typography>
+
+        <Button
+          isDisabled={!isValid || !dirty}
+          onPress={() => handleSubmit()}
+          style={styles.button}
+        >
+          {t("login.form.submit")}
+        </Button>
+
+        <Typography color="primary.400" fontWeight={500} align="center">
+          <Trans
+            i18nKey="login.signUp"
+            components={{
+              bold: <Typography color="black" bold onPress={goTologin} />,
+            }}
+          />
+        </Typography>
+      </ScrollView>
     </RootView>
   )
 }
@@ -32,5 +111,15 @@ export const Login: FC<LoginProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  title: {
+    marginBottom: 16,
+  },
+  forgotPassword: {
+    marginBottom: 24,
+    textAlign: "right",
+  },
+  button: {
+    marginBottom: 40,
   },
 })

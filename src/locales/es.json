@@ -3,7 +3,21 @@
     "common": {},
 
     "login": {
-      "title": "Iniciar sesión"
+      "title": "Iniciar sesion",
+
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Introduce un email"
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Escribe tu contraseña"
+        },
+        "submit": "Entrar"
+      },
+      "forgotPassword": "<bold>Olvidé mi contraseña</bold>",
+      "signUp": "¿No tienes cuenta todavia? <bold>Registrate</bold>"
     },
 
     "createAccount": {

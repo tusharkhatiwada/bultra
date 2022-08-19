@@ -3,7 +3,21 @@
     "common": {},
 
     "login": {
-      "title": "Login"
+      "title": "Log In",
+
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Introduce an email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Write your password"
+        },
+        "submit": "Log In"
+      },
+      "forgotPassword": "<bold>Forgot my password</bold>",
+      "signUp": "Don't have an account yet? <bold>Sign up</bold>"
     },
 
     "createAccount": {
