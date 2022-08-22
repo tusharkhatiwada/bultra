@@ -16,6 +16,12 @@ export type PlanCardProps = {
   selected?: boolean
 }
 
+const typeToAccentColor: { [key: string]: "green" | "blue" | "yellow" } = {
+  [PlanTypes.BASIC]: "green",
+  [PlanTypes.PREMIUM]: "blue",
+  [PlanTypes.VIP]: "yellow",
+}
+
 export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
   const { t } = useTranslation()
   const { colors } = useTheme()
@@ -27,7 +33,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
     selectPlan(type)
   }
 
-  const accentColor = getAccentColor(type)
+  const accentColor = accentColors[typeToAccentColor[type]]
 
   return (
     <Pressable
@@ -37,12 +43,16 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
     >
       <RootView
         testID="plan-card"
-        style={[styles.container, { borderBottomColor: accentColor }, selected && styles.selected]}
+        style={[
+          styles.container,
+          { borderBottomColor: accentColor.dark },
+          selected && { ...styles.selected, backgroundColor: accentColor.light },
+        ]}
       >
         <View style={[styles.topRow, styles.rowCenter]}>
           <View style={styles.rowCenter}>
-            <View style={[styles.iconCircle, { backgroundColor: accentColor }]}>
-              <FontAwesome5 color="white" name={getIcon(type)} />
+            <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
+              <FontAwesome5 color="white" name="coins" />
             </View>
             <Typography size="headline" color={selected && isDarkMode ? "black" : undefined}>
               {t(`plans.selectPlan.${type}`)}
@@ -68,19 +78,6 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
   )
 }
 
-const getAccentColor = (type: PlanTypes) => {
-  if (type === PlanTypes.BASIC) return accentColors.green.dark
-  if (type === PlanTypes.PREMIUM) return accentColors.blue.dark
-
-  return accentColors.yellow.dark
-}
-
-const getIcon = (type: PlanTypes) => {
-  if (type === PlanTypes.BASIC) return "coins"
-
-  return "coins"
-}
-
 const styles = StyleSheet.create({
   container: {
     padding: 24,
@@ -99,7 +96,6 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   selected: {
-    backgroundColor: accentColors.blue.light,
     shadowOpacity: 0.3,
   },
   topRow: {
