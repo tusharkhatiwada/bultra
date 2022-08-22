@@ -2,7 +2,11 @@
   "translation": {
     "common": {
       "continue": "Continue",
-      "finish": "Finish"
+      "finish": "Finish",
+
+      "toast": {
+        "close": "Close notification"
+      }
     },
 
     "login": {

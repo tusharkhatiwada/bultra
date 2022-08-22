@@ -33,13 +33,7 @@ export const Select: FC<SelectProps> = ({
   ...rest
 }) => {
   return (
-    <FormControl
-      w="100%"
-      maxW="300"
-      isRequired={isRequired}
-      isInvalid={!!message}
-      style={styles.container}
-    >
+    <FormControl w="100%" isRequired={isRequired} isInvalid={!!message} style={styles.container}>
       <Typography accessibilityLabel={label} size="small" style={styles.label}>
         {label}
       </Typography>

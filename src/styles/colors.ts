@@ -19,7 +19,22 @@ export const accentColors = {
   },
 }
 
-export const lightColors = {
+const toastColors = (theme: "light" | "dark") => ({
+  error: {
+    300: accentColors.red[theme],
+  },
+  info: {
+    300: accentColors.blue[theme],
+  },
+  success: {
+    300: accentColors.green[theme],
+  },
+  warning: {
+    300: accentColors.yellow[theme],
+  },
+})
+
+export const colors = {
   primary: {
     100: "#F4F4F5",
     200: "#E4E4E7",
@@ -44,7 +59,8 @@ export const lightColors = {
   },
   white: "#FFFFFF",
   black: "#000000",
-  accentColors, // TODO: Type this correctly
+  accentColors, // TODO:  Type this correctly
 } as const
 
-export const darkColors = lightColors
+export const lightColors = { ...colors, ...toastColors("light") }
+export const darkColors = { ...colors, ...toastColors("dark") }
