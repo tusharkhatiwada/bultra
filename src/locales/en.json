@@ -6,6 +6,10 @@
 
       "toast": {
         "close": "Close notification"
+      },
+
+      "select": {
+        "placeholder": "Select {{label}}"
       }
     },
 
@@ -83,6 +87,32 @@
         "VIP": "VIP Plan",
 
         "yield": "{{from}} - {{to}}% <small>monthly yield</small>"
+      },
+
+      "selectSubscription": {
+        "title": "Subscription",
+        "description": "Choose the type of subscription. You can make a monthly payment indefinitely or make a single payment, valid for the next two years:",
+
+        "monthly": {
+          "title": "Monthly subscription",
+          "price": "{{price}} <small>USDT</small>",
+          "billingFrequency": "per month"
+        },
+
+        "biennial": {
+          "title": "Biennial subscription",
+          "price": "{{price}} <small>USDT</small>",
+          "billingFrequency": "every 2 years"
+        },
+
+        "deposit": {
+          "title": "USDT Deposit",
+          "description": "Choose a network to obtain the deposit address:",
+          "network": "Network",
+          "walletId": "Wallet ID",
+          "copy-info": "Wallet ID copied to the clipboard.",
+          "info": "If you transfer more than <strong>{{price}} USDT</strong>, the remaining money will be used for investment purposes."
+        }
       }
     },
 

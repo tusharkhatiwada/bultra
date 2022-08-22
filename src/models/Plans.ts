@@ -46,3 +46,8 @@ export const Plans = {
   [PlanTypes.PREMIUM]: PremiumPlan,
   [PlanTypes.VIP]: VipPlan,
 }
+
+export enum SubscriptionTypes {
+  MONTHLY = "monthly",
+  BIENNIAL = "biennial",
+}

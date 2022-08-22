@@ -6,6 +6,10 @@
 
       "toast": {
         "close": "Cerrar notificación"
+      },
+
+      "select": {
+        "placeholder": "Selecciona {{label}}"
       }
     },
 
@@ -83,6 +87,32 @@
         "VIP": "Plan VIP",
 
         "yield": "{{from}} - {{to}}% <small>rendimiento mensual</small>"
+      },
+
+      "selectSubscription": {
+        "title": "Subscripción",
+        "description": "Elige un tipo de subscripción. Puedes hacer un pago mensual indefinidamente o hacer un pago único, válido para los próximos 2 años:",
+
+        "monthly": {
+          "title": "Subscripción mensual",
+          "price": "{{price}} <small>USDT</small>",
+          "billingFrequency": "al mes"
+        },
+
+        "biennial": {
+          "title": "Subscripción bienial",
+          "price": "{{price}} <small>USDT</small>",
+          "billingFrequency": "cada 2 años"
+        },
+
+        "deposit": {
+          "title": "Depósito USDT",
+          "description": "Elige una red para obtener la dirección de depósito:",
+          "network": "Red",
+          "walletId": "ID de Cartera",
+          "copy-info": "ID de Cartera copiada al portapapeles.",
+          "info": "Si transfieres mas de <strong>{{price}} USDT</strong>, el resto podrás usarlo para empezara invertir."
+        }
       }
     },
 

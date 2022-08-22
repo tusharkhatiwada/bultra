@@ -1,11 +1,11 @@
 import { DeviceEventEmitter, StyleSheet } from "react-native"
 import { FC, useEffect, useState } from "react"
+import { PlanTypes, SubscriptionTypes } from "models/Plans"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
-import { PlanTypes } from "models/Plans"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
@@ -24,6 +24,7 @@ export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 export const Plans: FC<PlansProps> = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
+  const [selectedSubscription, setSelectedSubscription] = useState(SubscriptionTypes.MONTHLY)
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
@@ -71,7 +72,13 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
         <SelectPlan selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
       )}
 
-      {currentStep === SUBSCRIPTION_STEP && <SelectSubscription />}
+      {currentStep === SUBSCRIPTION_STEP && (
+        <SelectSubscription
+          selectedPlan={selectedPlan}
+          selectedSubscription={selectedSubscription}
+          setSelectedSubscription={setSelectedSubscription}
+        />
+      )}
 
       <Button onPress={handleButtonPress}>
         {currentStep === TOTAL_STEPS ? t("common.finish") : t("common.continue")}
