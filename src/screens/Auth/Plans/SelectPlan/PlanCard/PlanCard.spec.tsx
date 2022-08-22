@@ -34,6 +34,6 @@ describe("PlanCard", () => {
       <PlanCard type={PlanTypes.BASIC} selectPlan={jest.fn} selected />,
     )
 
-    expect(getByTestId("plan-card")).toHaveStyle({ backgroundColor: accentColors.blue.light })
+    expect(getByTestId("plan-card")).toHaveStyle({ backgroundColor: accentColors.green.light })
   })
 })
