@@ -24,6 +24,7 @@ export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 export const Plans: FC<PlansProps> = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
+  const [selectedNetwork, setSelectedNetwork] = useState("1")
   const [selectedSubscription, setSelectedSubscription] = useState(SubscriptionTypes.MONTHLY)
 
   const { space } = useTheme()
@@ -77,6 +78,8 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
           selectedPlan={selectedPlan}
           selectedSubscription={selectedSubscription}
           setSelectedSubscription={setSelectedSubscription}
+          selectedNetwork={selectedNetwork}
+          setSelectedNetwork={setSelectedNetwork}
         />
       )}
 

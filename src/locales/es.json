@@ -109,6 +109,8 @@
           "title": "Depósito USDT",
           "description": "Elige una red para obtener la dirección de depósito:",
           "network": "Red",
+          "label": "Seleccionar una red",
+          "cta": "Seleccionar red",
           "walletId": "ID de Cartera",
           "copy-button": "Copiar ID de la cartera",
           "copy-info": "ID de Cartera copiada al portapapeles.",

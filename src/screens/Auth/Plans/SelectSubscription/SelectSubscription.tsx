@@ -17,6 +17,8 @@ export type SelectSubscriptionProps = {
   selectedPlan: PlanTypes
   selectedSubscription: SubscriptionTypes
   setSelectedSubscription: Dispatch<SetStateAction<SubscriptionTypes>>
+  selectedNetwork: string
+  setSelectedNetwork: Dispatch<SetStateAction<string>>
 }
 
 const walletID = "FG2022-OF93PP001XT0993AR"
@@ -25,6 +27,8 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   selectedPlan,
   selectedSubscription,
   setSelectedSubscription,
+  selectedNetwork,
+  setSelectedNetwork,
 }) => {
   const { t } = useTranslation()
   const { colors } = useTheme()
@@ -69,14 +73,19 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
         {t("plans.selectSubscription.deposit.description")}
       </Typography>
       <Select
+        custom
         placeholder={t("common.select.placeholder", {
           label: t("plans.selectSubscription.deposit.network"),
         })}
         label={t("plans.selectSubscription.deposit.network")}
+        bottomLabel={t("plans.selectSubscription.deposit.label")}
+        cta={t("plans.selectSubscription.deposit.cta")}
         options={[
           { label: "Network 1", value: "1" },
           { label: "Network 2", value: "2" },
         ]}
+        defaultValue={selectedNetwork}
+        onChange={setSelectedNetwork}
       />
       <TextInput
         label={t("translation:plans.selectSubscription.deposit.walletId")}
