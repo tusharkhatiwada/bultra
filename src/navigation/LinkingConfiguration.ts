@@ -18,7 +18,14 @@ const linking: LinkingOptions<RootStackParamList> = {
           [Routes.main.home]: Routes.main.home,
           [Routes.main.wallet]: Routes.main.wallet,
           [Routes.main.referrals]: Routes.main.referrals,
-          [Routes.main.profile]: Routes.main.profile,
+          [Routes.main.profile.navigator]: {
+            screens: {
+              [Routes.main.profile.userProfile]: Routes.main.profile.userProfile,
+              [Routes.main.profile.support]: Routes.main.profile.support,
+              [Routes.main.profile.changePassword]: Routes.main.profile.changePassword,
+              [Routes.main.profile.logout]: Routes.main.profile.logout,
+            },
+          },
         },
       },
       [Routes.auth.navigator]: {

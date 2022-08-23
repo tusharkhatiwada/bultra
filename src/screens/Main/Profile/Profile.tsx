@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native"
 
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
-import { MainTabScreenProps } from "models/Navigation"
+import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
-export type ProfileProps = MainTabScreenProps<typeof Routes.main.profile>
+export type ProfileProps = ProfileStackScreenProps<typeof Routes.main.profile.userProfile>
 
 export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const [language, setLanguage] = useState("en-GB")
@@ -36,6 +36,18 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
     navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: Routes.home }] }))
   }
 
+  const goToSupport = async () => {
+    navigation.navigate(Routes.main.profile.support)
+  }
+
+  const goToChangePassword = async () => {
+    navigation.navigate(Routes.main.profile.changePassword)
+  }
+
+  const goToLogout = async () => {
+    navigation.navigate(Routes.main.profile.logout)
+  }
+
   return (
     <RootView
       style={[
@@ -54,6 +66,18 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
 
         <Button onPress={handleChangeLanguage} style={styles.button}>
           {language === "en-GB" ? "English" : "Español"}
+        </Button>
+
+        <Button onPress={goToSupport} style={styles.button}>
+          Support
+        </Button>
+
+        <Button onPress={goToChangePassword} style={styles.button}>
+          Change Password
+        </Button>
+
+        <Button onPress={goToLogout} style={styles.button}>
+          Logout
         </Button>
       </View>
 

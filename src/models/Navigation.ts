@@ -27,15 +27,25 @@ export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = Nati
   Screen
 >
 
+export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> =
+  NativeStackScreenProps<ProfileStackParamList, Screen>
+
 export type MainTabParamList = {
   [Routes.main.home]: undefined
   [Routes.main.wallet]: undefined
   [Routes.main.referrals]: undefined
-  [Routes.main.profile]: undefined
+  [Routes.main.profile.navigator]: undefined
 }
 
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
   [Routes.auth.create_account]: undefined
   [Routes.auth.plans]: undefined
+}
+
+export type ProfileStackParamList = {
+  [Routes.main.profile.userProfile]: undefined
+  [Routes.main.profile.support]: undefined
+  [Routes.main.profile.changePassword]: undefined
+  [Routes.main.profile.logout]: undefined
 }

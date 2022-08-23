@@ -11,7 +11,13 @@ export const Routes = {
     home: "main/home",
     wallet: "main/wallet",
     referrals: "main/referrals",
-    profile: "main/profile",
+    profile: {
+      navigator: "main/profile",
+      userProfile: "main/profile/user_profile",
+      support: "main/profile/support",
+      changePassword: "main/profile/change_password",
+      logout: "main/profile/logout",
+    },
   },
   notFound: "notFound",
 } as const

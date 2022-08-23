@@ -1,7 +1,7 @@
 import { FontAwesome5 } from "@expo/vector-icons"
 import { Home } from "screens/Main/Home"
 import { MainTabParamList } from "../models/Navigation"
-import { Profile } from "screens/Main/Profile"
+import { ProfileNavigator } from "./ProfileNavigator"
 import { Referrals } from "screens/Main/Referrals"
 import { Routes } from "models/Routes"
 import { Wallet } from "screens/Main/Wallet"
@@ -50,8 +50,8 @@ export function MainNavigator() {
         })}
       />
       <BottomTab.Screen
-        name={Routes.main.profile}
-        component={Profile}
+        name={Routes.main.profile.navigator}
+        component={ProfileNavigator}
         options={() => ({
           title: t("profile.title"),
           tabBarIcon: ({ color }) => <TabBarIcon name="user-circle" color={color} />,
