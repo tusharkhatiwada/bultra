@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { FC } from "react"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { Typography } from "components/Typography"
+import { useTheme } from "native-base"
 
 export type BottomSheetHeaderProps = {
   title: string
@@ -10,9 +11,11 @@ export type BottomSheetHeaderProps = {
 }
 
 export const BottomSheetHeader: FC<BottomSheetHeaderProps> = ({ title, onClose }) => {
+  const { colors } = useTheme()
+
   return (
-    <View style={styles.container}>
-      <Typography size="small" bold>
+    <View style={[styles.container, { borderColor: colors.primary[200] }]}>
+      <Typography size="small" weight="semibold">
         {title}
       </Typography>
 

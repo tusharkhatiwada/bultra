@@ -47,7 +47,7 @@ export const SubscriptionCard: FC<PlanCardProps> = ({
       >
         <View style={[styles.topRow, styles.rowCenter]}>
           <View style={styles.rowCenter}>
-            <Typography bold color={selected && isDarkMode ? "black" : undefined}>
+            <Typography weight="semibold" color={selected && isDarkMode ? "black" : undefined}>
               {t(`plans.selectSubscription.${subscriptionType}.title`)}
             </Typography>
           </View>
@@ -57,7 +57,11 @@ export const SubscriptionCard: FC<PlanCardProps> = ({
           </View>
         </View>
 
-        <Typography size="headline" color={selected && isDarkMode ? "black" : undefined}>
+        <Typography
+          size="headline"
+          weight="bold"
+          color={selected && isDarkMode ? "black" : undefined}
+        >
           <Trans
             i18nKey={`plans.selectSubscription.${subscriptionType}.price`}
             values={{ price: Plans[selectedPlan].subscription[subscriptionType] }}
@@ -66,7 +70,7 @@ export const SubscriptionCard: FC<PlanCardProps> = ({
             }}
           />
         </Typography>
-        <Typography size="mini" color="primary.500">
+        <Typography size="mini" color="primary.400">
           {t(`plans.selectSubscription.${subscriptionType}.billingFrequency`)}
         </Typography>
       </RootView>

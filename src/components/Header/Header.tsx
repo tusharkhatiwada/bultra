@@ -33,7 +33,7 @@ export const Header: FC<HeaderProps> = ({ navigation, title, canGoBack = false }
         <FontAwesome5 size={12} name="chevron-left" />
       </TouchableOpacity>
 
-      <Typography fontWeight={500}>{title}</Typography>
+      <Typography weight="semibold">{title}</Typography>
 
       <View style={styles.backButton} />
     </RootView>

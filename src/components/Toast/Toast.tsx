@@ -33,7 +33,7 @@ export const Toast: FC<ToastProps> = ({ title, description, id, onClose, status 
         <FontAwesome5 name={statusToIconName[status]} color={colors.primary[700]} size={16} />
       </Container>
       <Container style={styles.textContainer}>
-        <Typography bold>{title}</Typography>
+        <Typography weight="semibold">{title}</Typography>
         <Typography size="small">{description}</Typography>
       </Container>
       <Container style={styles.closeButtonContainer}>

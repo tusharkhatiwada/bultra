@@ -34,7 +34,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.headline,
         lineHeight: LineHeights.headline,
-        fontFamily: "Ubuntu-Bold",
+        fontFamily: "Ubuntu-Regular",
       },
     ],
     [

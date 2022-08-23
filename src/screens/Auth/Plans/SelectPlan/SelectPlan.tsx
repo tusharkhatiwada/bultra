@@ -19,7 +19,7 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
 
   return (
     <View style={styles.container}>
-      <Typography size="headline" bold style={styles.title}>
+      <Typography size="headline" weight="bold" style={styles.title}>
         {t("plans.selectPlan.title")}
       </Typography>
 

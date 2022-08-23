@@ -44,7 +44,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Typography size="headline" bold style={styles.title}>
+      <Typography size="headline" weight="bold" style={styles.title}>
         {t("plans.selectSubscription.title")}
       </Typography>
       <Typography color="primary.400" style={styles.description}>
@@ -66,7 +66,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
         />
       </Stack>
       <View style={{ ...styles.separator, backgroundColor: colors.primary[200] }} />
-      <Typography size="headline" bold style={styles.title}>
+      <Typography size="headline" weight="bold" style={styles.title}>
         {t("plans.selectSubscription.deposit.title")}
       </Typography>
       <Typography color="primary.400" style={styles.description}>
@@ -105,7 +105,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
           i18nKey={`translation:plans.selectSubscription.deposit.info`}
           values={{ price: Plans[selectedPlan].subscription[selectedSubscription] }}
           components={{
-            strong: <Typography bold color="primary.700" />,
+            strong: <Typography weight="bold" color="primary.700" />,
           }}
         />
       </Typography>

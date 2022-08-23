@@ -54,7 +54,11 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
             <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
               <FontAwesome5 color="white" name="coins" />
             </View>
-            <Typography size="headline" color={selected && isDarkMode ? "black" : undefined}>
+            <Typography
+              size="headline"
+              weight="bold"
+              color={selected && isDarkMode ? "black" : undefined}
+            >
               {t(`plans.selectPlan.${type}`)}
             </Typography>
           </View>
