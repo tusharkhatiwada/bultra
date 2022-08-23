@@ -110,6 +110,7 @@
           "description": "Elige una red para obtener la dirección de depósito:",
           "network": "Red",
           "walletId": "ID de Cartera",
+          "copy-button": "Copiar ID de la cartera",
           "copy-info": "ID de Cartera copiada al portapapeles.",
           "info": "Si transfieres mas de <strong>{{price}} USDT</strong>, el resto podrás usarlo para empezara invertir."
         }

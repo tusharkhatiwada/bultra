@@ -110,6 +110,7 @@
           "description": "Choose a network to obtain the deposit address:",
           "network": "Network",
           "walletId": "Wallet ID",
+          "copy-button": "Copy Wallet ID to the clipboard",
           "copy-info": "Wallet ID copied to the clipboard.",
           "info": "If you transfer more than <strong>{{price}} USDT</strong>, the remaining money will be used for investment purposes."
         }

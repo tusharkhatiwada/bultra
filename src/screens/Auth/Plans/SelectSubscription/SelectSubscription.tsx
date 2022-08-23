@@ -85,6 +85,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
         isDisabled
         rightElement={
           <IconButton
+            accessibilityLabel={t("plans.selectSubscription.deposit.copy-button")}
             onPress={() => copyToClipboard(walletID)}
             icon={<FontAwesome5 color={colors.primary[900]} name="copy" />}
           />
