@@ -11,6 +11,10 @@
 
       "select": {
         "placeholder": "Select {{label}}"
+      },
+
+      "textInput": {
+        "toggleVisibility": "Toggle password visibility"
       }
     },
 
@@ -77,7 +81,6 @@
       "changeLanguage": "Change language",
 
       "support": "Support",
-      "changePassword": "Change password",
 
       "logout": {
         "title": "Log out",
@@ -85,6 +88,28 @@
         "logoutConfirm": "Are you sure you want to log out?",
         "deleteAccount": "Delete account",
         "deleteAccountConfirmation": "Are you sure you want to delete your account?"
+      },
+
+      "changePassword": {
+        "title": "Change Password",
+
+        "form": {
+          "oldPassword": {
+            "label": "Old Password",
+            "placeholder": "Write your old password"
+          },
+          "newPassword": {
+            "label": "New Password",
+            "placeholder": "Write your new password"
+          },
+          "repeatPassword": {
+            "label": "Repeat New Password",
+            "placeholder": "Repeat your new password"
+          },
+          "submit": "Change password",
+          "success": "Password changed successfully.",
+          "error": "There was an error while updating the password:"
+        }
       }
     },
 

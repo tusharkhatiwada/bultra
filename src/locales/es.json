@@ -11,6 +11,10 @@
 
       "select": {
         "placeholder": "Selecciona {{label}}"
+      },
+
+      "textInput": {
+        "toggleVisibility": "Cambiar visibilidad de la contraseña"
       }
     },
 
@@ -77,7 +81,6 @@
       "changeLanguage": "Cambiar idioma",
 
       "support": "Soporte",
-      "changePassword": "Cambiar contraseña",
 
       "logout": {
         "title": "Cerrar sesión",
@@ -85,6 +88,28 @@
         "logoutConfirm": "¿Seguro deseas cerrar sesión?",
         "deleteAccount": "Eliminar cuenta",
         "deleteAccountConfirmation": "¿Seguro deseas eliminar tu cuenta?"
+      },
+
+      "changePassword": {
+        "title": "Cambiar contraseña",
+
+        "form": {
+          "oldPassword": {
+            "label": "Constraseña actual",
+            "placeholder": "Escribe tu contraseña actual"
+          },
+          "newPassword": {
+            "label": "Nueva contraseña",
+            "placeholder": "Escribe tu nueva contraseña"
+          },
+          "repeatPassword": {
+            "label": "Repetir nueva contraseña",
+            "placeholder": "Repite tu nueva contraseña"
+          },
+          "submit": "Cambiar contraseña",
+          "success": "Contraseña cambiada correctamente.",
+          "error": "Ha habido un error mientras se actualizaba la contraseña:"
+        }
       }
     },
 

@@ -83,7 +83,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
         <Pressable onPress={goToChangePassword} style={styles.link}>
           <View style={styles.flexRow}>
             <FontAwesome5 name="lock" color={colors.primary[400]} style={styles.icon} />
-            <Typography weight="semibold">{t("profile.changePassword")}</Typography>
+            <Typography weight="semibold">{t("profile.changePassword.title")}</Typography>
           </View>
           <FontAwesome5 name="chevron-right" />
         </Pressable>

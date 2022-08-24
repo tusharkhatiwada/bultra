@@ -29,7 +29,7 @@ describe("Profile", () => {
   it("navigates to the change password screen", async () => {
     const { getByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.changePassword")
+    const link = getByText("profile.changePassword.title")
 
     fireEvent.press(link)
 

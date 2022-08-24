@@ -1,10 +1,12 @@
-import { FormControl, Input, WarningOutlineIcon } from "native-base"
+import { FC, useState } from "react"
+import { FormControl, Icon, IconButton, Input, WarningOutlineIcon } from "native-base"
 import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData } from "react-native"
 
-import { FC } from "react"
+import { FontAwesome5 } from "@expo/vector-icons"
 import { IInputProps } from "native-base/lib/typescript/components/primitives/Input/types"
 import { Typography } from "components/Typography"
 import _ from "lodash"
+import { useTranslation } from "react-i18next"
 
 export type TextInputProps = IInputProps & {
   name: string
@@ -30,6 +32,8 @@ export const TextInput: FC<TextInputProps> = ({
   ...rest
 }) => {
   const isError = status === "error"
+  const [hidePassword, setHidePassword] = useState<boolean>(true)
+  const { t } = useTranslation()
 
   return (
     <FormControl isInvalid={isError} w="100%" style={styles.container}>
@@ -48,6 +52,16 @@ export const TextInput: FC<TextInputProps> = ({
         value={value}
         placeholder={placeholder}
         style={styles.input}
+        secureTextEntry={type === "password" ? hidePassword : undefined}
+        rightElement={
+          type === "password" ? (
+            <IconButton
+              accessibilityLabel={t("common.textInput.toggleVisibility")}
+              onPress={() => setHidePassword(!hidePassword)}
+              icon={<Icon size="sm" as={FontAwesome5} name={hidePassword ? "eye-slash" : "eye"} />}
+            />
+          ) : undefined
+        }
         {...rest}
       />
 

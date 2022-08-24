@@ -7,14 +7,14 @@ describe("CreateAccount", () => {
   it("calls create account endpoint", async () => {
     jest.spyOn(api.auth, "createAccount")
 
-    const { getByText, findByRole } = await render(<CreateAccount {...props} />)
+    const { getByText } = await render(<CreateAccount {...props} />)
 
     const emailInput = getByText("createAccount.form.email.label")
     const referralInput = getByText("createAccount.form.referralId.label")
     const passwordInput = getByText("createAccount.form.password.label")
     const repeatPasswordInput = getByText("createAccount.form.repeatPassword.label")
 
-    const button = await findByRole("button")
+    const button = getByText("createAccount.form.submit")
 
     fireEvent.changeText(emailInput, "email@gmail.com")
     fireEvent.changeText(referralInput, "REFERRAL_ID")

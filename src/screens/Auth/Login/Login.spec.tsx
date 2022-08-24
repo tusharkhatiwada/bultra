@@ -7,12 +7,12 @@ describe("Login", () => {
   it("calls login endpoint", async () => {
     jest.spyOn(api.auth, "login")
 
-    const { getByText, findByRole } = await render(<Login {...props} />)
+    const { getByText } = await render(<Login {...props} />)
 
     const emailInput = getByText("login.form.email.label")
     const passwordInput = getByText("login.form.password.label")
 
-    const button = await findByRole("button")
+    const button = getByText("login.form.submit")
 
     fireEvent.changeText(emailInput, "email@gmail.com")
     fireEvent.changeText(passwordInput, "1234")

@@ -1,6 +1,5 @@
 import { fireEvent, render } from "tests/app-tests-utils"
 
-import React from "react"
 import { TextInput } from "./TextInput"
 
 describe("TextInput", () => {
@@ -46,5 +45,19 @@ describe("TextInput", () => {
     )
 
     expect(getByPlaceholderText("placeholder")).toBeTruthy()
+  })
+
+  it("has toggle visibility button if the input is password type", async () => {
+    const { getByRole } = await render(
+      <TextInput
+        type="password"
+        label="Password"
+        name="password"
+        placeholder="placeholder"
+        value="asd"
+      />,
+    )
+
+    expect(getByRole("button")).toBeTruthy()
   })
 })
