@@ -3,6 +3,7 @@
     "common": {
       "continue": "Continue",
       "finish": "Finish",
+      "goBack": "Go back",
 
       "toast": {
         "close": "Close notification"
@@ -77,7 +78,14 @@
 
       "support": "Support",
       "changePassword": "Change password",
-      "logout": "Log out"
+
+      "logout": {
+        "title": "Log out",
+        "description": "You can log out or delete your account. If you delete your account you will not be able to log in again and you will lose all your saved data.",
+        "logoutConfirm": "Are you sure you want to log out?",
+        "deleteAccount": "Delete account",
+        "deleteAccountConfirmation": "Are you sure you want to delete your account?"
+      }
     },
 
     "plans": {

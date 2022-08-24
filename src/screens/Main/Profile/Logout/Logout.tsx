@@ -1,11 +1,14 @@
-import { StyleSheet, View } from "react-native"
+import { Icon, Stack, useDisclose } from "native-base"
 
+import { BottomSheet } from "components/BottomSheet"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { FC } from "react"
+import { FontAwesome5 } from "@expo/vector-icons"
 import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
+import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
 import { useAuthContext } from "context/AuthContext"
 import { useTranslation } from "react-i18next"
@@ -14,6 +17,7 @@ export type LogoutProps = ProfileStackScreenProps<typeof Routes.main.profile.log
 
 export const Logout: FC<LogoutProps> = ({ navigation }) => {
   const { logout } = useAuthContext()
+  const { isOpen, onOpen, onClose } = useDisclose()
   const { t } = useTranslation()
 
   const handleLogout = async () => {
@@ -24,12 +28,35 @@ export const Logout: FC<LogoutProps> = ({ navigation }) => {
 
   return (
     <RootView style={styles.container}>
-      <View>
-        <Typography size="h3">Logout</Typography>
-        <Typography>This is the Logout component!</Typography>
-      </View>
+      <Typography color="primary.400">{t("profile.logout.description")}</Typography>
 
-      <Button onPress={handleLogout}>{t("profile.logout")}</Button>
+      <Stack space="lg">
+        <Button leftIcon={<Icon as={FontAwesome5} name="sign-out-alt" />} onPress={onOpen}>
+          {t("profile.logout.title")}
+        </Button>
+
+        <Button
+          leftIcon={<Icon as={FontAwesome5} name="trash-alt" />}
+          variant="outline"
+          colorScheme="error"
+        >
+          {t("profile.logout.deleteAccount")}
+        </Button>
+      </Stack>
+
+      <BottomSheet
+        title={t("profile.logout.logoutConfirm")}
+        isOpen={isOpen}
+        closeBottomSheet={onClose}
+      >
+        <Stack space="lg">
+          <Button onPress={onClose}>{t("common.goBack")}</Button>
+
+          <Button onPress={handleLogout} variant="outline" colorScheme="error">
+            {t("profile.logout.title")}
+          </Button>
+        </Stack>
+      </BottomSheet>
     </RootView>
   )
 }

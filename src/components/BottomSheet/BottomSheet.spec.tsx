@@ -24,11 +24,11 @@ describe("BottomSheet", () => {
   it("can select an option", async () => {
     const { getByText } = await render(<BottomSheet {...props} />)
 
-    const option2 = getByText(props.options[1].label)
+    const option2 = getByText("Option 2")
 
     fireEvent.press(option2)
 
-    expect(props.onChange).toHaveBeenCalledWith(props.options[1].value)
+    expect(props.onChange).toHaveBeenCalledWith("2")
   })
 
   it("closes on button press", async () => {

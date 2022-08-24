@@ -62,5 +62,15 @@ export const themeButton = {
         },
       }
     },
+    outline: ({ colorScheme }: { colorScheme: string }) => {
+      return {
+        _light: {
+          borderColor: `${colorScheme}.500`,
+        },
+        _dark: {
+          borderColor: `${colorScheme}.500`,
+        },
+      }
+    },
   },
 }

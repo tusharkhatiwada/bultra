@@ -94,7 +94,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
         >
           <View style={styles.flexRow}>
             <FontAwesome5 name="sign-out-alt" color={colors.primary[400]} style={styles.icon} />
-            <Typography weight="semibold">{t("profile.logout")}</Typography>
+            <Typography weight="semibold">{t("profile.logout.title")}</Typography>
           </View>
           <FontAwesome5 name="chevron-right" />
         </Pressable>

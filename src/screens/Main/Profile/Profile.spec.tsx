@@ -39,7 +39,7 @@ describe("Profile", () => {
   it("navigates to the logout screen", async () => {
     const { getByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.logout")
+    const link = getByText("profile.logout.title")
 
     fireEvent.press(link)
 

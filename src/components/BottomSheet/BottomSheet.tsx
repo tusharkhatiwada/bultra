@@ -11,8 +11,8 @@ export type BottomSheetProps = {
   title?: string
   value?: string
   cta?: string
-  onChange: (value: string) => void
-  options: ISelectItemProps[]
+  onChange?: (value: string) => void
+  options?: ISelectItemProps[]
 }
 
 export const BottomSheet: FC<BottomSheetProps> = ({
@@ -21,8 +21,9 @@ export const BottomSheet: FC<BottomSheetProps> = ({
   title,
   value,
   cta,
-  options,
+  options = [],
   onChange,
+  children,
 }) => {
   const { colors } = useTheme()
 
@@ -33,17 +34,21 @@ export const BottomSheet: FC<BottomSheetProps> = ({
       <Actionsheet.Content>
         {title && <BottomSheetHeader title={title} onClose={closeBottomSheet} />}
 
-        <View style={styles.item}>
-          {options.map((option) => (
-            <Actionsheet.Item
-              key={option.value}
-              onPress={() => onChange(option.value)}
-              style={isSelected(option) && { backgroundColor: colors.primary[200] }}
-            >
-              <Typography>{option.label}</Typography>
-            </Actionsheet.Item>
-          ))}
-        </View>
+        {options && (
+          <View style={styles.item}>
+            {options.map((option) => (
+              <Actionsheet.Item
+                key={option.value}
+                onPress={() => onChange?.(option.value)}
+                style={isSelected(option) && { backgroundColor: colors.primary[200] }}
+              >
+                <Typography>{option.label}</Typography>
+              </Actionsheet.Item>
+            ))}
+          </View>
+        )}
+
+        <View style={styles.button}>{children}</View>
 
         {cta && (
           <View style={styles.button}>

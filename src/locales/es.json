@@ -3,6 +3,7 @@
     "common": {
       "continue": "Continuar",
       "finish": "Finalizar",
+      "goBack": "Volver",
 
       "toast": {
         "close": "Cerrar notificación"
@@ -77,7 +78,14 @@
 
       "support": "Soporte",
       "changePassword": "Cambiar contraseña",
-      "logout": "Cerrar sesión"
+
+      "logout": {
+        "title": "Cerrar sesión",
+        "description": "Puedes cerrar sesión o borrar tu cuenta. Si borras tu cuenta no podrás iniciar sesión nuevamente y perderás toda tu información guardada.",
+        "logoutConfirm": "¿Seguro deseas cerrar sesión?",
+        "deleteAccount": "Eliminar cuenta",
+        "deleteAccountConfirmation": "¿Seguro deseas eliminar tu cuenta?"
+      }
     },
 
     "plans": {

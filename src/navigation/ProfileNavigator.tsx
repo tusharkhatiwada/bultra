@@ -6,12 +6,12 @@ import { ProfileStackParamList } from "../models/Navigation"
 import { Routes } from "models/Routes"
 import { Support } from "screens/Main/Profile/Support"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-// import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next"
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>()
 
 export function ProfileNavigator() {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   return (
     <Stack.Navigator>
@@ -42,7 +42,9 @@ export function ProfileNavigator() {
         name={Routes.main.profile.logout}
         component={Logout}
         options={{
-          header: ({ navigation }) => <Header canGoBack navigation={navigation} title={"Logout"} />,
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("profile.logout.title")} />
+          ),
         }}
       />
     </Stack.Navigator>
