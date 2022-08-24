@@ -1,5 +1,7 @@
 import { Profile, ProfileProps } from "./Profile"
-import { authContext, fireEvent, render, waitFor } from "tests/app-tests-utils"
+import { fireEvent, render } from "tests/app-tests-utils"
+
+import { Routes } from "models/Routes"
 
 const props = {
   navigation: {
@@ -14,15 +16,33 @@ describe("Profile", () => {
     expect(getByText("profile.title")).toBeTruthy()
   })
 
-  it("can log out", async () => {
+  it("navigates to the support screen", async () => {
     const { getByText } = await render(<Profile {...props} />)
 
-    const logoutButton = getByText("profile.logout")
+    const link = getByText("profile.support")
 
-    fireEvent.press(logoutButton)
+    fireEvent.press(link)
 
-    await waitFor(() => {
-      expect(authContext.logout).toHaveBeenCalled()
-    })
+    expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.main.profile.support)
+  })
+
+  it("navigates to the change password screen", async () => {
+    const { getByText } = await render(<Profile {...props} />)
+
+    const link = getByText("profile.changePassword")
+
+    fireEvent.press(link)
+
+    expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.main.profile.changePassword)
+  })
+
+  it("navigates to the logout screen", async () => {
+    const { getByText } = await render(<Profile {...props} />)
+
+    const link = getByText("profile.logout")
+
+    fireEvent.press(link)
+
+    expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.main.profile.logout)
   })
 })

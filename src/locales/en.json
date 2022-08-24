@@ -72,6 +72,11 @@
 
     "profile": {
       "title": "Profile",
+      "chooseLanguage": "Choose your language",
+      "changeLanguage": "Change language",
+
+      "support": "Support",
+      "changePassword": "Change password",
       "logout": "Log out"
     },
 
