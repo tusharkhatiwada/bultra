@@ -72,7 +72,15 @@
     },
 
     "referrals": {
-      "title": "Referidos"
+      "title": "Referidos",
+      "description": "Obtén beneficios refiriendo amigos y conocidos compartiendo el siguiente enlace:",
+      "referralId": "ID de referido",
+      "copyReferralId": "ID de referido copiado al portapapeles.",
+      "shareMessage": "Usa mi código de invitación para beneficiarte en la plataforma: {{referralId}}",
+
+      "rewards": "Recompenzas",
+      "rewardsDescription": "Te ofrecemos un estimado del beneficio que tendrás este mes, tomando en cuenta tu actuvidad en los últimos meses:",
+      "level": "Nivel {{number}}"
     },
 
     "profile": {

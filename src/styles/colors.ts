@@ -17,6 +17,7 @@ export const accentColors = {
     light: "#FDF4E1",
     dark: "#EEB74D",
   },
+  gold: "#FFC93E",
 }
 
 const toastColors = (theme: "light" | "dark") => ({

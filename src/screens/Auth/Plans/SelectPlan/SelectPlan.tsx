@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react"
-import { StyleSheet, View } from "react-native"
+import { ScrollView, StyleSheet } from "react-native"
 
 import { PlanCard } from "./PlanCard"
 import { PlanTypes } from "models/Plans"
@@ -18,7 +18,7 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
   const isSelected = (plan: PlanTypes) => selectedPlan === plan
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Typography size="headline" weight="bold" style={styles.title}>
         {t("plans.selectPlan.title")}
       </Typography>
@@ -46,7 +46,7 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
           selectPlan={setSelectedPlan}
         />
       </Stack>
-    </View>
+    </ScrollView>
   )
 }
 

@@ -19,7 +19,7 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
   const { toast } = useToast()
 
   const { space } = useTheme()
-  const { top, bottom } = useSafeAreaInsets()
+  const { bottom } = useSafeAreaInsets()
 
   const { changePassword } = useChangePassword()
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useChangePasswordForm({
@@ -43,7 +43,7 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
         styles.container,
         {
           paddingHorizontal: space[6],
-          paddingTop: top + space[6],
+          paddingTop: space[6],
           paddingBottom: bottom + space[6],
         },
       ]}

@@ -72,7 +72,15 @@
     },
 
     "referrals": {
-      "title": "Referrals"
+      "title": "Referrals",
+      "description": "Get benefits by referring friends and acquaintances by sharing the following link:",
+      "referralId": "Referral ID",
+      "copyReferralId": "Referral ID copied to the clipboard.",
+      "shareMessage": "Use my Invitation Code to profit on the platform: {{referralId}}",
+
+      "rewards": "Rewards",
+      "rewardsDescription": "We offer you an estimate of the profit you will get this month, taking into account your activity in the last months:",
+      "level": "LEVEL {{number}}"
     },
 
     "profile": {

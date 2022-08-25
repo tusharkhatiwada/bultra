@@ -1,12 +1,11 @@
 import * as Clipboard from "expo-clipboard"
 
 import { Dispatch, FC, SetStateAction } from "react"
-import { IconButton, Stack, useTheme } from "native-base"
 import { PlanTypes, Plans, SubscriptionTypes } from "models/Plans"
 import { ScrollView, StyleSheet, View } from "react-native"
+import { Stack, useTheme } from "native-base"
 import { Trans, useTranslation } from "react-i18next"
 
-import { FontAwesome5 } from "@expo/vector-icons"
 import { Select } from "components/Select"
 import { SubscriptionCard } from "./SubscriptionCard"
 import { TextInput } from "components/TextInput"
@@ -92,13 +91,9 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
         name="walletId"
         value={walletID}
         isDisabled
-        rightElement={
-          <IconButton
-            accessibilityLabel={t("plans.selectSubscription.deposit.copy-button")}
-            onPress={() => copyToClipboard(walletID)}
-            icon={<FontAwesome5 color={colors.primary[900]} name="copy" />}
-          />
-        }
+        rightIcon="copy"
+        iconLabel={t("plans.selectSubscription.deposit.copy-button")}
+        onIconPress={() => copyToClipboard(walletID)}
       />
       <Typography color={colors.primary[400]} style={styles.description}>
         <Trans

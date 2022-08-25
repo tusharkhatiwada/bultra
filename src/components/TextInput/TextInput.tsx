@@ -1,14 +1,14 @@
 import { FC, useState } from "react"
-import { FormControl, Icon, IconButton, Input, WarningOutlineIcon } from "native-base"
-import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData } from "react-native"
+import { FormControl, Input, View, WarningOutlineIcon, useTheme } from "native-base"
+import { Icon, IconProps } from "components/Icon/Icon"
+import { NativeSyntheticEvent, Pressable, StyleSheet, TextInputFocusEventData } from "react-native"
 
-import { FontAwesome5 } from "@expo/vector-icons"
 import { IInputProps } from "native-base/lib/typescript/components/primitives/Input/types"
 import { Typography } from "components/Typography"
 import _ from "lodash"
 import { useTranslation } from "react-i18next"
 
-export type TextInputProps = IInputProps & {
+export type TextInputProps = Omit<IInputProps, "rightElement" | "leftElement"> & {
   name: string
   label: string
   value?: string
@@ -18,6 +18,10 @@ export type TextInputProps = IInputProps & {
   type?: "text" | "password"
   status?: "error" | "success" | "warning" | "info"
   placeholder?: string
+  leftIcon?: IconProps["name"]
+  rightIcon?: IconProps["name"]
+  iconLabel?: string
+  onIconPress?: () => void
 }
 
 export const TextInput: FC<TextInputProps> = ({
@@ -26,14 +30,55 @@ export const TextInput: FC<TextInputProps> = ({
   placeholder = "",
   onChangeText = () => undefined,
   onBlur = () => undefined,
+  onIconPress,
   value = "",
   status,
   message,
+  isDisabled,
+  leftIcon,
+  rightIcon,
+  iconLabel,
   ...rest
 }) => {
   const isError = status === "error"
   const [hidePassword, setHidePassword] = useState<boolean>(true)
   const { t } = useTranslation()
+  const { colors } = useTheme()
+
+  const InputIcon = ({ name }: { name: IconProps["name"] }) => (
+    <View style={[styles.icon, isDisabled && { backgroundColor: colors.primary[100] }]}>
+      <Icon name={name} />
+    </View>
+  )
+
+  const PasswordButton = () => (
+    <Pressable
+      accessibilityLabel={iconLabel}
+      accessibilityRole="button"
+      onPress={() => setHidePassword(!hidePassword)}
+      style={styles.passwordButton}
+    >
+      <Icon name={hidePassword ? "eye-slash" : "eye"} />
+    </Pressable>
+  )
+
+  const PressableIcon = ({ name }: { name: IconProps["name"] }) => (
+    <Pressable
+      accessibilityLabel={t("plans.selectSubscription.deposit.copy-button")}
+      accessibilityRole="button"
+      onPress={onIconPress}
+      style={styles.iconButton}
+    >
+      <InputIcon name={name} />
+    </Pressable>
+  )
+
+  const getIconElement = ({ name }: { name?: IconProps["name"] }) => {
+    if (onIconPress && name) return <PressableIcon name={name} />
+    if (!onIconPress && name) return <InputIcon name={name} />
+
+    return undefined
+  }
 
   return (
     <FormControl isInvalid={isError} w="100%" style={styles.container}>
@@ -43,6 +88,7 @@ export const TextInput: FC<TextInputProps> = ({
 
       <Input
         isFullWidth
+        isDisabled={isDisabled}
         w="100%"
         size="md"
         onChangeText={onChangeText}
@@ -53,15 +99,17 @@ export const TextInput: FC<TextInputProps> = ({
         placeholder={placeholder}
         style={styles.input}
         secureTextEntry={type === "password" ? hidePassword : undefined}
+        leftElement={getIconElement({ name: leftIcon })}
         rightElement={
-          type === "password" ? (
-            <IconButton
-              accessibilityLabel={t("common.textInput.toggleVisibility")}
-              onPress={() => setHidePassword(!hidePassword)}
-              icon={<Icon size="sm" as={FontAwesome5} name={hidePassword ? "eye-slash" : "eye"} />}
-            />
-          ) : undefined
+          type === "password" ? <PasswordButton /> : getIconElement({ name: rightIcon })
         }
+        _disabled={{
+          opacity: 1,
+          style: [
+            styles.input,
+            { backgroundColor: colors.primary[100], color: colors.primary[400] },
+          ],
+        }}
         {...rest}
       />
 
@@ -93,5 +141,19 @@ const styles = StyleSheet.create({
   },
   message: {
     minHeight: 18,
+  },
+  icon: {
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 8,
+  },
+  iconButton: {
+    height: "100%",
+    flexDirection: "row",
+  },
+  passwordButton: {
+    paddingHorizontal: 8,
   },
 })
