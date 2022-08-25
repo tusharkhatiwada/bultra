@@ -1,11 +1,13 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Fast Growing",
+    "slug": "fast-growing",
+    "description": "Fast Growing description",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo-app.png",
-    "scheme": "myapp",
+    "owner": "fastgrowing",
+    "scheme": "fastgrowing",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/images/splash.png",
@@ -17,10 +19,14 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.fastgrowing.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png"
     },
     "android": {
+      "versionCode": 0,
+      "package": "com.fastgrowing.app",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/logo-app.png",
         "backgroundColor": "#000000"
