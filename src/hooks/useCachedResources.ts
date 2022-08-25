@@ -1,7 +1,9 @@
-import { FontAwesome } from "@expo/vector-icons"
 import * as Font from "expo-font"
 import * as SplashScreen from "expo-splash-screen"
+
 import { useEffect, useState } from "react"
+
+import { FontAwesome5 } from "@expo/vector-icons"
 
 const fonts = {
   "Ubuntu-Light": require("assets/fonts/Ubuntu-Light.ttf"),
@@ -25,7 +27,7 @@ export default function useCachedResources() {
 
         // Load fonts
         await Font.loadAsync({
-          ...FontAwesome.font,
+          ...FontAwesome5.font,
           ...fonts,
         })
       } catch (e) {

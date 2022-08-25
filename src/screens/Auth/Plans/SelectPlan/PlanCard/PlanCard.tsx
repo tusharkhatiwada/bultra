@@ -3,7 +3,7 @@ import { PlanTypes, Plans } from "models/Plans"
 import { Pressable, StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { RootView } from "components/RootView"
 import { Typography } from "components/Typography"
 import { accentColors } from "styles/colors"
@@ -52,7 +52,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
         <View style={[styles.topRow, styles.rowCenter]}>
           <View style={styles.rowCenter}>
             <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
-              <FontAwesome5 color="white" name="coins" />
+              <Icon size="md" color="white" name="coins" />
             </View>
             <Typography
               size="headline"

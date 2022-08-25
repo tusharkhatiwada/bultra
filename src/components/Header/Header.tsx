@@ -2,7 +2,7 @@ import { DeviceEventEmitter, StyleSheet, TouchableOpacity, View } from "react-na
 
 import { Events } from "models/Events"
 import { FC } from "react"
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { ParamListBase } from "@react-navigation/native"
 import { RootView } from "components/RootView"
@@ -30,7 +30,7 @@ export const Header: FC<HeaderProps> = ({ navigation, title, canGoBack = false }
         onPress={handleGoBack}
         style={styles.backButton}
       >
-        <FontAwesome5 size={12} name="chevron-left" />
+        <Icon name="chevron-left" size="md" />
       </TouchableOpacity>
 
       <Typography weight="semibold">{title}</Typography>

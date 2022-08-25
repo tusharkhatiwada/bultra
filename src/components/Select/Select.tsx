@@ -12,7 +12,7 @@ import {
 
 import { BottomSheet } from "components/BottomSheet"
 import { FC } from "react"
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
 import _ from "lodash"
@@ -67,7 +67,7 @@ export const Select: FC<SelectProps> = ({
               </Typography>
             )}
 
-            <FontAwesome5 name="chevron-down" color={colors.primary[500]} size={12} />
+            <Icon name="chevron-down" size="md" />
           </Pressable>
 
           <BottomSheet
@@ -93,14 +93,7 @@ export const Select: FC<SelectProps> = ({
             endIcon: <CheckIcon size={5} />,
           }}
           mt="1"
-          dropdownIcon={
-            <FontAwesome5
-              name="chevron-down"
-              color={colors.primary[500]}
-              size={12}
-              style={styles.icon}
-            />
-          }
+          dropdownIcon={<Icon name="chevron-down" size="md" style={styles.icon} />}
           {...rest}
         >
           {options.map((option) => (

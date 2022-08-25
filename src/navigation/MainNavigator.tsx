@@ -1,5 +1,5 @@
-import { FontAwesome5 } from "@expo/vector-icons"
 import { Home } from "screens/Main/Home"
+import { Icon } from "components/Icon"
 import { MainTabParamList } from "../models/Navigation"
 import { ProfileNavigator } from "./ProfileNavigator"
 import { Referrals } from "screens/Main/Referrals"
@@ -61,9 +61,6 @@ export function MainNavigator() {
   )
 }
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome5>["name"]
-  color: string
-}) {
-  return <FontAwesome5 size={20} {...props} />
+function TabBarIcon(props: { name: string; color: string }) {
+  return <Icon size="xl" {...props} />
 }

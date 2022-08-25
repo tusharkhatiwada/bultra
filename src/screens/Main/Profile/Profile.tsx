@@ -1,7 +1,7 @@
 import { FC, useState } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
 
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -74,18 +74,18 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
       <View>
         <Pressable onPress={goToSupport} style={styles.link}>
           <View style={styles.flexRow}>
-            <FontAwesome5 name="mobile-alt" color={colors.primary[400]} style={styles.icon} />
+            <Icon name="mobile-alt" color={colors.primary[400]} style={styles.icon} />
             <Typography weight="semibold">{t("profile.support")}</Typography>
           </View>
-          <FontAwesome5 name="chevron-right" />
+          <Icon name="chevron-right" size="md" />
         </Pressable>
 
         <Pressable onPress={goToChangePassword} style={styles.link}>
           <View style={styles.flexRow}>
-            <FontAwesome5 name="lock" color={colors.primary[400]} style={styles.icon} />
+            <Icon name="lock" color={colors.primary[400]} style={styles.icon} />
             <Typography weight="semibold">{t("profile.changePassword.title")}</Typography>
           </View>
-          <FontAwesome5 name="chevron-right" />
+          <Icon name="chevron-right" size="md" />
         </Pressable>
 
         <Pressable
@@ -93,10 +93,10 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
           style={[styles.link, styles.logout, { borderColor: colors.primary[200] }]}
         >
           <View style={styles.flexRow}>
-            <FontAwesome5 name="sign-out-alt" color={colors.primary[400]} style={styles.icon} />
+            <Icon name="sign-out-alt" color={colors.primary[400]} style={styles.icon} />
             <Typography weight="semibold">{t("profile.logout.title")}</Typography>
           </View>
-          <FontAwesome5 name="chevron-right" />
+          <Icon name="chevron-right" size="md" />
         </Pressable>
       </View>
     </RootView>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    width: 24,
+    marginRight: 8,
   },
   paddingHorizontal: {
     paddingHorizontal: 24,

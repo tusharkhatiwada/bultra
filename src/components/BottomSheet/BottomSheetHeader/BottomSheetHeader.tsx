@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native"
 
 import { FC } from "react"
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { Typography } from "components/Typography"
 import { useTheme } from "native-base"
 
@@ -21,7 +21,7 @@ export const BottomSheetHeader: FC<BottomSheetHeaderProps> = ({ title, onClose }
 
       {onClose && (
         <TouchableOpacity accessibilityRole="button" onPress={onClose}>
-          <FontAwesome5 name="times" size={16} />
+          <Icon name="times" />
         </TouchableOpacity>
       )}
     </View>

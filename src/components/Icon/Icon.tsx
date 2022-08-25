@@ -21,9 +21,21 @@ export type IconSizes =
   | "5xl"
   | "6xl"
 
-export const Icon: FC<IconProps> = ({ name, size = "lg", style, ...rest }) => {
+export const Icon: FC<IconProps> = ({
+  name,
+  size = "lg",
+  color = "primary.900",
+  style,
+  ...rest
+}) => {
   return (
-    <PrimitiveIcon as={FontAwesome5} size={size} style={[styles.container, style]} {...rest}>
+    <PrimitiveIcon
+      as={FontAwesome5}
+      size={size}
+      color={color}
+      style={[styles.container, style]}
+      {...rest}
+    >
       <FontAwesome5 name={name} size={sizeMapper[size]} />
     </PrimitiveIcon>
   )

@@ -1,10 +1,10 @@
-import { Icon, Stack, useDisclose } from "native-base"
+import { Stack, useDisclose } from "native-base"
 
 import { BottomSheet } from "components/BottomSheet"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { FC } from "react"
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -31,12 +31,12 @@ export const Logout: FC<LogoutProps> = ({ navigation }) => {
       <Typography color="primary.400">{t("profile.logout.description")}</Typography>
 
       <Stack space="lg">
-        <Button leftIcon={<Icon as={FontAwesome5} name="sign-out-alt" />} onPress={onOpen}>
+        <Button leftIcon={<Icon name="sign-out-alt" size="md" />} onPress={onOpen}>
           {t("profile.logout.title")}
         </Button>
 
         <Button
-          leftIcon={<Icon as={FontAwesome5} name="trash-alt" />}
+          leftIcon={<Icon name="trash-alt" size="md" />}
           variant="outline"
           colorScheme="error"
         >

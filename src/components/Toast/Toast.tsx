@@ -1,8 +1,8 @@
-import { Container, IconButton, useTheme } from "native-base"
-import { StyleSheet, View } from "react-native"
+import { Container, useTheme } from "native-base"
+import { Pressable, StyleSheet, View } from "react-native"
 
 import { FC } from "react"
-import { FontAwesome5 } from "@expo/vector-icons"
+import { Icon } from "components/Icon"
 import Layout from "constants/Layout"
 import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
@@ -30,19 +30,20 @@ export const Toast: FC<ToastProps> = ({ title, description, id, onClose, status 
   return (
     <View style={{ ...styles.view, backgroundColor: colors[status][300], width }}>
       <Container style={styles.icon}>
-        <FontAwesome5 name={statusToIconName[status]} color={colors.primary[700]} size={16} />
+        <Icon name={statusToIconName[status]} color={colors.primary[700]} />
       </Container>
       <Container style={styles.textContainer}>
         <Typography weight="semibold">{title}</Typography>
         <Typography size="small">{description}</Typography>
       </Container>
       <Container style={styles.closeButtonContainer}>
-        <IconButton
+        <Pressable
           accessibilityLabel={t("common.toast.close")}
+          accessibilityRole="button"
           onPress={() => onClose(id)}
-          size="xs"
-          icon={<FontAwesome5 name="times" size={16} color={colors.primary[700]} />}
-        />
+        >
+          <Icon name="times" color={colors.primary[700]} />
+        </Pressable>
       </Container>
     </View>
   )
@@ -58,8 +59,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   icon: {
-    padding: 0,
-    margin: 4,
+    marginTop: 2,
   },
   textContainer: {
     alignItems: "flex-start",
