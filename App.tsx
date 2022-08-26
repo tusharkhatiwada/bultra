@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ApiProvider } from "context/ApiContext"
 import { AuthProvider } from "context/AuthContext"
+import { LogBox } from "react-native"
 import { NativeBaseProvider } from "native-base"
 import Navigation from "./src/navigation/NavigationContainer"
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -24,6 +25,8 @@ export default function App() {
       },
     },
   })
+
+  LogBox.ignoreLogs(["i18next::pluralResolver"])
 
   if (!isLoadingComplete) {
     return null

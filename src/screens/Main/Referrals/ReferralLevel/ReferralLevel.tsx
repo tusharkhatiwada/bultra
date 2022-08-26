@@ -7,14 +7,17 @@ import { Trans } from "react-i18next"
 import { Typography } from "components/Typography"
 import { accentColors } from "styles/colors"
 import { formatNumberToCurrency } from "utils/currency"
+import { useTheme } from "native-base"
 
 export type ReferralLevelProps = {
   level: ReferralLevelType
 }
 
 export const ReferralLevel: FC<ReferralLevelProps> = ({ level }) => {
+  const { colors } = useTheme()
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderColor: colors.primary[200] }]}>
       <View style={styles.level}>
         <Typography size="mini" weight="semibold" numberOfLines={1}>
           <Trans i18nKey="referrals.level" values={{ number: level.level }} />

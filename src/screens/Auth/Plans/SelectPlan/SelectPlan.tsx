@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react"
-import { ScrollView, StyleSheet } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 
 import { PlanCard } from "./PlanCard"
 import { PlanTypes } from "models/Plans"
@@ -19,33 +19,35 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
 
   return (
     <ScrollView style={styles.container}>
-      <Typography size="headline" weight="bold" style={styles.title}>
-        {t("plans.selectPlan.title")}
-      </Typography>
+      <View style={styles.padding}>
+        <Typography size="headline" weight="bold" style={styles.title}>
+          {t("plans.selectPlan.title")}
+        </Typography>
 
-      <Typography color="primary.400" style={styles.description}>
-        {t("plans.selectPlan.description")}
-      </Typography>
+        <Typography color="primary.400" style={styles.description}>
+          {t("plans.selectPlan.description")}
+        </Typography>
 
-      <Stack space="lg" accessibilityRole="radiogroup">
-        <PlanCard
-          type={PlanTypes.BASIC}
-          selected={isSelected(PlanTypes.BASIC)}
-          selectPlan={setSelectedPlan}
-        />
+        <Stack space="lg" accessibilityRole="radiogroup">
+          <PlanCard
+            type={PlanTypes.BASIC}
+            selected={isSelected(PlanTypes.BASIC)}
+            selectPlan={setSelectedPlan}
+          />
 
-        <PlanCard
-          type={PlanTypes.PREMIUM}
-          selected={isSelected(PlanTypes.PREMIUM)}
-          selectPlan={setSelectedPlan}
-        />
+          <PlanCard
+            type={PlanTypes.PREMIUM}
+            selected={isSelected(PlanTypes.PREMIUM)}
+            selectPlan={setSelectedPlan}
+          />
 
-        <PlanCard
-          type={PlanTypes.VIP}
-          selected={isSelected(PlanTypes.VIP)}
-          selectPlan={setSelectedPlan}
-        />
-      </Stack>
+          <PlanCard
+            type={PlanTypes.VIP}
+            selected={isSelected(PlanTypes.VIP)}
+            selectPlan={setSelectedPlan}
+          />
+        </Stack>
+      </View>
     </ScrollView>
   )
 }
@@ -53,12 +55,14 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 24,
   },
   title: {
     marginBottom: 8,
   },
   description: {
     marginBottom: 24,
+  },
+  padding: {
+    padding: 24,
   },
 })

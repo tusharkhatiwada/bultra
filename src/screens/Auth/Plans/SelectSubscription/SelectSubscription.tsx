@@ -43,67 +43,69 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Typography size="headline" weight="bold" style={styles.title}>
-        {t("plans.selectSubscription.title")}
-      </Typography>
-      <Typography color="primary.400" style={styles.description}>
-        {t("plans.selectSubscription.description")}
-      </Typography>
-      <Stack space="lg" accessibilityRole="radiogroup" direction="row">
-        <SubscriptionCard
-          selectedPlan={selectedPlan}
-          subscriptionType={SubscriptionTypes.MONTHLY}
-          selected={isSelected(SubscriptionTypes.MONTHLY)}
-          selectSubscription={setSelectedSubscription}
-        />
+      <View style={styles.padding}>
+        <Typography size="headline" weight="bold" style={styles.title}>
+          {t("plans.selectSubscription.title")}
+        </Typography>
+        <Typography color="primary.400" style={styles.description}>
+          {t("plans.selectSubscription.description")}
+        </Typography>
+        <Stack space="lg" accessibilityRole="radiogroup" direction="row">
+          <SubscriptionCard
+            selectedPlan={selectedPlan}
+            subscriptionType={SubscriptionTypes.MONTHLY}
+            selected={isSelected(SubscriptionTypes.MONTHLY)}
+            selectSubscription={setSelectedSubscription}
+          />
 
-        <SubscriptionCard
-          selectedPlan={selectedPlan}
-          subscriptionType={SubscriptionTypes.BIENNIAL}
-          selected={isSelected(SubscriptionTypes.BIENNIAL)}
-          selectSubscription={setSelectedSubscription}
+          <SubscriptionCard
+            selectedPlan={selectedPlan}
+            subscriptionType={SubscriptionTypes.BIENNIAL}
+            selected={isSelected(SubscriptionTypes.BIENNIAL)}
+            selectSubscription={setSelectedSubscription}
+          />
+        </Stack>
+        <View style={{ ...styles.separator, backgroundColor: colors.primary[200] }} />
+        <Typography size="headline" weight="bold" style={styles.title}>
+          {t("plans.selectSubscription.deposit.title")}
+        </Typography>
+        <Typography color="primary.400" style={styles.description}>
+          {t("plans.selectSubscription.deposit.description")}
+        </Typography>
+        <Select
+          custom
+          placeholder={t("common.select.placeholder", {
+            label: t("plans.selectSubscription.deposit.network"),
+          })}
+          label={t("plans.selectSubscription.deposit.network")}
+          bottomLabel={t("plans.selectSubscription.deposit.label")}
+          cta={t("plans.selectSubscription.deposit.cta")}
+          options={[
+            { label: "Network 1", value: "1" },
+            { label: "Network 2", value: "2" },
+          ]}
+          defaultValue={selectedNetwork}
+          onChange={setSelectedNetwork}
         />
-      </Stack>
-      <View style={{ ...styles.separator, backgroundColor: colors.primary[200] }} />
-      <Typography size="headline" weight="bold" style={styles.title}>
-        {t("plans.selectSubscription.deposit.title")}
-      </Typography>
-      <Typography color="primary.400" style={styles.description}>
-        {t("plans.selectSubscription.deposit.description")}
-      </Typography>
-      <Select
-        custom
-        placeholder={t("common.select.placeholder", {
-          label: t("plans.selectSubscription.deposit.network"),
-        })}
-        label={t("plans.selectSubscription.deposit.network")}
-        bottomLabel={t("plans.selectSubscription.deposit.label")}
-        cta={t("plans.selectSubscription.deposit.cta")}
-        options={[
-          { label: "Network 1", value: "1" },
-          { label: "Network 2", value: "2" },
-        ]}
-        defaultValue={selectedNetwork}
-        onChange={setSelectedNetwork}
-      />
-      <TextInput
-        label={t("translation:plans.selectSubscription.deposit.walletId")}
-        name="walletId"
-        value={walletID}
-        isDisabled
-        rightIcon="copy"
-        iconLabel={t("plans.selectSubscription.deposit.copy-button")}
-        onIconPress={() => copyToClipboard(walletID)}
-      />
-      <Typography color={colors.primary[400]} style={styles.description}>
-        <Trans
-          i18nKey={`translation:plans.selectSubscription.deposit.info`}
-          values={{ price: Plans[selectedPlan].subscription[selectedSubscription] }}
-          components={{
-            strong: <Typography weight="bold" color="primary.700" />,
-          }}
+        <TextInput
+          label={t("translation:plans.selectSubscription.deposit.walletId")}
+          name="walletId"
+          value={walletID}
+          isDisabled
+          rightIcon="copy"
+          iconLabel={t("plans.selectSubscription.deposit.copy-button")}
+          onIconPress={() => copyToClipboard(walletID)}
         />
-      </Typography>
+        <Typography color={colors.primary[400]} style={styles.description}>
+          <Trans
+            i18nKey={`translation:plans.selectSubscription.deposit.info`}
+            values={{ price: Plans[selectedPlan].subscription[selectedSubscription] }}
+            components={{
+              strong: <Typography weight="bold" color="primary.700" />,
+            }}
+          />
+        </Typography>
+      </View>
     </ScrollView>
   )
 }
@@ -111,7 +113,6 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 24,
   },
   title: {
     marginBottom: 8,
@@ -124,5 +125,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 2,
     border: 2,
+  },
+  padding: {
+    padding: 24,
   },
 })

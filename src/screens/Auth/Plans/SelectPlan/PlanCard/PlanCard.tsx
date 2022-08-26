@@ -73,7 +73,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
             i18nKey={"plans.selectPlan.yield"}
             values={{ from: Plans[type].yield.from, to: Plans[type].yield.to }}
             components={{
-              small: <Typography color="primary.500" />,
+              small: <Typography color="primary.500" style={styles.yield} />,
             }}
           />
         </Typography>
@@ -130,5 +130,8 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 12,
     backgroundColor: accentColors.black,
+  },
+  yield: {
+    lineHeight: 36,
   },
 })

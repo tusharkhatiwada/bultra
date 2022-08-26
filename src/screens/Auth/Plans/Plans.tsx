@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, StyleSheet } from "react-native"
+import { DeviceEventEmitter, StyleSheet, View } from "react-native"
 import { FC, useEffect, useState } from "react"
 import { PlanTypes, SubscriptionTypes } from "models/Plans"
 
@@ -58,16 +58,10 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
   }, [currentStep])
 
   return (
-    <RootView
-      style={[
-        styles.container,
-        {
-          paddingHorizontal: space[6],
-          paddingBottom: bottom + space[6],
-        },
-      ]}
-    >
-      <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+    <RootView style={[styles.container, { paddingBottom: bottom + space[6] }]}>
+      <View style={styles.padding}>
+        <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+      </View>
 
       {currentStep === PLAN_STEP && (
         <SelectPlan selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
@@ -83,9 +77,11 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
         />
       )}
 
-      <Button onPress={handleButtonPress}>
-        {currentStep === TOTAL_STEPS ? t("common.finish") : t("common.continue")}
-      </Button>
+      <View style={styles.padding}>
+        <Button onPress={handleButtonPress}>
+          {currentStep === TOTAL_STEPS ? t("common.finish") : t("common.continue")}
+        </Button>
+      </View>
     </RootView>
   )
 }
@@ -94,5 +90,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  padding: {
+    paddingHorizontal: 24,
   },
 })
