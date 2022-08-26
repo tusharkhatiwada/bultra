@@ -2,6 +2,7 @@ import { Api } from "./domain/api"
 import { createChangePasswordFake } from "./profile/fake/createChangePasswordFake"
 import { createCreateAccountFake } from "./auth/fake/createCreateAccountFake"
 import { createLoginFake } from "./auth/fake/createLoginFake"
+import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 
 export function createApiFake(): Api {
   return {
@@ -11,6 +12,7 @@ export function createApiFake(): Api {
     },
     profile: {
       changePassword: createChangePasswordFake(),
+      supportRequest: createSupportRequestFake(),
     },
   }
 }

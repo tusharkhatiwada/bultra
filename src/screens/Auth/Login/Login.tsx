@@ -1,3 +1,4 @@
+import { ScrollView, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
@@ -13,7 +14,6 @@ import { useAuthContext } from "context/AuthContext"
 import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useTheme } from "native-base"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
@@ -57,50 +57,52 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         },
       ]}
     >
-      <View>
-        <Typography size="h3" style={styles.title}>
-          {t("login.title")}
-        </Typography>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View>
+          <Typography size="h3" style={styles.title}>
+            {t("login.title")}
+          </Typography>
 
-        <TextInput
-          label={t("login.form.email.label")}
-          placeholder={t("login.form.email.placeholder")}
-          autoCapitalize="none"
-          {...getTextFieldProps("email")}
-        />
-
-        <TextInput
-          type="password"
-          label={t("login.form.password.label")}
-          placeholder={t("login.form.password.placeholder")}
-          autoCapitalize="none"
-          autoComplete="off"
-          {...getTextFieldProps("password")}
-        />
-
-        <Typography textAlign="right" weight="semibold" style={styles.forgotPassword}>
-          {t("login.forgotPassword")}
-        </Typography>
-      </View>
-
-      <View>
-        <Button
-          isDisabled={!isValid || !dirty}
-          onPress={() => handleSubmit()}
-          style={styles.button}
-        >
-          {t("login.form.submit")}
-        </Button>
-
-        <Typography color="primary.400" align="center">
-          <Trans
-            i18nKey="login.signUp"
-            components={{
-              bold: <Typography color="black" weight="semibold" onPress={goTologin} />,
-            }}
+          <TextInput
+            label={t("login.form.email.label")}
+            placeholder={t("login.form.email.placeholder")}
+            autoCapitalize="none"
+            {...getTextFieldProps("email")}
           />
-        </Typography>
-      </View>
+
+          <TextInput
+            type="password"
+            label={t("login.form.password.label")}
+            placeholder={t("login.form.password.placeholder")}
+            autoCapitalize="none"
+            autoComplete="off"
+            {...getTextFieldProps("password")}
+          />
+
+          <Typography textAlign="right" weight="semibold" style={styles.forgotPassword}>
+            {t("login.forgotPassword")}
+          </Typography>
+        </View>
+
+        <View>
+          <Button
+            isDisabled={!isValid || !dirty}
+            onPress={() => handleSubmit()}
+            style={styles.button}
+          >
+            {t("login.form.submit")}
+          </Button>
+
+          <Typography color="primary.400" align="center">
+            <Trans
+              i18nKey="login.signUp"
+              components={{
+                bold: <Typography color="black" weight="semibold" onPress={goTologin} />,
+              }}
+            />
+          </Typography>
+        </View>
+      </ScrollView>
     </RootView>
   )
 }

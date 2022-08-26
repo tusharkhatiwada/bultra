@@ -15,6 +15,11 @@
 
       "textInput": {
         "toggleVisibility": "Toggle password visibility"
+      },
+
+      "phoneInput": {
+        "placeholder": "Introduce your phone number",
+        "invalid": "Invalid phone number"
       }
     },
 
@@ -88,7 +93,24 @@
       "chooseLanguage": "Choose your language",
       "changeLanguage": "Change language",
 
-      "support": "Support",
+      "support": {
+        "title": "Support",
+        "description": "If you have any questions or problems you can provide us with your phone number and we will contact you within 48 working hours.",
+        "contact": "You can also write us an email if you prefer:",
+
+        "form": {
+          "phoneNumber": {
+            "label": "Phone number"
+          },
+          "message": {
+            "label": "Message",
+            "placeholder": "Write your message"
+          },
+          "success": "We have received your phone number. We will contact you soon.",
+          "error": "There was an error while sending de phone number:",
+          "submit": "Send to Support team"
+        }
+      },
 
       "logout": {
         "title": "Log out",

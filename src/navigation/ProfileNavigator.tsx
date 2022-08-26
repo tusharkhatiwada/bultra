@@ -25,7 +25,7 @@ export function ProfileNavigator() {
         component={Support}
         options={{
           header: ({ navigation }) => (
-            <Header canGoBack navigation={navigation} title={"Support"} />
+            <Header canGoBack navigation={navigation} title={t("profile.support.title")} />
           ),
         }}
       />
@@ -34,7 +34,7 @@ export function ProfileNavigator() {
         component={ChangePassword}
         options={{
           header: ({ navigation }) => (
-            <Header canGoBack navigation={navigation} title={"Change Password"} />
+            <Header canGoBack navigation={navigation} title={t("profile.changePassword.title")} />
           ),
         }}
       />

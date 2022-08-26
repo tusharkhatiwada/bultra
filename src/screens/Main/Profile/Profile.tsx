@@ -75,7 +75,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
         <Pressable onPress={goToSupport} style={styles.link}>
           <View style={styles.flexRow}>
             <Icon name="mobile-alt" color={colors.primary[400]} style={styles.icon} />
-            <Typography weight="semibold">{t("profile.support")}</Typography>
+            <Typography weight="semibold">{t("profile.support.title")}</Typography>
           </View>
           <Icon name="chevron-right" size="md" />
         </Pressable>

@@ -18,7 +18,7 @@ const DEFAULT_VALUES: ChangePasswordForm = {
 
 type FormProps = UseFormProps<ChangePasswordForm>
 
-export interface LoginFormProps {
+export interface ChangePasswordFormProps {
   onSubmit: FormProps["onSubmit"]
   defaultValues?: ChangePasswordForm
 }
@@ -26,7 +26,7 @@ export interface LoginFormProps {
 export const useChangePasswordForm = ({
   onSubmit,
   defaultValues = DEFAULT_VALUES,
-}: LoginFormProps) => {
+}: ChangePasswordFormProps) => {
   const { t } = useTranslation()
   return useForm({
     defaultValues,

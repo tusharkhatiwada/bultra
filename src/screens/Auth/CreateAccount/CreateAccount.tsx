@@ -98,7 +98,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
           <Trans
             i18nKey="createAccount.disclaimer"
             components={{
-              bold: <Typography color="black" weight="semibold" />,
+              bold: <Typography color="primary.700" weight="semibold" />,
             }}
           />
         </Typography>
@@ -115,7 +115,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
           <Trans
             i18nKey="createAccount.login"
             components={{
-              bold: <Typography color="black" weight="semibold" onPress={goToLogin} />,
+              bold: <Typography color="primary.700" weight="semibold" onPress={goToLogin} />,
             }}
           />
         </Typography>

@@ -19,7 +19,7 @@ describe("Profile", () => {
   it("navigates to the support screen", async () => {
     const { getByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.support")
+    const link = getByText("profile.support.title")
 
     fireEvent.press(link)
 

@@ -24,6 +24,11 @@ jest.mock("react-i18next", () => ({
     .mockImplementation(({ children }) => (Array.isArray(children) ? children : [children])),
 }))
 
+jest.mock("expo-localization", () => ({
+  ...jest.requireActual("expo-localization"),
+  region: "US",
+}))
+
 jest.useFakeTimers()
 
 afterEach(() => {
