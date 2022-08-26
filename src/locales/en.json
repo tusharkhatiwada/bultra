@@ -184,6 +184,11 @@
           "copy-info": "Wallet ID copied to the clipboard.",
           "info": "If you transfer more than <strong>{{price}} USDT</strong>, the remaining money will be used for investment purposes."
         }
+      },
+
+      "toast": {
+        "title": "Activated plan",
+        "description": "We have successfully received your transfer, so your plan has just started."
       }
     },
 

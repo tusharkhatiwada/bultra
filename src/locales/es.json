@@ -185,6 +185,11 @@
           "copy-info": "ID de Cartera copiada al portapapeles.",
           "info": "Si transfieres mas de <strong>{{price}} USDT</strong>, el resto podrás usarlo para empezara invertir."
         }
+      },
+
+      "toast": {
+        "title": "Plan activado",
+        "description": "Hemos recibido exitosamente tu transferencia, así que tu plan ya está activo."
       }
     },
 

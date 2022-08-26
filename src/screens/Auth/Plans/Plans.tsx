@@ -6,13 +6,16 @@ import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
+import { NetworkTypes } from "models/Networks"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
 import { SelectSubscription } from "./SelectSubscription"
 import { Stepper } from "components/Stepper"
+import { usePlanSubscription } from "hooks/auth/usePlanSubscription"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useToast } from "hooks/useToast"
 import { useTranslation } from "react-i18next"
 
 const PLAN_STEP = 1
@@ -24,17 +27,36 @@ export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 export const Plans: FC<PlansProps> = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
-  const [selectedNetwork, setSelectedNetwork] = useState("1")
+  const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
   const [selectedSubscription, setSelectedSubscription] = useState(SubscriptionTypes.MONTHLY)
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { t } = useTranslation()
 
+  const { toast } = useToast()
+
+  const { planSubscription } = usePlanSubscription()
+
   const handleButtonPress = () => {
     if (currentStep === TOTAL_STEPS) {
-      navigation.dispatch(
-        CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+      planSubscription(
+        {
+          type: selectedPlan,
+          subscription: selectedSubscription,
+          network: selectedNetwork,
+        },
+        {
+          onSuccess: () => {
+            toast.info(t("plans.toast.title"), t("plans.toast.description"))
+            navigation.dispatch(
+              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+            )
+          },
+          onError: (error) => {
+            console.log(error)
+          },
+        },
       )
     } else {
       setCurrentStep(currentStep + 1)

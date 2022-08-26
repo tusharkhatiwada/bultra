@@ -1,6 +1,7 @@
 import * as Clipboard from "expo-clipboard"
 
 import { Dispatch, FC, SetStateAction } from "react"
+import { NetworkList, NetworkTypes } from "models/Networks"
 import { PlanTypes, Plans, SubscriptionTypes } from "models/Plans"
 import { ScrollView, StyleSheet, View } from "react-native"
 import { Stack, useTheme } from "native-base"
@@ -16,8 +17,8 @@ export type SelectSubscriptionProps = {
   selectedPlan: PlanTypes
   selectedSubscription: SubscriptionTypes
   setSelectedSubscription: Dispatch<SetStateAction<SubscriptionTypes>>
-  selectedNetwork: string
-  setSelectedNetwork: Dispatch<SetStateAction<string>>
+  selectedNetwork: NetworkTypes
+  setSelectedNetwork: Dispatch<SetStateAction<NetworkTypes>>
 }
 
 const walletID = "FG2022-OF93PP001XT0993AR"
@@ -32,6 +33,8 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   const { t } = useTranslation()
   const { colors } = useTheme()
   const { toast } = useToast()
+
+  const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -80,12 +83,9 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
           label={t("plans.selectSubscription.deposit.network")}
           bottomLabel={t("plans.selectSubscription.deposit.label")}
           cta={t("plans.selectSubscription.deposit.cta")}
-          options={[
-            { label: "Network 1", value: "1" },
-            { label: "Network 2", value: "2" },
-          ]}
+          options={networks}
           defaultValue={selectedNetwork}
-          onChange={setSelectedNetwork}
+          onChange={(value) => setSelectedNetwork(value as NetworkTypes)}
         />
         <TextInput
           label={t("translation:plans.selectSubscription.deposit.walletId")}

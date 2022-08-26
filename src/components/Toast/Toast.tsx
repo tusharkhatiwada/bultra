@@ -34,7 +34,9 @@ export const Toast: FC<ToastProps> = ({ title, description, id, onClose, status 
       </Container>
       <Container style={styles.textContainer}>
         <Typography weight="semibold">{title}</Typography>
-        <Typography size="small">{description}</Typography>
+        <Typography size="small" style={styles.description}>
+          {description}
+        </Typography>
       </Container>
       <Container style={styles.closeButtonContainer}>
         <Pressable
@@ -71,5 +73,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     padding: 0,
+  },
+  description: {
+    marginTop: 8,
   },
 })

@@ -80,7 +80,7 @@ export const SubscriptionCard: FC<PlanCardProps> = ({
 
 const styles = StyleSheet.create({
   pressable: {
-    width: "45%",
+    flex: 1,
   },
   container: {
     padding: 12,

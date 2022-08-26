@@ -4,11 +4,13 @@ import { PlanTypes, SubscriptionTypes } from "models/Plans"
 import { SelectSubscription, SelectSubscriptionProps } from "./SelectSubscription"
 import { fireEvent, render, waitFor } from "tests/app-tests-utils"
 
+import { NetworkTypes } from "models/Networks"
+
 const props = {
   selectedPlan: PlanTypes.PREMIUM,
   selectedSubscription: SubscriptionTypes.BIENNIAL,
   setSelectedSubscription: jest.fn(),
-  selectedNetwork: "1",
+  selectedNetwork: NetworkTypes.BNB_SMART_CHAIN,
   setSelectedNetwork: jest.fn(),
 } as SelectSubscriptionProps
 

@@ -1,8 +1,8 @@
+import { PlanTypes, SubscriptionTypes } from "models/Plans"
 import { Plans, PlansProps } from "./Plans"
-import { fireEvent, render, waitFor } from "tests/app-tests-utils"
+import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
 
-import { CommonActions } from "@react-navigation/native"
-import { Routes } from "models/Routes"
+import { NetworkTypes } from "models/Networks"
 
 const props = {
   navigation: {
@@ -12,23 +12,27 @@ const props = {
 
 describe("Plans", () => {
   it("can select a plan", async () => {
-    const { getByRole, getAllByRole } = await render(<Plans {...props} />)
+    jest.spyOn(api.auth, "planSubscription")
 
-    const continueButton = getByRole("button")
+    const { findByText, getAllByRole } = await render(<Plans {...props} />)
 
     const plans = getAllByRole("radio")
     const vipPlan = plans[2]
 
     fireEvent.press(vipPlan)
 
-    fireEvent.press(continueButton)
+    const continueButton = await findByText("common.continue")
     fireEvent.press(continueButton)
 
-    // TODO: Test for plan creation
+    const finishButton = await findByText("common.finish")
+    fireEvent.press(finishButton)
+
     await waitFor(() => {
-      expect(props.navigation.dispatch).toHaveBeenCalledWith(
-        CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-      )
+      expect(api.auth.planSubscription).toHaveBeenCalledWith({
+        type: PlanTypes.VIP,
+        subscription: SubscriptionTypes.MONTHLY,
+        network: NetworkTypes.BNB_SMART_CHAIN,
+      })
     })
   })
 
