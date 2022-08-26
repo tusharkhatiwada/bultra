@@ -11,7 +11,7 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
 import { Typography } from "components/Typography"
-import { createReferralLevelFixture } from "fixtures/referrals/createReferralLevelFixture"
+import { useFetchReferralLevels } from "hooks/referral/useFetchReferralLevels"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToast } from "hooks/useToast"
 import { useTranslation } from "react-i18next"
@@ -23,8 +23,8 @@ export const Referrals: FC<ReferralsProps> = () => {
   const { top } = useSafeAreaInsets()
   const { toast } = useToast()
 
+  const { referralLevels } = useFetchReferralLevels()
   // TODO: This should come from a hook
-  const levels = createReferralLevelFixture()
   const referralId = "FG - 0922294"
 
   const { t } = useTranslation()
@@ -44,6 +44,8 @@ export const Referrals: FC<ReferralsProps> = () => {
       console.error(error)
     }
   }
+
+  if (!referralLevels) return null
 
   return (
     <RootView style={[styles.container, { paddingTop: top + space[6] }]}>
@@ -89,7 +91,7 @@ export const Referrals: FC<ReferralsProps> = () => {
       </Stack>
 
       <ScrollView>
-        {levels.map((level, index) => (
+        {referralLevels.map((level, index) => (
           <ReferralLevel key={index} level={level} />
         ))}
       </ScrollView>

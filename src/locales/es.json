@@ -83,7 +83,7 @@
       "copyReferralId": "ID de referido copiado al portapapeles.",
       "shareMessage": "Usa mi código de invitación para beneficiarte en la plataforma: {{referralId}}",
 
-      "rewards": "Recompenzas",
+      "rewards": "Recompensas",
       "rewardsDescription": "Te ofrecemos un estimado del beneficio que tendrás este mes, tomando en cuenta tu actuvidad en los últimos meses:",
       "level": "Nivel {{number}}"
     },

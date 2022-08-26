@@ -5,6 +5,7 @@ import axios from "axios"
 import { createApiFake } from "./createApiFake"
 import { createChangePasswordFake } from "./profile/fake/createChangePasswordFake"
 import { createCreateAccountFake } from "./auth/fake/createCreateAccountFake"
+import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferralLevelsFake"
 import { createLoginFake } from "./auth/fake/createLoginFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 
@@ -61,6 +62,9 @@ export function createApi(offline: boolean): Api {
     profile: {
       changePassword: createChangePasswordFake(),
       supportRequest: createSupportRequestFake(),
+    },
+    referral: {
+      fetchReferralLevels: createFetchReferralLevelsFake(),
     },
   }
 }
