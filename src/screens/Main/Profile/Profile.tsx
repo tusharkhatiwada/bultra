@@ -9,6 +9,7 @@ import { Select } from "components/Select"
 import { Typography } from "components/Typography"
 import { changeLanguage } from "i18next"
 import { languagesList } from "models/Languages"
+import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
@@ -22,6 +23,8 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
 
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
+
+  const { userProfile } = useGetUserProfile()
 
   const handleChangeLanguage = (language: string) => {
     changeLanguage(language)
@@ -49,10 +52,10 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
           </Typography>
 
           <Typography size="headline" weight="semibold">
-            Eduardo López Rodríguez
+            {`${userProfile?.name} ${userProfile?.surname}`}
           </Typography>
           <Typography color="primary.400" style={styles.button}>
-            eduardo90@gmail.com
+            {userProfile?.email}
           </Typography>
         </View>
 

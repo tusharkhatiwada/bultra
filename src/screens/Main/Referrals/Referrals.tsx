@@ -12,6 +12,7 @@ import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
 import { Typography } from "components/Typography"
 import { useFetchReferralLevels } from "hooks/referral/useFetchReferralLevels"
+import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToast } from "hooks/useToast"
 import { useTranslation } from "react-i18next"
@@ -24,8 +25,8 @@ export const Referrals: FC<ReferralsProps> = () => {
   const { toast } = useToast()
 
   const { referralLevels } = useFetchReferralLevels()
-  // TODO: This should come from a hook
-  const referralId = "FG - 0922294"
+  const { userProfile } = useGetUserProfile()
+  const referralId = userProfile?.referralId || ""
 
   const { t } = useTranslation()
 
@@ -38,7 +39,7 @@ export const Referrals: FC<ReferralsProps> = () => {
   const handleShareReferralId = async () => {
     try {
       await Share.share({
-        message: t("referrals.shareMessage", { referralId }),
+        message: t("referrals.shareMessage", { referralId: referralId }),
       })
     } catch (error) {
       console.error(error)

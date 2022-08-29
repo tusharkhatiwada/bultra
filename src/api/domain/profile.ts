@@ -1,3 +1,5 @@
+import { UserInformation } from "models/Profile"
+
 export namespace ChangePassword {
   export type Params = {
     oldPassword: string
@@ -16,7 +18,13 @@ export namespace SupportRequest {
   export type Request = (params: SupportRequest.Params) => Promise<SupportRequest.Response>
 }
 
+export namespace GetUserProfile {
+  export type Response = UserInformation
+  export type Request = () => Promise<GetUserProfile.Response>
+}
+
 export interface ProfileApi {
   changePassword: ChangePassword.Request
   supportRequest: SupportRequest.Request
+  getUserProfile: GetUserProfile.Request
 }
