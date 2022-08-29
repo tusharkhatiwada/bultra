@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store"
 
 export enum StorageKey {
   ACCESS_TOKEN = "ACCESS_TOKEN",
+  LANGUAGE = "LANGUAGE",
 }
 
 export interface SecureStorageService {

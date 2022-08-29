@@ -1,5 +1,6 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
 import { Icon } from "components/Icon"
 import { ProfileStackScreenProps } from "models/Navigation"
@@ -19,7 +20,9 @@ export type ProfileProps = ProfileStackScreenProps<typeof Routes.main.profile.us
 export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const { t } = useTranslation()
 
-  const [language, setLanguage] = useState("en-GB")
+  const storage = createSecureStorage()
+
+  const [language, setLanguage] = useState<string | undefined>()
 
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
@@ -29,6 +32,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const handleChangeLanguage = (language: string) => {
     changeLanguage(language)
     setLanguage(language)
+    storage.set(StorageKey.LANGUAGE, language)
   }
 
   const goToSupport = async () => {
@@ -42,6 +46,15 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const goToLogout = async () => {
     navigation.navigate(Routes.main.profile.logout)
   }
+
+  useEffect(() => {
+    const getCurrentLanguage = async () => {
+      const language = await storage.get(StorageKey.LANGUAGE)
+      language && setLanguage(language)
+    }
+
+    getCurrentLanguage()
+  }, [])
 
   return (
     <RootView style={[styles.container, { paddingTop: top + space[6] }]}>

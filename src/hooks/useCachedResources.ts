@@ -1,9 +1,12 @@
 import * as Font from "expo-font"
+import * as Localization from "expo-localization"
 import * as SplashScreen from "expo-splash-screen"
 
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
 import { useEffect, useState } from "react"
 
 import { FontAwesome5 } from "@expo/vector-icons"
+import { changeLanguage } from "i18next"
 
 const fonts = {
   "Ubuntu-Light": require("assets/fonts/Ubuntu-Light.ttf"),
@@ -19,17 +22,35 @@ const fonts = {
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false)
 
-  // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
+    const setLanguage = async () => {
+      const storage = createSecureStorage()
+      const language = await storage.get(StorageKey.LANGUAGE)
+
+      if (language) {
+        changeLanguage(language)
+        return
+      }
+
+      if (Localization.locale.includes("es")) {
+        storage.set(StorageKey.LANGUAGE, "es-ES")
+        return
+      }
+
+      storage.set(StorageKey.LANGUAGE, "en-GB")
+      return
+    }
+
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync()
 
-        // Load fonts
         await Font.loadAsync({
           ...FontAwesome5.font,
           ...fonts,
         })
+
+        await setLanguage()
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e)

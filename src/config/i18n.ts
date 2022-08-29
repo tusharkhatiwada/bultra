@@ -10,8 +10,11 @@ export const AVAILABLE_LANGUAGES = ["en-GB", "es-ES"]
 export const defaultNS = "en-GB"
 
 export const resources = {
+  "en-US": en,
   "en-GB": en,
+  es: es,
   "es-ES": es,
+  "es-US": es,
 } as const
 
 i18n.use(initReactI18next).init({
