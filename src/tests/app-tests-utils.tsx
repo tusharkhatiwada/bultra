@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ApiContext } from "context/ApiContext"
 import { NativeBaseProvider } from "native-base"
 import { NavigationContainer } from "@react-navigation/native"
+import { ToastProvider } from "context/ToastContext"
 import { createApiFake } from "api/createApiFake"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createTheme } from "styles/theme"
@@ -55,13 +56,15 @@ export const customRender = async (
         <ApiContext.Provider value={api}>
           <AuthContext.Provider value={{ ...authContext, isLoggedIn }}>
             <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
-              <NavigationContainer>
-                <Stack.Navigator>
-                  <Stack.Screen name="MockedScreen" initialParams={routeParams}>
-                    {() => children}
-                  </Stack.Screen>
-                </Stack.Navigator>
-              </NavigationContainer>
+              <ToastProvider>
+                <NavigationContainer>
+                  <Stack.Navigator>
+                    <Stack.Screen name="MockedScreen" initialParams={routeParams}>
+                      {() => children}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </ToastProvider>
             </NativeBaseProvider>
           </AuthContext.Provider>
         </ApiContext.Provider>

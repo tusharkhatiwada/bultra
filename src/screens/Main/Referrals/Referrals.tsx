@@ -10,11 +10,12 @@ import { ReferralLevel } from "./ReferralLevel"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { useFetchReferralLevels } from "hooks/referral/useFetchReferralLevels"
 import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useToast } from "hooks/useToast"
+import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
 export type ReferralsProps = MainTabScreenProps<typeof Routes.main.referrals>
@@ -22,7 +23,7 @@ export type ReferralsProps = MainTabScreenProps<typeof Routes.main.referrals>
 export const Referrals: FC<ReferralsProps> = () => {
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
-  const { toast } = useToast()
+  const { showToast } = useToastContext()
 
   const { referralLevels } = useFetchReferralLevels()
   const { userProfile } = useGetUserProfile()
@@ -32,7 +33,11 @@ export const Referrals: FC<ReferralsProps> = () => {
 
   const handleCopyReferralId = async () => {
     await Clipboard.setStringAsync(referralId).then(() => {
-      toast.info(referralId, t("referrals.copyReferralId"))
+      showToast({
+        type: ToastType.info,
+        title: referralId,
+        description: t("referrals.copyReferralId"),
+      })
     })
   }
 

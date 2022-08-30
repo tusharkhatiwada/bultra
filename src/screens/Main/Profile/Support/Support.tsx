@@ -7,18 +7,19 @@ import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextAreaInput } from "components/TextAreaInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useSupportRequest } from "hooks/profile/useSupportRequest"
 import { useSupportRequestForm } from "hooks/profile/useSupportRequestForm"
-import { useToast } from "hooks/useToast"
+import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
 export type SupportProps = ProfileStackScreenProps<typeof Routes.main.profile.support>
 
 export const Support: FC<SupportProps> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  const { showToast } = useToastContext()
   const { supportRequest } = useSupportRequest()
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useSupportRequestForm({
     onSubmit: ({ phoneNumber, message }) => {
@@ -26,10 +27,20 @@ export const Support: FC<SupportProps> = ({ navigation }) => {
         { phoneNumber, message },
         {
           onSuccess: () => {
-            toast.success("Success", t("profile.support.form.success"))
+            showToast({
+              type: ToastType.success,
+              title: "Success",
+              description: t("profile.support.form.success"),
+            })
             navigation.goBack()
           },
-          onError: (err) => toast.error(t("profile.support.form.error"), err.message),
+          onError: (err) => {
+            showToast({
+              type: ToastType.error,
+              title: t("profile.support.form.error"),
+              description: err.message,
+            })
+          },
         },
       )
     },

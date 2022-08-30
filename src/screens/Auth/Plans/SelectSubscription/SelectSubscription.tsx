@@ -10,8 +10,9 @@ import { Trans, useTranslation } from "react-i18next"
 import { Select } from "components/Select"
 import { SubscriptionCard } from "./SubscriptionCard"
 import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
-import { useToast } from "hooks/useToast"
+import { useToastContext } from "context/ToastContext"
 
 export type SelectSubscriptionProps = {
   selectedPlan: PlanTypes
@@ -32,13 +33,17 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
 }) => {
   const { t } = useTranslation()
   const { colors } = useTheme()
-  const { toast } = useToast()
+  const { showToast } = useToastContext()
 
   const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
-      toast.info(value, t("plans.selectSubscription.deposit.copy-info"))
+      showToast({
+        type: ToastType.info,
+        title: value,
+        description: t("plans.selectSubscription.deposit.copy-info"),
+      })
     })
   }
 

@@ -12,10 +12,11 @@ import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
 import { SelectSubscription } from "./SelectSubscription"
 import { Stepper } from "components/Stepper"
+import { ToastType } from "components/Toast/Toast"
 import { usePlanSubscription } from "hooks/auth/usePlanSubscription"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
-import { useToast } from "hooks/useToast"
+import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
 const PLAN_STEP = 1
@@ -34,7 +35,7 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets()
   const { t } = useTranslation()
 
-  const { toast } = useToast()
+  const { showToast } = useToastContext()
 
   const { planSubscription } = usePlanSubscription()
 
@@ -48,13 +49,22 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
         },
         {
           onSuccess: () => {
-            toast.info(t("plans.toast.title"), t("plans.toast.description"))
+            showToast({
+              type: ToastType.info,
+              title: t("plans.toast.title"),
+              description: t("plans.toast.description"),
+            })
             navigation.dispatch(
               CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
             )
           },
           onError: (error) => {
-            console.log(error)
+            showToast({
+              type: ToastType.error,
+              title: "Error",
+              description: error.message,
+            })
+            console.error(error)
           },
         },
       )

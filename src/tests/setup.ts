@@ -10,6 +10,18 @@ jest.mock("react-native-safe-area-context", () => ({
   }),
 }))
 
+jest.mock("react-native-reanimated", () => ({
+  ...require("react-native-reanimated/mock"),
+  SlideInDown: {
+    delay: jest.fn(),
+  },
+  SlideInUp: {
+    delay: jest.fn(),
+  },
+}))
+
+jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
+
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
     return {

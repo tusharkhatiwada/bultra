@@ -1,16 +1,15 @@
+import { Toast, ToastType } from "./Toast"
 import { fireEvent, render } from "tests/app-tests-utils"
 
 import React from "react"
-import { Toast } from "./Toast"
 
 describe("Toast", () => {
   it("renders properly", async () => {
     const { getByText } = await render(
       <Toast
-        id="1"
         title={"title"}
         description={"description"}
-        status={"success"}
+        type={ToastType.success}
         onClose={() => undefined}
       />,
     )
@@ -22,16 +21,15 @@ describe("Toast", () => {
     const onCloseMock = jest.fn()
     const { getByRole } = await render(
       <Toast
-        id="1"
         title={"title"}
         description={"description"}
-        status={"success"}
+        type={ToastType.success}
         onClose={onCloseMock}
       />,
     )
 
     fireEvent.press(getByRole("button"))
 
-    expect(onCloseMock).toHaveBeenCalledWith("1")
+    expect(onCloseMock).toHaveBeenCalled()
   })
 })

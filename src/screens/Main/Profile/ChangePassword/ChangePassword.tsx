@@ -6,17 +6,18 @@ import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { useChangePassword } from "hooks/profile/useChangePassword"
 import { useChangePasswordForm } from "hooks/profile/useChangePasswordForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useToast } from "hooks/useToast"
+import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
 export type ChangePasswordProps = ProfileStackScreenProps<typeof Routes.main.profile.support>
 
 export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  const { showToast } = useToastContext()
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
@@ -28,10 +29,19 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
         { oldPassword, newPassword },
         {
           onSuccess: () => {
-            toast.success("Success", t("profile.changePassword.form.success"))
+            showToast({
+              type: ToastType.success,
+              title: "Success",
+              description: t("profile.changePassword.form.success"),
+            })
             navigation.goBack()
           },
-          onError: (err) => toast.error(t("profile.changePassword.form.error"), err.message),
+          onError: (err) =>
+            showToast({
+              type: ToastType.error,
+              title: t("profile.changePassword.form.error"),
+              description: err.message,
+            }),
         },
       )
     },

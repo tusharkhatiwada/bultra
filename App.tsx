@@ -10,6 +10,7 @@ import { NativeBaseProvider } from "native-base"
 import Navigation from "./src/navigation/NavigationContainer"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { StatusBar } from "expo-status-bar"
+import { ToastProvider } from "context/ToastContext"
 import { createTheme } from "styles/theme"
 import useCachedResources from "./src/hooks/useCachedResources"
 import useColorScheme from "./src/hooks/useColorScheme"
@@ -37,8 +38,10 @@ export default function App() {
           <AuthProvider>
             <SafeAreaProvider>
               <NativeBaseProvider theme={createTheme(colorScheme)}>
-                <Navigation colorScheme={colorScheme} />
-                <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+                <ToastProvider>
+                  <Navigation colorScheme={colorScheme} />
+                  <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+                </ToastProvider>
               </NativeBaseProvider>
             </SafeAreaProvider>
           </AuthProvider>
