@@ -6,6 +6,7 @@ import { NativeSyntheticEvent, Pressable, StyleSheet, TextInputFocusEventData } 
 import { IInputProps } from "native-base/lib/typescript/components/primitives/Input/types"
 import { Typography } from "components/Typography"
 import _ from "lodash"
+import { accentColors } from "styles/colors"
 import { useTranslation } from "react-i18next"
 
 export type TextInputProps = Omit<IInputProps, "rightElement" | "leftElement"> & {
@@ -98,6 +99,7 @@ export const TextInput: FC<TextInputProps> = ({
         value={value}
         placeholder={placeholder}
         style={styles.input}
+        selectionColor={accentColors.blue.dark}
         secureTextEntry={type === "password" ? hidePassword : undefined}
         leftElement={getIconElement({ name: leftIcon })}
         rightElement={

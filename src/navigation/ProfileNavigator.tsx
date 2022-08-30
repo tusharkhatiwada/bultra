@@ -14,7 +14,7 @@ export function ProfileNavigator() {
   const { t } = useTranslation()
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
       <Stack.Screen
         name={Routes.main.profile.userProfile}
         component={Profile}

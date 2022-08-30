@@ -1,7 +1,8 @@
-import { Button, ScrollView, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 
+import { Button } from "components/Button"
 import { FC } from "react"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { PhoneInput } from "components/PhoneInput"
 import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
@@ -9,7 +10,6 @@ import { Routes } from "models/Routes"
 import { TextAreaInput } from "components/TextAreaInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useSupportRequest } from "hooks/profile/useSupportRequest"
 import { useSupportRequestForm } from "hooks/profile/useSupportRequestForm"
 import { useToastContext } from "context/ToastContext"
@@ -21,6 +21,7 @@ export const Support: FC<SupportProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const { showToast } = useToastContext()
   const { supportRequest } = useSupportRequest()
+
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useSupportRequestForm({
     onSubmit: ({ phoneNumber, message }) => {
       supportRequest(
@@ -46,21 +47,9 @@ export const Support: FC<SupportProps> = ({ navigation }) => {
     },
   })
 
-  const { space } = useTheme()
-  const { bottom } = useSafeAreaInsets()
-
   return (
-    <RootView
-      style={[
-        styles.container,
-        {
-          paddingHorizontal: space[6],
-          paddingTop: space[6],
-          paddingBottom: bottom + space[6],
-        },
-      ]}
-    >
-      <ScrollView contentContainerStyle={styles.container}>
+    <RootView style={[styles.container, styles.padding]}>
+      <KeyboardAwareScrollView enableOnAndroid contentContainerStyle={styles.container}>
         <View>
           <Typography color="primary.400" style={styles.description}>
             {t("profile.support.description")}
@@ -81,12 +70,10 @@ export const Support: FC<SupportProps> = ({ navigation }) => {
           />
         </View>
 
-        <View>
-          <Button isDisabled={!isValid || !dirty} onPress={() => handleSubmit()}>
-            {t("profile.support.form.submit")}
-          </Button>
-        </View>
-      </ScrollView>
+        <Button isDisabled={!isValid || !dirty} onPress={() => handleSubmit()}>
+          {t("profile.support.form.submit")}
+        </Button>
+      </KeyboardAwareScrollView>
     </RootView>
   )
 }
@@ -95,6 +82,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  padding: {
+    padding: 24,
   },
   description: {
     marginBottom: 24,

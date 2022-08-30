@@ -13,7 +13,7 @@ export function AuthNavigator() {
   const { t } = useTranslation()
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
       <Stack.Screen name={Routes.auth.login} component={Login} options={{ headerShown: false }} />
       <Stack.Screen
         name={Routes.auth.create_account}

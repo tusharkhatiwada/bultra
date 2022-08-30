@@ -16,7 +16,10 @@ export function RootNavigator() {
   const initialRouteName = isLoggedIn ? Routes.main.navigator : Routes.home
 
   return (
-    <Stack.Navigator initialRouteName={initialRouteName}>
+    <Stack.Navigator
+      initialRouteName={initialRouteName}
+      screenOptions={{ animation: "slide_from_right" }}
+    >
       <Stack.Screen name={Routes.home} component={Home} options={{ headerShown: false }} />
       <Stack.Screen
         name={Routes.main.navigator}

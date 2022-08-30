@@ -4,6 +4,7 @@ import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData } from "react
 import { FC } from "react"
 import { Typography } from "components/Typography"
 import _ from "lodash"
+import { accentColors } from "styles/colors"
 
 export type TextAreaInputProps = ITextAreaProps & {
   name: string
@@ -48,6 +49,7 @@ export const TextAreaInput: FC<TextAreaInputProps> = ({
         value={value}
         placeholder={placeholder}
         style={styles.input}
+        selectionColor={accentColors.blue.dark}
         {...rest}
       />
 
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    height: 46,
+    paddingTop: 12,
+    textAlignVertical: "top",
   },
   message: {
     minHeight: 18,

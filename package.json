@@ -34,6 +34,7 @@
     ]
   },
   "dependencies": {
+    "@codler/react-native-keyboard-aware-scroll-view": "^2.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",

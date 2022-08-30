@@ -2,6 +2,7 @@ import { Button, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 
 import { FC } from "react"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { ProfileStackScreenProps } from "models/Navigation"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -9,7 +10,6 @@ import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { useChangePassword } from "hooks/profile/useChangePassword"
 import { useChangePasswordForm } from "hooks/profile/useChangePasswordForm"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
@@ -20,7 +20,6 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
   const { showToast } = useToastContext()
 
   const { space } = useTheme()
-  const { bottom } = useSafeAreaInsets()
 
   const { changePassword } = useChangePassword()
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useChangePasswordForm({
@@ -48,50 +47,41 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
   })
 
   return (
-    <RootView
-      style={[
-        styles.container,
-        {
-          paddingHorizontal: space[6],
-          paddingTop: space[6],
-          paddingBottom: bottom + space[6],
-        },
-      ]}
-    >
-      <View>
-        <TextInput
-          type="password"
-          autoCapitalize="none"
-          autoComplete="off"
-          label={t("profile.changePassword.form.oldPassword.label")}
-          placeholder={t("profile.changePassword.form.oldPassword.placeholder")}
-          {...getTextFieldProps("oldPassword")}
-        />
+    <RootView style={[styles.container, { padding: space[6] }]}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <View>
+          <TextInput
+            type="password"
+            autoCapitalize="none"
+            autoComplete="off"
+            label={t("profile.changePassword.form.oldPassword.label")}
+            placeholder={t("profile.changePassword.form.oldPassword.placeholder")}
+            {...getTextFieldProps("oldPassword")}
+          />
 
-        <TextInput
-          type="password"
-          autoCapitalize="none"
-          autoComplete="off"
-          label={t("profile.changePassword.form.newPassword.label")}
-          placeholder={t("profile.changePassword.form.newPassword.placeholder")}
-          {...getTextFieldProps("newPassword")}
-        />
+          <TextInput
+            type="password"
+            autoCapitalize="none"
+            autoComplete="off"
+            label={t("profile.changePassword.form.newPassword.label")}
+            placeholder={t("profile.changePassword.form.newPassword.placeholder")}
+            {...getTextFieldProps("newPassword")}
+          />
 
-        <TextInput
-          type="password"
-          autoCapitalize="none"
-          autoComplete="off"
-          label={t("profile.changePassword.form.repeatPassword.label")}
-          placeholder={t("profile.changePassword.form.repeatPassword.placeholder")}
-          {...getTextFieldProps("repeatPassword")}
-        />
-      </View>
+          <TextInput
+            type="password"
+            autoCapitalize="none"
+            autoComplete="off"
+            label={t("profile.changePassword.form.repeatPassword.label")}
+            placeholder={t("profile.changePassword.form.repeatPassword.placeholder")}
+            {...getTextFieldProps("repeatPassword")}
+          />
+        </View>
 
-      <View>
         <Button isDisabled={!isValid || !dirty} onPress={() => handleSubmit()}>
           {t("profile.changePassword.form.submit")}
         </Button>
-      </View>
+      </KeyboardAwareScrollView>
     </RootView>
   )
 }

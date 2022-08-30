@@ -41,6 +41,12 @@ jest.mock("expo-localization", () => ({
   region: "US",
 }))
 
+jest.mock("@codler/react-native-keyboard-aware-scroll-view", () => ({
+  KeyboardAwareScrollView: jest
+    .fn()
+    .mockImplementation(({ children }) => (Array.isArray(children) ? children : [children])),
+}))
+
 jest.useFakeTimers()
 
 afterEach(() => {

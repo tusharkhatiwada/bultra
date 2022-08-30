@@ -1,12 +1,13 @@
-import { ScrollView, StyleSheet } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { FC } from "react"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
+import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
 import { Typography } from "components/Typography"
 import { useAuthContext } from "context/AuthContext"
@@ -57,7 +58,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
         },
       ]}
     >
-      <ScrollView>
+      <KeyboardAwareScrollView enableOnAndroid>
         <Typography size="h3" style={styles.title}>
           {t("createAccount.title")}
         </Typography>
@@ -119,7 +120,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
             }}
           />
         </Typography>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </RootView>
   )
 }

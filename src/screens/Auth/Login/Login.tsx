@@ -1,4 +1,3 @@
-import { ScrollView, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
@@ -6,6 +5,7 @@ import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { FC } from "react"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
@@ -14,6 +14,7 @@ import { useAuthContext } from "context/AuthContext"
 import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { useTheme } from "native-base"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
@@ -57,7 +58,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         },
       ]}
     >
-      <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <View>
           <Typography size="h3" style={styles.title}>
             {t("login.title")}
@@ -102,7 +103,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             />
           </Typography>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </RootView>
   )
 }

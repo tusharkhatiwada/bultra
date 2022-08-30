@@ -7,6 +7,7 @@ import { Routes } from "models/Routes"
 import { Wallet } from "screens/Main/Wallet"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import useColorScheme from "../hooks/useColorScheme"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
@@ -14,7 +15,10 @@ const BottomTab = createBottomTabNavigator<MainTabParamList>()
 
 export function MainNavigator() {
   const colorScheme = useColorScheme()
+
   const { colors } = useTheme()
+  const { bottom } = useSafeAreaInsets()
+
   const { t } = useTranslation()
 
   return (
@@ -23,6 +27,10 @@ export function MainNavigator() {
       screenOptions={{
         tabBarActiveTintColor: colorScheme === "dark" ? colors.white : colors.black,
         headerShown: false,
+        tabBarStyle: {
+          paddingBottom: 4 + bottom,
+          height: 56 + bottom,
+        },
       }}
     >
       <BottomTab.Screen
@@ -30,7 +38,7 @@ export function MainNavigator() {
         component={Home}
         options={() => ({
           title: t("home.title"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <Icon size="xl" name="home" color={color} />,
         })}
       />
       <BottomTab.Screen
@@ -38,7 +46,7 @@ export function MainNavigator() {
         component={Wallet}
         options={() => ({
           title: t("wallet.title"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="wallet" color={color} />,
+          tabBarIcon: ({ color }) => <Icon size="xl" name="wallet" color={color} />,
         })}
       />
       <BottomTab.Screen
@@ -46,7 +54,7 @@ export function MainNavigator() {
         component={Referrals}
         options={() => ({
           title: t("referrals.title"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-plus" color={color} />,
+          tabBarIcon: ({ color }) => <Icon size="xl" name="user-plus" color={color} />,
         })}
       />
       <BottomTab.Screen
@@ -54,13 +62,9 @@ export function MainNavigator() {
         component={ProfileNavigator}
         options={() => ({
           title: t("profile.title"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-circle" color={color} />,
+          tabBarIcon: ({ color }) => <Icon size="xl" name="user-circle" color={color} />,
         })}
       />
     </BottomTab.Navigator>
   )
-}
-
-function TabBarIcon(props: { name: string; color: string }) {
-  return <Icon size="xl" {...props} />
 }
