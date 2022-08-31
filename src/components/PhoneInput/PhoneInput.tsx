@@ -52,6 +52,8 @@ export const PhoneInput: FC<PhoneInputProps> = ({
 
   const isPhoneNumberValid = () => {
     const value = phoneInputRef.current?.props.value
+    const prefix = phoneInputRef.current?.getCallingCode()
+    if (value === "" || value === prefix) return
     if (!phoneInputRef.current?.isValidNumber(value as string)) {
       setInValidMessage(t("common.phoneInput.invalid"))
     } else {
@@ -70,12 +72,14 @@ export const PhoneInput: FC<PhoneInputProps> = ({
         placeholder={placeholder || t("common.phoneInput.placeholder")}
         defaultCode={(Localization.region || "US") as CountryCode}
         layout="first"
+        textInputStyle={styles.textInput}
         textInputProps={{
           value: phoneWithoutCode,
           onBlur: () => {
             isPhoneNumberValid()
           },
         }}
+        codeTextStyle={styles.codeText}
         onChangeText={setPhoneWithoutCode}
         onChangeFormattedText={onChangeText}
         value={value}
@@ -119,5 +123,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.primary[300],
     borderRadius: 4,
+  },
+  textInput: {
+    fontFamily: "Ubuntu-Regular",
+  },
+  codeText: {
+    fontFamily: "Ubuntu-Regular",
+    height: 48,
+    marginTop: 30,
   },
 })
