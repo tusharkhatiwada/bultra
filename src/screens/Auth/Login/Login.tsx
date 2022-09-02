@@ -53,7 +53,6 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         styles.container,
         {
           paddingHorizontal: space[6],
-          paddingTop: space[6],
           paddingBottom: bottom + space[6],
         },
       ]}
@@ -107,6 +106,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 8,
     justifyContent: "space-between",
   },
   forgotPassword: {

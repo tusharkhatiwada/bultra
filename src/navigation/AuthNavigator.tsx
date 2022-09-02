@@ -1,6 +1,8 @@
 import { AuthStackParamList } from "../models/Navigation"
 import { CreateAccount } from "screens/Auth/CreateAccount"
+import { DocumentPhoto } from "screens/Auth/DocumentPhoto"
 import { Header } from "components/Header"
+import { KYC } from "screens/Auth/KYC"
 import { Login } from "screens/Auth/Login"
 import { Plans } from "screens/Auth/Plans"
 import { Routes } from "models/Routes"
@@ -19,7 +21,7 @@ export function AuthNavigator() {
         component={Login}
         options={{
           header: ({ navigation }) => (
-            <Header canGoBack navigation={navigation} title={t("login.title")} />
+            <Header navigation={navigation} canGoBack title={t("login.title")} />
           ),
         }}
       />
@@ -28,7 +30,25 @@ export function AuthNavigator() {
         component={CreateAccount}
         options={{
           header: ({ navigation }) => (
-            <Header canGoBack navigation={navigation} title={t("createAccount.title")} />
+            <Header navigation={navigation} canGoBack title={t("createAccount.title")} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.auth.kyc}
+        component={KYC}
+        options={{
+          header: ({ navigation }) => (
+            <Header navigation={navigation} canGoBack title={t("wallet.kyc.title")} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.auth.document_photo}
+        component={DocumentPhoto}
+        options={{
+          header: ({ navigation }) => (
+            <Header navigation={navigation} canGoBack title={t("wallet.kyc.documentPhoto.title")} />
           ),
         }}
       />

@@ -53,7 +53,6 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
         styles.container,
         {
           paddingHorizontal: space[6],
-          paddingTop: space[6],
           paddingBottom: bottom + space[6],
         },
       ]}
@@ -124,6 +123,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 8,
   },
   disclaimer: {
     marginBottom: 24,

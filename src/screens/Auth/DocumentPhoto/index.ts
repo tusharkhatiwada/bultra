@@ -1,0 +1,1 @@
+export { DocumentPhoto } from './DocumentPhoto'

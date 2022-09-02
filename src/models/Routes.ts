@@ -4,6 +4,8 @@ export const Routes = {
     navigator: "auth",
     login: "auth/login",
     create_account: "auth/create_account",
+    kyc: "auth/kyc",
+    document_photo: "auth/document_photo",
     plans: "auth/plans",
   },
   main: {

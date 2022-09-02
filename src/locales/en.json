@@ -97,6 +97,60 @@
 
       "withdraw": {
         "title": "Withdraw"
+      },
+
+      "kyc": {
+        "title": "Confirm identity",
+        "description": "For security reasons, it is necessary to validate your identity if you are withdrawing more than 1.00 BTC per day.",
+
+        "form": {
+          "name": {
+            "label": "Full name",
+            "placeholder": "Enter your full name"
+          },
+
+          "documentType": {
+            "label": "Document type",
+            "placeholder": "Select a document type",
+            "bottomLabel": "Choose a document type",
+            "cta": "Select document type"
+          },
+
+          "documentNumber": {
+            "label": "Document number",
+            "placeholder": "Write your document number"
+          },
+
+          "documentPhoto": {
+            "title": "Photograph the front side of your document",
+            "description": "We will verify that the information you have entered is true.",
+            "cta": "Open camera",
+            "success": "Capture successful",
+            "replace": "Replace image"
+          },
+
+          "address": {
+            "label": "Address",
+            "placeholder": "Introduce your address"
+          },
+
+          "invoice": {
+            "title": "Upload an invoice (jpg, pdf or png)",
+            "description": "We will verify that the information you have entered is true.",
+            "cta": "Upload an invoice"
+          },
+
+          "cta": "Finish identity confirmation"
+        },
+
+        "documentPhoto": {
+          "title": "Photograph front side",
+          "capture": "Capture",
+          "retry": "Retry",
+
+          "requestPermissions": "We need your permission to show the camera.",
+          "requestPermissionsCta": "Request permissions"
+        }
       }
     },
 

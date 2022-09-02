@@ -43,6 +43,8 @@ export type MainTabParamList = {
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
   [Routes.auth.create_account]: undefined
+  [Routes.auth.kyc]: undefined
+  [Routes.auth.document_photo]: undefined
   [Routes.auth.plans]: undefined
 }
 

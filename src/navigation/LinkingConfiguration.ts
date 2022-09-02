@@ -38,6 +38,8 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           [Routes.auth.login]: Routes.auth.login,
           [Routes.auth.create_account]: Routes.auth.create_account,
+          [Routes.auth.kyc]: Routes.auth.kyc,
+          [Routes.auth.document_photo]: Routes.auth.document_photo,
           [Routes.auth.plans]: Routes.auth.plans,
         },
       },

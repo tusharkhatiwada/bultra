@@ -50,12 +50,13 @@ export const Select: FC<SelectProps> = ({
 
   return (
     <FormControl w="100%" isRequired={isRequired} isInvalid={!!message} style={styles.container}>
-      <Typography accessibilityLabel={label} size="small" style={styles.label}>
+      <Typography size="small" style={styles.label}>
         {label}
       </Typography>
       {custom ? (
         <>
           <Pressable
+            accessibilityLabel={label}
             onPress={onOpen}
             style={[styles.input, styles.customInput, { borderColor: colors.primary[300] }]}
           >

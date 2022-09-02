@@ -80,7 +80,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
             label={t("profile.chooseLanguage")}
             bottomLabel={t("profile.chooseLanguage")}
             cta={t("profile.changeLanguage")}
-            defaultValue={language}
+            value={language}
             options={languagesList}
             onChange={handleChangeLanguage}
           />

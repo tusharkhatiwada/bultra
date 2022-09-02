@@ -1,10 +1,13 @@
-import { render } from 'tests/app-tests-utils'
-import { Withdraw } from './Withdraw'
+import { Withdraw, WithdrawProps } from "./Withdraw"
 
-describe('Withdraw', () => {
-  it('displays the default message', async () => {
-    const { getByText } = await render(<Withdraw />)
+import { render } from "tests/app-tests-utils"
 
-    expect(getByText('This is the Withdraw component!')).toBeTruthy()
+const props = {} as WithdrawProps
+
+describe("Withdraw", () => {
+  it("displays the default message", async () => {
+    const { getByText } = await render(<Withdraw {...props} />)
+
+    expect(getByText("Go to KYC form")).toBeTruthy()
   })
 })
