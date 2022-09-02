@@ -70,7 +70,12 @@
     },
 
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "greetings": "Welcome to Fast Growing!",
+      "description": "Welcome to Fast Growing, the most efficient way to profitability and passive income through our trading strategies system.",
+      "profits": "Profits",
+      "verify-movements": "Verify momevents",
+      "profit-description": "Take a look at the benefits that you could have achieved in recent months."
     },
 
     "wallet": {

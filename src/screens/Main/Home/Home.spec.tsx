@@ -13,7 +13,7 @@ describe("Home", () => {
   it("displays the default message", async () => {
     const { getByText } = await render(<Home {...props} />)
 
-    expect(getByText("home.title")).toBeTruthy()
+    expect(getByText("home.greetings")).toBeTruthy()
   })
 
   it("shows the create account button if not logged in", async () => {

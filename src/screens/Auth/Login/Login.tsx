@@ -20,7 +20,7 @@ export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
 export const Login: FC<LoginProps> = ({ navigation }) => {
   const { space } = useTheme()
-  const { top, bottom } = useSafeAreaInsets()
+  const { bottom } = useSafeAreaInsets()
 
   const { login } = useLogin()
   const { setToken } = useAuthContext()
@@ -53,17 +53,13 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         styles.container,
         {
           paddingHorizontal: space[6],
-          paddingTop: top + space[6],
+          paddingTop: space[6],
           paddingBottom: bottom + space[6],
         },
       ]}
     >
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <View>
-          <Typography size="h3" style={styles.title}>
-            {t("login.title")}
-          </Typography>
-
           <TextInput
             label={t("login.form.email.label")}
             placeholder={t("login.form.email.placeholder")}
@@ -112,9 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-  },
-  title: {
-    marginBottom: 16,
   },
   forgotPassword: {
     marginBottom: 24,

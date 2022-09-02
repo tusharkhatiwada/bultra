@@ -20,7 +20,7 @@ export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_
 
 export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
   const { space } = useTheme()
-  const { top, bottom } = useSafeAreaInsets()
+  const { bottom } = useSafeAreaInsets()
 
   const { createAccount } = useCreateAccount()
   const { setToken } = useAuthContext()
@@ -53,16 +53,12 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
         styles.container,
         {
           paddingHorizontal: space[6],
-          paddingTop: top + space[6],
+          paddingTop: space[6],
           paddingBottom: bottom + space[6],
         },
       ]}
     >
       <KeyboardAwareScrollView enableOnAndroid>
-        <Typography size="h3" style={styles.title}>
-          {t("createAccount.title")}
-        </Typography>
-
         <TextInput
           label={t("createAccount.form.email.label")}
           placeholder={t("createAccount.form.email.placeholder")}
@@ -128,9 +124,6 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  title: {
-    marginBottom: 16,
   },
   disclaimer: {
     marginBottom: 24,

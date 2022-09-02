@@ -14,17 +14,31 @@ export function AuthNavigator() {
 
   return (
     <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
-      <Stack.Screen name={Routes.auth.login} component={Login} options={{ headerShown: false }} />
+      <Stack.Screen
+        name={Routes.auth.login}
+        component={Login}
+        options={{
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("login.title")} />
+          ),
+        }}
+      />
       <Stack.Screen
         name={Routes.auth.create_account}
         component={CreateAccount}
-        options={{ headerShown: false }}
+        options={{
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("createAccount.title")} />
+          ),
+        }}
       />
       <Stack.Screen
         name={Routes.auth.plans}
         component={Plans}
         options={{
-          header: ({ navigation }) => <Header navigation={navigation} title={t("plans.title")} />,
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("plans.title")} />
+          ),
         }}
       />
     </Stack.Navigator>

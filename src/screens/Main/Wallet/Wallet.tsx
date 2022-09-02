@@ -4,8 +4,7 @@ import { Trans, useTranslation } from "react-i18next"
 
 import { Button } from "components/Button"
 import { FC } from "react"
-import { Icon } from "components/Icon"
-import { ProfitSummaryRange } from "models/Wallet"
+import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
@@ -83,36 +82,7 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
         {t("wallet.profits")}
       </Typography>
 
-      <View style={styles.profits}>
-        {Object.keys(wallet.profitSummary).map((key, index) => {
-          const value = wallet.profitSummary[key as ProfitSummaryRange]
-          const positive = value >= 0
-          const parsedValue = positive ? `+${value}%` : `${value}%`
-          return (
-            <View
-              key={`${key}-${index}`}
-              style={[styles.profitRow, { borderBottomColor: colors.primary[200] }]}
-            >
-              <Typography size="mini" weight="bold">
-                {t(`wallet.${key as ProfitSummaryRange}`)}
-              </Typography>
-              <View style={styles.profitValue}>
-                <Icon
-                  color={positive ? colors.success[400] : colors.error[400]}
-                  name={positive ? "arrow-alt-circle-up" : "arrow-alt-circle-down"}
-                />
-                <Typography
-                  color={positive ? colors.success[400] : colors.error[400]}
-                  size="mini"
-                  weight="bold"
-                >
-                  {parsedValue}
-                </Typography>
-              </View>
-            </View>
-          )
-        })}
-      </View>
+      <ProfitsList profitSummary={wallet.profitSummary} />
     </RootView>
   )
 }
@@ -135,16 +105,5 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 16,
     marginBottom: 24,
-  },
-  profits: {},
-  profitRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-  },
-  profitValue: {
-    flexDirection: "row",
-    alignItems: "center",
   },
 })

@@ -70,7 +70,12 @@
     },
 
     "home": {
-      "title": "Inicio"
+      "title": "Inicio",
+      "greetings": "Bienvenido a Fast Growing!",
+      "description": "Bienvenido a Fast Growing, la forma más eficaz de obtener ingresos pasivos rentables a través de nuestras estrategias de trading.",
+      "profits": "Beneficios",
+      "verify-movements": "Verificar movimientos",
+      "profit-description": "Echa un vistazo a los beneficios que podrias haber obtenido en los últimos meses."
     },
 
     "wallet": {
