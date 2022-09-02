@@ -4,6 +4,7 @@
       "continue": "Continuar",
       "finish": "Finalizar",
       "goBack": "Volver",
+      "USDT": "${{value}} <small>USDT</small>",
 
       "toast": {
         "close": "Cerrar notificación"
@@ -73,7 +74,20 @@
     },
 
     "wallet": {
-      "title": "Cartera"
+      "title": "Cartera",
+      "total-balance": "Balance total",
+      "profits": "Beneficios",
+      "last24hours": "Últimas 24 horas",
+      "last7days": "Últimos 7 días",
+      "lastMonth": "Último mes",
+
+      "deposit": {
+        "title": "Depositar"
+      },
+
+      "withdraw": {
+        "title": "Retirar"
+      }
     },
 
     "referrals": {

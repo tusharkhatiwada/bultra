@@ -30,11 +30,14 @@ export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = Nati
 export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> =
   NativeStackScreenProps<ProfileStackParamList, Screen>
 
+export type WalletStackScreenProps<Screen extends keyof WalletStackParamList> =
+  NativeStackScreenProps<WalletStackParamList, Screen>
+
 export type MainTabParamList = {
   [Routes.main.home]: undefined
-  [Routes.main.wallet]: undefined
   [Routes.main.referrals]: undefined
   [Routes.main.profile.navigator]: undefined
+  [Routes.main.wallet.navigator]: undefined
 }
 
 export type AuthStackParamList = {
@@ -48,4 +51,10 @@ export type ProfileStackParamList = {
   [Routes.main.profile.support]: undefined
   [Routes.main.profile.changePassword]: undefined
   [Routes.main.profile.logout]: undefined
+}
+
+export type WalletStackParamList = {
+  [Routes.main.wallet.walletDetails]: undefined
+  [Routes.main.wallet.deposit]: undefined
+  [Routes.main.wallet.withdraw]: undefined
 }

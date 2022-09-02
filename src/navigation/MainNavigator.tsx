@@ -4,7 +4,7 @@ import { MainTabParamList } from "../models/Navigation"
 import { ProfileNavigator } from "./ProfileNavigator"
 import { Referrals } from "screens/Main/Referrals"
 import { Routes } from "models/Routes"
-import { Wallet } from "screens/Main/Wallet"
+import { WalletNavigator } from "./WalletNavigator"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import useColorScheme from "../hooks/useColorScheme"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -42,8 +42,8 @@ export function MainNavigator() {
         })}
       />
       <BottomTab.Screen
-        name={Routes.main.wallet}
-        component={Wallet}
+        name={Routes.main.wallet.navigator}
+        component={WalletNavigator}
         options={() => ({
           title: t("wallet.title"),
           tabBarIcon: ({ color }) => <Icon size="xl" name="wallet" color={color} />,

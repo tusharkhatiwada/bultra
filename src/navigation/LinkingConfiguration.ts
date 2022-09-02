@@ -16,7 +16,13 @@ const linking: LinkingOptions<RootStackParamList> = {
       [Routes.main.navigator]: {
         screens: {
           [Routes.main.home]: Routes.main.home,
-          [Routes.main.wallet]: Routes.main.wallet,
+          [Routes.main.wallet.navigator]: {
+            screens: {
+              [Routes.main.wallet.walletDetails]: Routes.main.wallet.walletDetails,
+              [Routes.main.wallet.deposit]: Routes.main.wallet.deposit,
+              [Routes.main.wallet.withdraw]: Routes.main.wallet.withdraw,
+            },
+          },
           [Routes.main.referrals]: Routes.main.referrals,
           [Routes.main.profile.navigator]: {
             screens: {

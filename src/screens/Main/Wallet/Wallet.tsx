@@ -1,20 +1,38 @@
+import { Stack, useTheme } from "native-base"
+import { StyleSheet, View } from "react-native"
+import { Trans, useTranslation } from "react-i18next"
+
+import { Button } from "components/Button"
 import { FC } from "react"
-import { MainTabScreenProps } from "models/Navigation"
+import { Icon } from "components/Icon"
+import { ProfitSummaryRange } from "models/Wallet"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
-import { StyleSheet } from "react-native"
 import { Typography } from "components/Typography"
+import { WalletStackScreenProps } from "models/Navigation"
+import { formatNumberToCurrency } from "utils/currency"
+import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useTheme } from "native-base"
-import { useTranslation } from "react-i18next"
 
-export type WalletProps = MainTabScreenProps<typeof Routes.main.wallet>
+export type WalletProps = WalletStackScreenProps<typeof Routes.main.wallet.walletDetails>
 
-export const Wallet: FC<WalletProps> = () => {
+export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+  const { colors } = useTheme()
+  const { wallet } = useGetWallet()
 
   const { t } = useTranslation()
+
+  const goToDepositScreen = () => {
+    navigation.push("main/wallet/deposit")
+  }
+
+  const goToWithdrawalScreen = () => {
+    navigation.push("main/wallet/withdraw")
+  }
+
+  if (!wallet) return null
 
   return (
     <RootView
@@ -27,7 +45,74 @@ export const Wallet: FC<WalletProps> = () => {
         },
       ]}
     >
-      <Typography size="h3">{t("wallet.title")}</Typography>
+      <Typography size="h3" style={styles.title}>
+        {t("wallet.title")}
+      </Typography>
+
+      <Typography color={colors.primary[400]} style={styles.title}>
+        {t("wallet.total-balance")}
+      </Typography>
+
+      <View style={styles.balance}>
+        <Typography size="h1" weight="bold">
+          <Trans
+            i18nKey={`common.USDT`}
+            values={{ value: formatNumberToCurrency(wallet.balance) }}
+            components={{
+              small: <Typography style={styles.unit} />,
+            }}
+          />
+        </Typography>
+      </View>
+
+      <Typography
+        color={colors.success[400]}
+        style={styles.unit}
+      >{`+${wallet.profitSummary.last24hours}% (24h)`}</Typography>
+
+      <Stack space="lg" direction="row" style={styles.buttonContainer}>
+        <Button onPress={goToDepositScreen} width="45%">
+          {t("wallet.deposit.title")}
+        </Button>
+        <Button onPress={goToWithdrawalScreen} width="45%" variant="outline">
+          {t("wallet.withdraw.title")}
+        </Button>
+      </Stack>
+
+      <Typography size="h3" style={styles.title}>
+        {t("wallet.profits")}
+      </Typography>
+
+      <View style={styles.profits}>
+        {Object.keys(wallet.profitSummary).map((key, index) => {
+          const value = wallet.profitSummary[key as ProfitSummaryRange]
+          const positive = value >= 0
+          const parsedValue = positive ? `+${value}%` : `${value}%`
+          return (
+            <View
+              key={`${key}-${index}`}
+              style={[styles.profitRow, { borderBottomColor: colors.primary[200] }]}
+            >
+              <Typography size="mini" weight="bold">
+                {t(`wallet.${key as ProfitSummaryRange}`)}
+              </Typography>
+              <View style={styles.profitValue}>
+                <Icon
+                  color={positive ? colors.success[400] : colors.error[400]}
+                  name={positive ? "arrow-alt-circle-up" : "arrow-alt-circle-down"}
+                />
+                <Typography
+                  color={positive ? colors.success[400] : colors.error[400]}
+                  size="mini"
+                  weight="bold"
+                >
+                  {parsedValue}
+                </Typography>
+              </View>
+            </View>
+          )
+        })}
+      </View>
     </RootView>
   )
 }
@@ -35,5 +120,31 @@ export const Wallet: FC<WalletProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  title: {
+    marginBottom: 16,
+  },
+  balance: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+  unit: {
+    marginBottom: 8,
+    lineHeight: 60,
+  },
+  buttonContainer: {
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  profits: {},
+  profitRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  profitValue: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 })

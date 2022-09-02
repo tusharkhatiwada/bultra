@@ -20,18 +20,22 @@ export const accentColors = {
   gold: "#FFC93E",
 }
 
-const toastColors = (theme: "light" | "dark") => ({
+const toastColors = () => ({
   error: {
-    300: accentColors.red[theme],
+    300: accentColors.red.light,
+    400: accentColors.red.dark,
   },
   info: {
-    300: accentColors.blue[theme],
+    300: accentColors.blue.light,
+    400: accentColors.blue.dark,
   },
   success: {
-    300: accentColors.green[theme],
+    300: accentColors.green.light,
+    400: accentColors.green.dark,
   },
   warning: {
-    300: accentColors.yellow[theme],
+    300: accentColors.yellow.light,
+    400: accentColors.yellow.dark,
   },
 })
 
@@ -63,5 +67,5 @@ export const colors = {
   accentColors, // TODO:  Type this correctly
 } as const
 
-export const lightColors = { ...colors, ...toastColors("light") }
-export const darkColors = { ...colors, ...toastColors("dark") }
+export const lightColors = { ...colors, ...toastColors() }
+export const darkColors = { ...colors, ...toastColors() }
