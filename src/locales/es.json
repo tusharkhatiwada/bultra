@@ -82,7 +82,12 @@
       "lastMonth": "Último mes",
 
       "deposit": {
-        "title": "Depositar"
+        "title": "Depositar",
+        "description": "Añade dinero de tu cartera personal y úsalo para seguir invirtiendo en cryptos:",
+        "network": "Red",
+        "selectNetwork": "Selecciona red",
+        "walletAddress": "Dirección de Cartera",
+        "cta": "Finalizar depósito"
       },
 
       "withdraw": {
@@ -194,7 +199,7 @@
           "network": "Red",
           "label": "Seleccionar una red",
           "cta": "Seleccionar red",
-          "walletId": "ID de Cartera",
+          "walletAddress": "Dirección de Cartera",
           "copy-button": "Copiar ID de la cartera",
           "copy-info": "ID de Cartera copiada al portapapeles.",
           "info": "Si transfieres mas de <strong>{{price}} USDT</strong>, el resto podrás usarlo para empezara invertir."

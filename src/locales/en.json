@@ -82,7 +82,12 @@
       "lastMonth": "Last month",
 
       "deposit": {
-        "title": "Deposit"
+        "title": "Deposit",
+        "description": "Add money from your Personal Wallet and use it to continue investing in cryptos:",
+        "network": "Network",
+        "selectNetwork": "Select network",
+        "walletAddress": "Wallet address",
+        "cta": "Finish deposit"
       },
 
       "withdraw": {
@@ -193,7 +198,7 @@
           "network": "Network",
           "label": "Choose a network",
           "cta": "Choose network",
-          "walletId": "Wallet ID",
+          "walletAddress": "Wallet address",
           "copy-button": "Copy Wallet ID to the clipboard",
           "copy-info": "Wallet ID copied to the clipboard.",
           "info": "If you transfer more than <strong>{{price}} USDT</strong>, the remaining money will be used for investment purposes."

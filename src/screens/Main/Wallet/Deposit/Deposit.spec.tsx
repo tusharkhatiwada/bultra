@@ -1,10 +1,13 @@
-import { render } from 'tests/app-tests-utils'
-import { Deposit } from './Deposit'
+import { Deposit, DepositProps } from "./Deposit"
 
-describe('Deposit', () => {
-  it('displays the default message', async () => {
-    const { getByText } = await render(<Deposit />)
+import { render } from "tests/app-tests-utils"
 
-    expect(getByText('This is the Deposit component!')).toBeTruthy()
+const props = {} as DepositProps
+
+describe("Deposit", () => {
+  it("displays the default message", async () => {
+    const { getByText } = await render(<Deposit {...props} />)
+
+    expect(getByText("wallet.deposit.description")).toBeTruthy()
   })
 })

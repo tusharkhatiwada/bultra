@@ -89,11 +89,12 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
           bottomLabel={t("plans.selectSubscription.deposit.label")}
           cta={t("plans.selectSubscription.deposit.cta")}
           options={networks}
-          defaultValue={selectedNetwork}
+          selectedValue={selectedNetwork}
+          defaultValue={networks[0].value}
           onChange={(value) => setSelectedNetwork(value as NetworkTypes)}
         />
         <TextInput
-          label={t("translation:plans.selectSubscription.deposit.walletId")}
+          label={t("translation:plans.selectSubscription.deposit.walletAddress")}
           name="walletId"
           value={walletID}
           isDisabled

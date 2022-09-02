@@ -24,7 +24,7 @@ export type SelectProps = ISelectProps & {
   options: ISelectItemProps[]
   onChange: (value: string) => void
   placeholder?: string
-  defaultValue?: string
+  value?: string
   message?: string
   isRequired?: boolean
   custom?: boolean
@@ -35,7 +35,7 @@ export const Select: FC<SelectProps> = ({
   cta,
   bottomLabel,
   options,
-  defaultValue,
+  value,
   placeholder,
   message,
   isRequired,
@@ -46,7 +46,7 @@ export const Select: FC<SelectProps> = ({
   const { colors } = useTheme()
   const { isOpen, onOpen, onClose } = useDisclose()
 
-  const selectedOption = options.find((option) => option.value === defaultValue)
+  const selectedOption = options.find((option) => option.value === value)
 
   return (
     <FormControl w="100%" isRequired={isRequired} isInvalid={!!message} style={styles.container}>
@@ -62,7 +62,7 @@ export const Select: FC<SelectProps> = ({
             {selectedOption ? (
               <Typography size="mini">{selectedOption.label}</Typography>
             ) : (
-              <Typography color="primary.400" size="mini">
+              <Typography color="primary.400" size="small">
                 {placeholder || "Select..."}
               </Typography>
             )}
@@ -77,7 +77,7 @@ export const Select: FC<SelectProps> = ({
             closeBottomSheet={onClose}
             options={options}
             onChange={onChange}
-            value={defaultValue}
+            value={value}
             {...rest}
           />
         </>
@@ -87,7 +87,7 @@ export const Select: FC<SelectProps> = ({
           accessibilityLabel={label}
           placeholder={placeholder}
           onValueChange={onChange}
-          defaultValue={defaultValue || undefined}
+          defaultValue={value || undefined}
           _selectedItem={{
             bg: "teal.600",
             endIcon: <CheckIcon size={5} />,
