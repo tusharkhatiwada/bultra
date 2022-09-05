@@ -137,7 +137,9 @@
           "invoice": {
             "title": "Adjunta una factura (jpg, pdf o png)",
             "description": "Verificaremos que la información que has introducido es verdadera.",
-            "cta": "Adjuntar factura"
+            "cta": "Adjuntar factura",
+            "success": "Factura adjuntada exitosamente",
+            "replace": "Reemplazar factura"
           },
 
           "cta": "Finalizar confirmación de identidad"
@@ -147,6 +149,7 @@
           "title": "Fotografía lado frontal",
           "capture": "Capturar",
           "retry": "Reintentar",
+          "send": "Enviar",
 
           "requestPermissions": "Necesitamos tu permiso para mostrar la cámara.",
           "requestPermissionsCta": "Solicitar permiso"

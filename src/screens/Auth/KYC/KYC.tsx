@@ -1,3 +1,5 @@
+import * as DocumentPicker from "expo-document-picker"
+
 import { DeviceEventEmitter, StyleSheet, TouchableOpacity, View } from "react-native"
 import { FC, useEffect } from "react"
 
@@ -35,6 +37,25 @@ export const KYC: FC<KYCProps> = ({ navigation }) => {
 
   const goToDocumentPhoto = () => {
     navigation.navigate(Routes.auth.document_photo)
+  }
+
+  const openFilePicker = async () => {
+    const file = await DocumentPicker.getDocumentAsync({
+      type: "*/*",
+      copyToCacheDirectory: true,
+      multiple: false,
+    })
+
+    if (file.type === "success") {
+      setValue("invoice", file)
+    }
+  }
+
+  const getBackgroundColors = (isSuccess: boolean) => {
+    return {
+      borderColor: colors.primary[300],
+      backgroundColor: isSuccess ? colors.secondary[100] : colors.primary[100],
+    }
   }
 
   useEffect(() => {
@@ -86,36 +107,24 @@ export const KYC: FC<KYCProps> = ({ navigation }) => {
         </Typography>
 
         <TouchableOpacity accessibilityRole="button" onPress={goToDocumentPhoto}>
-          {values.documentPhoto ? (
-            <View
-              style={[
-                styles.box,
-                {
-                  borderColor: colors.primary[300],
-                  backgroundColor: colors.secondary[100],
-                },
-              ]}
-            >
-              <Icon name="check-circle" />
-              <Typography>{t("wallet.kyc.form.documentPhoto.success")}</Typography>
-              <Typography weight="semibold">
-                {t("wallet.kyc.form.documentPhoto.replace")}
-              </Typography>
-            </View>
-          ) : (
-            <View
-              style={[
-                styles.box,
-                {
-                  borderColor: colors.primary[300],
-                  backgroundColor: colors.primary[100],
-                },
-              ]}
-            >
-              <Icon name="camera" />
-              <Typography>{t("wallet.kyc.form.documentPhoto.cta")}</Typography>
-            </View>
-          )}
+          <View style={[styles.box, getBackgroundColors(Boolean(values.documentPhoto))]}>
+            {values.documentPhoto ? (
+              <>
+                <Icon name="check-circle" />
+                <Typography style={styles.title}>
+                  {t("wallet.kyc.form.documentPhoto.success")}
+                </Typography>
+                <Typography weight="semibold">
+                  {t("wallet.kyc.form.documentPhoto.replace")}
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Icon name="camera" />
+                <Typography>{t("wallet.kyc.form.documentPhoto.cta")}</Typography>
+              </>
+            )}
+          </View>
         </TouchableOpacity>
 
         <TextInput
@@ -124,12 +133,32 @@ export const KYC: FC<KYCProps> = ({ navigation }) => {
           {...getTextFieldProps("address")}
         />
 
-        {/* <Typography size="small" style={styles.title}>
+        <Typography size="small" style={styles.title}>
           {t("wallet.kyc.form.invoice.title")}
         </Typography>
         <Typography size="mini" color="primary.400" style={styles.description}>
           {t("wallet.kyc.form.invoice.description")}
-        </Typography> */}
+        </Typography>
+
+        <TouchableOpacity accessibilityRole="button" onPress={openFilePicker}>
+          <View style={[styles.box, getBackgroundColors(Boolean(values.invoice))]}>
+            {values.invoice ? (
+              <>
+                <Icon name="check-circle" />
+                <Typography style={styles.title}>{t("wallet.kyc.form.invoice.success")}</Typography>
+                <Typography size="mini" align="center" numberOfLines={2} style={styles.description}>
+                  {values.invoice.name}
+                </Typography>
+                <Typography weight="semibold">{t("wallet.kyc.form.invoice.replace")}</Typography>
+              </>
+            ) : (
+              <>
+                <Icon name="file-upload" />
+                <Typography>{t("wallet.kyc.form.invoice.cta")}</Typography>
+              </>
+            )}
+          </View>
+        </TouchableOpacity>
 
         <Button onPress={() => handleSubmit()} isDisabled={!dirty || !isValid}>
           {t("wallet.kyc.form.cta")}
@@ -158,9 +187,11 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 4,
-    padding: 32,
+    paddingVertical: 32,
+    paddingHorizontal: 16,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 24,
+    textAlign: "center",
   },
 })

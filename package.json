@@ -46,6 +46,7 @@
     "expo-camera": "~12.2.0",
     "expo-clipboard": "^3.1.0",
     "expo-constants": "~13.1.1",
+    "expo-document-picker": "~10.2.1",
     "expo-font": "~10.1.0",
     "expo-linking": "~3.1.0",
     "expo-localization": "13.0.0",

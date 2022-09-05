@@ -137,7 +137,9 @@
           "invoice": {
             "title": "Upload an invoice (jpg, pdf or png)",
             "description": "We will verify that the information you have entered is true.",
-            "cta": "Upload an invoice"
+            "cta": "Upload an invoice",
+            "success": "Document uploaded successfully",
+            "replace": "Replace document"
           },
 
           "cta": "Finish identity confirmation"
@@ -147,6 +149,7 @@
           "title": "Photograph front side",
           "capture": "Capture",
           "retry": "Retry",
+          "send": "Send",
 
           "requestPermissions": "We need your permission to show the camera.",
           "requestPermissionsCta": "Request permissions"

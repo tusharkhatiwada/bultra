@@ -22,7 +22,8 @@
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.fastgrowing.app",
       "supportsTablet": true,
-      "icon": "./src/assets/images/logo-app.png"
+      "icon": "./src/assets/images/logo-app.png",
+      "usesIcloudStorage": false
     },
     "android": {
       "versionCode": 0,
@@ -40,6 +41,7 @@
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
-    }
+    },
+    "plugins": ["expo-document-picker"]
   }
 }
