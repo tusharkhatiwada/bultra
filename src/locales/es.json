@@ -21,6 +21,9 @@
       "phoneInput": {
         "placeholder": "Introduce tu teléfono",
         "invalid": "Número de teléfono no válido"
+      },
+      "numberInput": {
+        "2decimals": "La cantidad debe de contener únicamente 2 digitos decimales"
       }
     },
 
@@ -96,7 +99,16 @@
       },
 
       "withdraw": {
-        "title": "Retirar"
+        "title": "Retirar",
+        "description": "La cantidad retirada no se volverá a utilizar para invertir.",
+        "network": "Red",
+        "selectNetwork": "Selecciona red",
+        "walletAddress": "Dirección de Cartera",
+        "amount": "Cantidad de USDT a retirar",
+        "withdrawWarning": "Si la cantidad de USDT a retirar es equivalente a 1 o mas BTC, necesitarás verificar tu identidad con tu documento nacional y una factura que muestre su residencia actual.",
+        "success": "Revisaremos la cantidad de USDT que va a retirar y lo recibirá en el menor tiempo posible.",
+        "error": "Ha habido un error mientras se enviava la solicitud de retirada:",
+        "cta": "Terminar retirada"
       },
 
       "kyc": {

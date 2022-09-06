@@ -7,6 +7,7 @@ import { createGetWalletFake } from "./wallet/fake/createGetWalletFake"
 import { createLoginFake } from "./auth/fake/createLoginFake"
 import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
+import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
 
 export function createApiFake(): Api {
   return {
@@ -25,6 +26,7 @@ export function createApiFake(): Api {
     },
     wallet: {
       getWallet: createGetWalletFake(),
+      withdrawalRequest: createWithdrawalRequestFake(),
     },
   }
 }

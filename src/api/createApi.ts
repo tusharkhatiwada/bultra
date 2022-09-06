@@ -11,6 +11,7 @@ import { createGetWalletFake } from "./wallet/fake/createGetWalletFake"
 import { createLoginFake } from "./auth/fake/createLoginFake"
 import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
+import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -73,6 +74,7 @@ export function createApi(offline: boolean): Api {
     },
     wallet: {
       getWallet: createGetWalletFake(),
+      withdrawalRequest: createWithdrawalRequestFake(),
     },
   }
 }

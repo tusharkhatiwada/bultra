@@ -21,6 +21,9 @@
       "phoneInput": {
         "placeholder": "Introduce your phone number",
         "invalid": "Invalid phone number"
+      },
+      "numberInput": {
+        "2decimals": "The amount should be a decimal with maximum two digits after comma"
       }
     },
 
@@ -96,7 +99,16 @@
       },
 
       "withdraw": {
-        "title": "Withdraw"
+        "title": "Withdraw",
+        "description": "The amount withdrawn will no longer be used for investment purposes.",
+        "network": "Network",
+        "selectNetwork": "Select network",
+        "walletAddress": "Wallet address",
+        "amount": "USDT amount to withdraw",
+        "withdrawWarning": "If the USDT withdrawal is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
+        "success": "We will check the USDT amount you have withdrawn and you will receive it back shortly.",
+        "error": "There was an error while sending the withdrawal request:",
+        "cta": "Finish withdrawal"
       },
 
       "kyc": {
