@@ -1,5 +1,7 @@
 import { PlanTypes, SubscriptionTypes } from "models/Plans"
 
+import { CameraCapturedPicture } from "expo-camera"
+import { DocumentResult } from "expo-document-picker"
 import { NetworkTypes } from "models/Networks"
 
 export namespace Login {
@@ -31,8 +33,22 @@ export namespace PlanSubscription {
   export type Request = (params: PlanSubscription.Params) => Promise<PlanSubscription.Response>
 }
 
+export namespace KYC {
+  export type Params = {
+    name: string
+    documentType: string
+    documentNumber: string
+    address: string
+    documentPhoto: CameraCapturedPicture
+    invoice: Exclude<DocumentResult, { type: "cancel" }>
+  }
+  export type Response = void
+  export type Request = (params: KYC.Params) => Promise<KYC.Response>
+}
+
 export interface AuthApi {
   login: Login.Request
   createAccount: CreateAccount.Request
   planSubscription: PlanSubscription.Request
+  kyc: KYC.Request
 }

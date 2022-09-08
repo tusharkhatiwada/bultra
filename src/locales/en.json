@@ -108,7 +108,8 @@
         "withdrawWarning": "If the USDT withdrawal is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
         "success": "We will check the USDT amount you have withdrawn and you will receive it back shortly.",
         "error": "There was an error while sending the withdrawal request:",
-        "cta": "Finish withdrawal"
+        "cta": "Finish withdrawal",
+        "goToKYCForm": "Go to KYC form"
       },
 
       "kyc": {
@@ -154,7 +155,7 @@
             "replace": "Replace document"
           },
 
-          "cta": "Finish identity confirmation"
+          "cta": "Finish withdrawal"
         },
 
         "documentPhoto": {

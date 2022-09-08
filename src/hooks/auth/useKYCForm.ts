@@ -3,22 +3,23 @@ import * as y from "yup"
 import { UseFormProps, useForm } from "hooks/useForm"
 
 import { CameraCapturedPicture } from "expo-camera"
+import { DocumentResult } from "expo-document-picker"
 
 type KYCForm = {
   name: string
   documentType: string
   documentNumber: string
   address: string
-  documentPhoto?: CameraCapturedPicture
-  invoice?: File
+  documentPhoto: CameraCapturedPicture
+  invoice: Exclude<DocumentResult, { type: "cancel" }>
 }
 
-const DEFAULT_VALUES: KYCForm = {
+const DEFAULT_VALUES = {
   name: "",
   documentType: "",
   documentNumber: "",
   address: "",
-}
+} as KYCForm
 
 type FormProps = UseFormProps<KYCForm>
 

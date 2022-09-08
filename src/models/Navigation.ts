@@ -3,6 +3,7 @@ import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/n
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Routes } from "./Routes"
+import { WithdrawalRequest } from "api/domain/wallet"
 
 export type RootStackParamList = {
   [Routes.home]: undefined
@@ -22,16 +23,22 @@ export type MainTabScreenProps<Screen extends keyof MainTabParamList> = Composit
   NativeStackScreenProps<RootStackParamList>
 >
 
-export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = NativeStackScreenProps<
-  AuthStackParamList,
-  Screen
+export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<AuthStackParamList, Screen>,
+  NativeStackScreenProps<RootStackParamList>
 >
 
 export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> =
-  NativeStackScreenProps<ProfileStackParamList, Screen>
+  CompositeScreenProps<
+    NativeStackScreenProps<ProfileStackParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >
 
 export type WalletStackScreenProps<Screen extends keyof WalletStackParamList> =
-  NativeStackScreenProps<WalletStackParamList, Screen>
+  CompositeScreenProps<
+    NativeStackScreenProps<WalletStackParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >
 
 export type MainTabParamList = {
   [Routes.main.home]: undefined
@@ -43,7 +50,7 @@ export type MainTabParamList = {
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
   [Routes.auth.create_account]: undefined
-  [Routes.auth.kyc]: undefined
+  [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined
   [Routes.auth.plans]: undefined
 }

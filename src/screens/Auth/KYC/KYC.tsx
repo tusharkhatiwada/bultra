@@ -6,6 +6,7 @@ import { FC, useEffect } from "react"
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CameraCapturedPicture } from "expo-camera"
+import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
 import { Icon } from "components/Icon"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
@@ -13,25 +14,48 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Select } from "components/Select"
 import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
+import { useKYC } from "hooks/auth/useKYC"
 import { useKYCForm } from "hooks/auth/useKYCForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
+import { useWithdrawalRequest } from "hooks/wallet/useWithdrawalRequest"
 
 export type KYCProps = AuthStackScreenProps<typeof Routes.auth.kyc>
 
-export const KYC: FC<KYCProps> = ({ navigation }) => {
+export const KYC: FC<KYCProps> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { bottom } = useSafeAreaInsets()
   const { colors } = useTheme()
 
+  const withdrawalRequestParams = route.params
+
+  const { kyc } = useKYC()
+  const { withdrawalRequest } = useWithdrawalRequest()
+  const { showToast } = useToastContext()
+
   const { getTextFieldProps, getFieldProps, setValue, values, handleSubmit, dirty, isValid } =
     useKYCForm({
       onSubmit: (values) => {
-        console.log({ values })
-        // TODO: Call endpoint and show toast
-        navigation.goBack()
+        kyc(values, {
+          onSuccess: () => {
+            withdrawalRequest(withdrawalRequestParams, {
+              onSuccess: () => {
+                showToast({
+                  type: ToastType.success,
+                  title: "Success",
+                  description: t("wallet.withdraw.success"),
+                })
+                navigation.dispatch(
+                  CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+                )
+              },
+            })
+          },
+        })
       },
     })
 

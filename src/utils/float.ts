@@ -1,8 +1,11 @@
 import * as Localization from "expo-localization"
 
 export const parseFloatWithLocale = (value: string) => {
-  const separationToken = Localization.digitGroupingSeparator
-  const decimalToken = Localization.decimalSeparator
+  const separationToken = `/${Localization.digitGroupingSeparator}/`
+  const decimalToken = `/${Localization.decimalSeparator}/`
 
-  return parseFloat(value.replaceAll(separationToken, "").replaceAll(decimalToken, "."))
+  const separationTokenRegExp = new RegExp(separationToken, "g")
+  const decimalTokenRegExp = new RegExp(decimalToken, "g")
+
+  return parseFloat(value.replace(separationTokenRegExp, "").replace(decimalTokenRegExp, "."))
 }
