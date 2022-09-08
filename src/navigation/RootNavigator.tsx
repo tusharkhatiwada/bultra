@@ -1,3 +1,7 @@
+import * as Linking from "expo-linking"
+
+import { useEffect, useState } from "react"
+
 import { AuthNavigator } from "./AuthNavigator"
 import { Home } from "screens/Main/Home"
 import { MainNavigator } from "./MainNavigator"
@@ -6,14 +10,34 @@ import NotFoundScreen from "../screens/NotFoundScreen"
 import { RootStackParamList } from "../models/Navigation"
 import { Routes } from "models/Routes"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { handleLinkingUrl } from "utils/linking"
 import { useAuthContext } from "context/AuthContext"
+import { useNavigation } from "@react-navigation/native"
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export function RootNavigator() {
+  const [deepLinkRoute, setDeepLinkRoute] = useState<string | null>("")
+
   const { isLoggedIn } = useAuthContext()
 
+  const navigation = useNavigation()
+
   const initialRouteName = isLoggedIn ? Routes.main.navigator : Routes.home
+
+  useEffect(() => {
+    Linking.getInitialURL().then((url) => setDeepLinkRoute(url))
+
+    const event = Linking.addEventListener("url", (url) => handleLinkingUrl(navigation, url))
+
+    return () => event.remove()
+  }, [])
+
+  useEffect(() => {
+    if (deepLinkRoute) {
+      handleLinkingUrl(navigation, deepLinkRoute)
+    }
+  }, [navigation, deepLinkRoute])
 
   return (
     <Stack.Navigator

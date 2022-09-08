@@ -23,7 +23,8 @@
       "bundleIdentifier": "com.fastgrowing.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",
-      "usesIcloudStorage": false
+      "usesIcloudStorage": false,
+      "associatedDomains": ["applinks:fastgrowing.com"]
     },
     "android": {
       "versionCode": 0,
@@ -37,7 +38,21 @@
           "visible": true,
           "barStyle": "dark-content"
         }
-      }
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.fastgrowing.com",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
