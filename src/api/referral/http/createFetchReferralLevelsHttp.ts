@@ -4,9 +4,9 @@ import { FetchReferralLevels } from "api/domain/referral"
 import { ReferralLevel } from "models/Referrals"
 
 export const createFetchReferralLevelsHttp =
-  (client: AxiosInstance): FetchReferralLevels.Request =>
+  (params: FetchReferralLevels.Params, client: AxiosInstance): FetchReferralLevels.Request =>
   async () => {
-    const { data }: AxiosResponse<ReferralLevel[]> = await client.get("/v1/referrals/")
+    const { data }: AxiosResponse<ReferralLevel[]> = await client.get("/v1/referrals/", { params })
 
     return data
   }
