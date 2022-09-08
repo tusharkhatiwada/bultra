@@ -1,0 +1,1 @@
+export { WalletHistoryList } from './WalletHistoryList'

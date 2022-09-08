@@ -10,3 +10,10 @@ export type ProfitSummary = {
   last7days: number
   lastMonth: number
 }
+
+export type WalletHistory = {
+  type: "DEPOSIT" | "WITHDRAWAL"
+  date: Date
+  amount: number
+  balance: number
+}

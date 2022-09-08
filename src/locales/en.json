@@ -112,6 +112,18 @@
         "goToKYCForm": "Go to KYC form"
       },
 
+      "history": {
+        "title": "History",
+        "deposit": "Deposit",
+        "withdrawal": "Withdrawal",
+        "filters": {
+          "thisMonth": "This month",
+          "lastMonth": "Last month",
+          "last6Months": "Last 6 months",
+          "all": "All"
+        }
+      },
+
       "kyc": {
         "title": "Confirm identity",
         "description": "For security reasons, it is necessary to validate your identity if you are withdrawing more than 1.00 BTC per day.",
