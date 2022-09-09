@@ -10,7 +10,7 @@
     "scheme": "fastgrowing",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./src/assets/images/splash-screen.png",
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
@@ -27,10 +27,10 @@
       "associatedDomains": ["applinks:fastgrowing.com"]
     },
     "android": {
-      "versionCode": 0,
+      "versionCode": 1,
       "package": "com.fastgrowing.app",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/logo-app.png",
+        "foregroundImage": "./src/assets/images/logo-android.png",
         "backgroundColor": "#000000"
       },
       "splash": {
@@ -57,6 +57,11 @@
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": ["expo-document-picker"]
+    "plugins": ["expo-document-picker"],
+    "extra": {
+      "eas": {
+        "projectId": "e7adacde-31b0-4964-82e8-11885fe97998"
+      }
+    }
   }
 }
