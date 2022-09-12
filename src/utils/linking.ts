@@ -10,10 +10,12 @@ export const handleLinkingUrl = (
   const url = typeof urlEvent === "string" ? urlEvent : urlEvent.url
   const { path, queryParams } = Linking.parse(url)
 
-  if (path) {
-    const [navigator] = path.split("/")
+  const urlPath = path?.replace("--/", "")
+
+  if (urlPath) {
+    const [navigator] = urlPath.split("/")
 
     // @ts-ignore
-    navigation.navigate(navigator, { screen: path, params: queryParams })
+    navigation.navigate(navigator, { screen: urlPath, params: queryParams })
   }
 }

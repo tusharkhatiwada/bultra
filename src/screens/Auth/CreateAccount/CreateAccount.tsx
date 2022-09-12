@@ -1,9 +1,9 @@
+import { FC, useEffect } from "react"
 import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
-import { FC } from "react"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -18,7 +18,9 @@ import { useTheme } from "native-base"
 
 export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_account>
 
-export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
+export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => {
+  const referralId = route?.params?.referralId
+
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
 
@@ -27,7 +29,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
-  const { getTextFieldProps, handleSubmit, dirty, isValid } = useCreateAccountForm({
+  const { getTextFieldProps, handleSubmit, dirty, isValid, setValue } = useCreateAccountForm({
     onSubmit: ({ email, password, referralId }) => {
       createAccount(
         { email, password, referralId },
@@ -46,6 +48,12 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation }) => {
   const goToLogin = () => {
     navigation.navigate(Routes.auth.login)
   }
+
+  useEffect(() => {
+    if (referralId) {
+      setValue("referralId", referralId)
+    }
+  }, [referralId])
 
   return (
     <RootView

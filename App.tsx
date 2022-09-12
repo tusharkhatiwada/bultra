@@ -1,7 +1,7 @@
 import "./src/config/i18n"
 import "./src/config/yupLocale"
 
-import { LogBox, SafeAreaView, View } from "react-native"
+import { LogBox, View } from "react-native"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { ApiProvider } from "context/ApiContext"
@@ -43,13 +43,11 @@ export default function App() {
               <NativeBaseProvider theme={createTheme(colorScheme)}>
                 <ToastProvider>
                   <View style={{ backgroundColor }}>
-                    <SafeAreaView>
-                      <StatusBar
-                        translucent
-                        backgroundColor={backgroundColor}
-                        style={colorScheme === "dark" ? "light" : "dark"}
-                      />
-                    </SafeAreaView>
+                    <StatusBar
+                      translucent
+                      backgroundColor={backgroundColor}
+                      style={colorScheme === "dark" ? "light" : "dark"}
+                    />
                   </View>
                   <Navigation colorScheme={colorScheme} />
                 </ToastProvider>
