@@ -45,6 +45,17 @@
       "signUp": "Don't have an account yet? <bold>Sign up</bold>"
     },
 
+    "forgotPassword": {
+      "title": "Forgot password",
+      "description": "Enter the email address associated with your account and we will send you an email so you can recover your password.",
+      "submit": "Send email",
+
+      "toast": {
+        "title": "We have sent you an email",
+        "description": "To make sure that you are the owner of the email we have sent you an email. Open it and reset your password."
+      }
+    },
+
     "createAccount": {
       "title": "Create an account",
 

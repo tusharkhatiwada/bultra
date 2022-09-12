@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
@@ -43,8 +43,12 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     },
   })
 
-  const goTologin = () => {
+  const goToSignUp = () => {
     navigation.navigate(Routes.auth.create_account)
+  }
+
+  const goToForgotPassword = () => {
+    navigation.navigate(Routes.auth.forgot_password)
   }
 
   return (
@@ -75,9 +79,11 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             {...getTextFieldProps("password")}
           />
 
-          <Typography textAlign="right" weight="semibold" style={styles.forgotPassword}>
-            {t("login.forgotPassword")}
-          </Typography>
+          <TouchableOpacity onPress={goToForgotPassword}>
+            <Typography textAlign="right" weight="semibold" style={styles.forgotPassword}>
+              {t("login.forgotPassword")}
+            </Typography>
+          </TouchableOpacity>
         </View>
 
         <View>
@@ -93,7 +99,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             <Trans
               i18nKey="login.signUp"
               components={{
-                bold: <Typography color="black" weight="semibold" onPress={goTologin} />,
+                bold: <Typography color="black" weight="semibold" onPress={goToSignUp} />,
               }}
             />
           </Typography>

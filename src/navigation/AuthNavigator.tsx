@@ -1,6 +1,7 @@
 import { AuthStackParamList } from "../models/Navigation"
 import { CreateAccount } from "screens/Auth/CreateAccount"
 import { DocumentPhoto } from "screens/Auth/DocumentPhoto"
+import { ForgotPassword } from "screens/Auth/ForgotPassword"
 import { Header } from "components/Header"
 import { KYC } from "screens/Auth/KYC"
 import { Login } from "screens/Auth/Login"
@@ -22,6 +23,15 @@ export function AuthNavigator() {
         options={{
           header: ({ navigation }) => (
             <Header navigation={navigation} canGoBack title={t("login.title")} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.auth.forgot_password}
+        component={ForgotPassword}
+        options={{
+          header: ({ navigation }) => (
+            <Header navigation={navigation} canGoBack title={t("forgotPassword.title")} />
           ),
         }}
       />

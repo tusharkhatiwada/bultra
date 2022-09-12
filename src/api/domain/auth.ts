@@ -2,6 +2,7 @@ import { PlanTypes, SubscriptionTypes } from "models/Plans"
 
 import { CameraCapturedPicture } from "expo-camera"
 import { DocumentResult } from "expo-document-picker"
+import { ForgotPassword } from "screens/Auth/ForgotPassword"
 import { NetworkTypes } from "models/Networks"
 
 export namespace Login {
@@ -11,6 +12,14 @@ export namespace Login {
   }
   export type Response = string
   export type Request = (params: Login.Params) => Promise<Login.Response>
+}
+
+export namespace ForgotPassword {
+  export type Params = {
+    email: string
+  }
+  export type Response = void
+  export type Request = (params: ForgotPassword.Params) => Promise<ForgotPassword.Response>
 }
 
 export namespace CreateAccount {
@@ -48,6 +57,7 @@ export namespace KYC {
 
 export interface AuthApi {
   login: Login.Request
+  forgotPassword: ForgotPassword.Request
   createAccount: CreateAccount.Request
   planSubscription: PlanSubscription.Request
   kyc: KYC.Request

@@ -45,6 +45,17 @@
       "signUp": "¿No tienes cuenta todavía? <bold>Regístrate</bold>"
     },
 
+    "forgotPassword": {
+      "title": "Has olvidado tu contraseña",
+      "description": "Ingresa el email asociado con tu cuenta y te enviaremos un email para recuperar tu contraseña.",
+      "submit": "Enviar email",
+
+      "toast": {
+        "title": "Te hemos enviado un email",
+        "description": "Para asegurar que eres el dueño del email te hemos enviado un email. Ábrelo para resetear tu contraseña."
+      }
+    },
+
     "createAccount": {
       "title": "Crear una cuenta",
 

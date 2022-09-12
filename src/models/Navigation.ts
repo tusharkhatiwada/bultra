@@ -50,6 +50,7 @@ export type MainTabParamList = {
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
   [Routes.auth.create_account]: { referralId?: string } | undefined
+  [Routes.auth.forgot_password]: undefined
   [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined
   [Routes.auth.plans]: undefined

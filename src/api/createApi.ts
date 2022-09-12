@@ -7,6 +7,7 @@ import { createChangePasswordFake } from "./profile/fake/createChangePasswordFak
 import { createCreateAccountFake } from "./auth/fake/createCreateAccountFake"
 import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferralLevelsFake"
 import { createFetchWalletHistoryFake } from "./wallet/fake/createFetchWalletHistoryFake"
+import { createForgotPasswordFake } from "./auth/fake/createForgotPasswordFake"
 import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
 import { createGetWalletFake } from "./wallet/fake/createGetWalletFake"
 import { createKYCFake } from "./auth/fake/createKYCFake"
@@ -63,6 +64,7 @@ export function createApi(offline: boolean): Api {
   return {
     auth: {
       login: createLoginFake(),
+      forgotPassword: createForgotPasswordFake(),
       createAccount: createCreateAccountFake(),
       planSubscription: createPlanSubscriptionFake(),
       kyc: createKYCFake(),
