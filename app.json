@@ -15,16 +15,21 @@
       "backgroundColor": "#000000"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/e7adacde-31b0-4964-82e8-11885fe97998"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.fastgrowing.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",
       "usesIcloudStorage": false,
-      "associatedDomains": ["applinks:fastgrowing.com"]
+      "associatedDomains": [
+        "applinks:fastgrowing.com"
+      ]
     },
     "android": {
       "versionCode": 1,
@@ -50,18 +55,26 @@
               "pathPrefix": "/"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": ["expo-document-picker"],
+    "plugins": [
+      "expo-document-picker"
+    ],
     "extra": {
       "eas": {
         "projectId": "e7adacde-31b0-4964-82e8-11885fe97998"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
