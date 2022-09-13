@@ -56,6 +56,28 @@
       }
     },
 
+    "resetPassword": {
+      "title": "Recuperación de contraseña",
+
+      "form": {
+        "password": {
+          "label": "Nueva contraseña",
+          "placeholder": "Escribe tu nueva contraseña"
+        },
+        "repeatPassword": {
+          "label": "Confirmar contraseña",
+          "placeholder": "Confirma tu nueva contraseña"
+        },
+
+        "submit": "Confirmar contraseña"
+      },
+
+      "toast": {
+        "title": "Contraseña cambiada exitosamente",
+        "description": "Has cambiado tu contraseña exitosamente. Utilizala para iniciar sesión."
+      }
+    },
+
     "createAccount": {
       "title": "Crear una cuenta",
 

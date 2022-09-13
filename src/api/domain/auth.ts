@@ -22,6 +22,15 @@ export namespace ForgotPassword {
   export type Request = (params: ForgotPassword.Params) => Promise<ForgotPassword.Response>
 }
 
+export namespace ResetPassword {
+  export type Params = {
+    password: string
+    token: string
+  }
+  export type Response = void
+  export type Request = (params: ResetPassword.Params) => Promise<ResetPassword.Response>
+}
+
 export namespace CreateAccount {
   export type Params = {
     email: string
@@ -58,6 +67,7 @@ export namespace KYC {
 export interface AuthApi {
   login: Login.Request
   forgotPassword: ForgotPassword.Request
+  resetPassword: ResetPassword.Request
   createAccount: CreateAccount.Request
   planSubscription: PlanSubscription.Request
   kyc: KYC.Request

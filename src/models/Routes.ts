@@ -5,6 +5,7 @@ export const Routes = {
     login: "auth/login",
     create_account: "auth/create_account",
     forgot_password: "auth/forgot_password",
+    reset_password: "auth/reset_password",
     kyc: "auth/kyc",
     document_photo: "auth/document_photo",
     plans: "auth/plans",

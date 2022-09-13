@@ -56,6 +56,28 @@
       }
     },
 
+    "resetPassword": {
+      "title": "Password recovery",
+
+      "form": {
+        "password": {
+          "label": "New password",
+          "placeholder": "Write your new password"
+        },
+        "repeatPassword": {
+          "label": "Confirm password",
+          "placeholder": "Confirm your new password"
+        },
+
+        "submit": "Confirm password"
+      },
+
+      "toast": {
+        "title": "Password successfully changed",
+        "description": "You have successfully changed your password. Use it to log in."
+      }
+    },
+
     "createAccount": {
       "title": "Create an account",
 

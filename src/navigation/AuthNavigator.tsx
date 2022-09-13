@@ -6,6 +6,7 @@ import { Header } from "components/Header"
 import { KYC } from "screens/Auth/KYC"
 import { Login } from "screens/Auth/Login"
 import { Plans } from "screens/Auth/Plans"
+import { ResetPassword } from "screens/Auth/ResetPassword"
 import { Routes } from "models/Routes"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTranslation } from "react-i18next"
@@ -33,6 +34,13 @@ export function AuthNavigator() {
           header: ({ navigation }) => (
             <Header navigation={navigation} canGoBack title={t("forgotPassword.title")} />
           ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.auth.reset_password}
+        component={ResetPassword}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen
