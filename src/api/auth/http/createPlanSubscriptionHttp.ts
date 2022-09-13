@@ -3,10 +3,9 @@ import { PlanSubscription } from "api/domain/auth"
 
 export const createPlanSubscriptionHttp =
   (client: AxiosInstance): PlanSubscription.Request =>
-  async ({ type, subscription, network }) => {
+  async ({ type, network }) => {
     await client.post("/v1/auth/plan-subscription", {
       type,
-      subscription,
       network,
     })
   }

@@ -293,7 +293,8 @@
         "PREMIUM": "Premium Plan",
         "VIP": "VIP Plan",
 
-        "yield": "{{from}} - {{to}}% <small>monthly yield</small>"
+        "fee": "{{fee}}% <small>monthly fee</small>",
+        "price": "{{price}} <small>USDT</small>"
       },
 
       "selectSubscription": {

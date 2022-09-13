@@ -2,22 +2,19 @@ import * as Clipboard from "expo-clipboard"
 
 import { Dispatch, FC, SetStateAction } from "react"
 import { NetworkList, NetworkTypes } from "models/Networks"
-import { PlanTypes, Plans, SubscriptionTypes } from "models/Plans"
+import { PlanTypes, Plans } from "models/Plans"
 import { ScrollView, StyleSheet, View } from "react-native"
-import { Stack, useTheme } from "native-base"
 import { Trans, useTranslation } from "react-i18next"
 
 import { Select } from "components/Select"
-import { SubscriptionCard } from "./SubscriptionCard"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
+import { useTheme } from "native-base"
 import { useToastContext } from "context/ToastContext"
 
 export type SelectSubscriptionProps = {
   selectedPlan: PlanTypes
-  selectedSubscription: SubscriptionTypes
-  setSelectedSubscription: Dispatch<SetStateAction<SubscriptionTypes>>
   selectedNetwork: NetworkTypes
   setSelectedNetwork: Dispatch<SetStateAction<NetworkTypes>>
 }
@@ -26,8 +23,6 @@ const walletID = "FG2022-OF93PP001XT0993AR"
 
 export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   selectedPlan,
-  selectedSubscription,
-  setSelectedSubscription,
   selectedNetwork,
   setSelectedNetwork,
 }) => {
@@ -47,33 +42,9 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
     })
   }
 
-  const isSelected = (sub: SubscriptionTypes) => sub === selectedSubscription
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.padding}>
-        <Typography size="headline" weight="bold" style={styles.title}>
-          {t("plans.selectSubscription.title")}
-        </Typography>
-        <Typography color="primary.400" style={styles.description}>
-          {t("plans.selectSubscription.description")}
-        </Typography>
-        <Stack space="lg" accessibilityRole="radiogroup" direction="row">
-          <SubscriptionCard
-            selectedPlan={selectedPlan}
-            subscriptionType={SubscriptionTypes.MONTHLY}
-            selected={isSelected(SubscriptionTypes.MONTHLY)}
-            selectSubscription={setSelectedSubscription}
-          />
-
-          <SubscriptionCard
-            selectedPlan={selectedPlan}
-            subscriptionType={SubscriptionTypes.BIENNIAL}
-            selected={isSelected(SubscriptionTypes.BIENNIAL)}
-            selectSubscription={setSelectedSubscription}
-          />
-        </Stack>
-        <View style={{ ...styles.separator, backgroundColor: colors.primary[200] }} />
         <Typography size="headline" weight="bold" style={styles.title}>
           {t("plans.selectSubscription.deposit.title")}
         </Typography>
@@ -104,7 +75,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
         <Typography color={colors.primary[400]} style={styles.description}>
           <Trans
             i18nKey={`translation:plans.selectSubscription.deposit.info`}
-            values={{ price: Plans[selectedPlan].subscription[selectedSubscription] }}
+            values={{ price: Plans[selectedPlan].subscription }}
             components={{
               strong: <Typography weight="bold" color="primary.700" />,
             }}
@@ -124,12 +95,6 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 24,
-  },
-  separator: {
-    marginVertical: 16,
-    width: "100%",
-    height: 2,
-    border: 2,
   },
   padding: {
     padding: 24,

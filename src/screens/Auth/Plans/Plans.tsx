@@ -1,12 +1,12 @@
 import { DeviceEventEmitter, StyleSheet, View } from "react-native"
 import { FC, useEffect, useState } from "react"
-import { PlanTypes, SubscriptionTypes } from "models/Plans"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
 import { NetworkTypes } from "models/Networks"
+import { PlanTypes } from "models/Plans"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
@@ -29,7 +29,6 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
-  const [selectedSubscription, setSelectedSubscription] = useState(SubscriptionTypes.MONTHLY)
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
@@ -42,11 +41,7 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
   const handleButtonPress = () => {
     if (currentStep === TOTAL_STEPS) {
       planSubscription(
-        {
-          type: selectedPlan,
-          subscription: selectedSubscription,
-          network: selectedNetwork,
-        },
+        { type: selectedPlan, network: selectedNetwork },
         {
           onSuccess: () => {
             showToast({
@@ -102,8 +97,6 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
       {currentStep === SUBSCRIPTION_STEP && (
         <SelectSubscription
           selectedPlan={selectedPlan}
-          selectedSubscription={selectedSubscription}
-          setSelectedSubscription={setSelectedSubscription}
           selectedNetwork={selectedNetwork}
           setSelectedNetwork={setSelectedNetwork}
         />

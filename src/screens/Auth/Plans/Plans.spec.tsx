@@ -1,8 +1,8 @@
-import { PlanTypes, SubscriptionTypes } from "models/Plans"
 import { Plans, PlansProps } from "./Plans"
 import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
 
 import { NetworkTypes } from "models/Networks"
+import { PlanTypes } from "models/Plans"
 
 const props = {
   navigation: {
@@ -30,7 +30,6 @@ describe("Plans", () => {
     await waitFor(() => {
       expect(api.auth.planSubscription).toHaveBeenCalledWith({
         type: PlanTypes.VIP,
-        subscription: SubscriptionTypes.MONTHLY,
         network: NetworkTypes.BNB_SMART_CHAIN,
       })
     })

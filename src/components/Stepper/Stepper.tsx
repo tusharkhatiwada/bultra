@@ -19,7 +19,10 @@ export const Stepper: FC<StepperProps> = ({ currentStep, totalSteps }) => {
       {steps.map((_, index) => (
         <View
           key={`step-${index.toString()}`}
-          style={[styles.step, isActive(index) && { backgroundColor: colors.darkBlue[600] }]}
+          style={[
+            styles.step,
+            { backgroundColor: isActive(index) ? colors.darkBlue[600] : colors.primary[200] },
+          ]}
         />
       ))}
     </View>

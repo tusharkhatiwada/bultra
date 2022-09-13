@@ -1,9 +1,7 @@
-import { PlanTypes, SubscriptionTypes } from "models/Plans"
-
 import { CameraCapturedPicture } from "expo-camera"
 import { DocumentResult } from "expo-document-picker"
-import { ForgotPassword } from "screens/Auth/ForgotPassword"
 import { NetworkTypes } from "models/Networks"
+import { PlanTypes } from "models/Plans"
 
 export namespace Login {
   export type Params = {
@@ -44,7 +42,6 @@ export namespace CreateAccount {
 export namespace PlanSubscription {
   export type Params = {
     type: PlanTypes
-    subscription: SubscriptionTypes
     network: NetworkTypes
   }
   export type Response = void

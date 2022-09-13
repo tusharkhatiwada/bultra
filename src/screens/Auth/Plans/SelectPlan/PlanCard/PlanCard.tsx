@@ -49,7 +49,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
           selected && { ...styles.selected, backgroundColor: accentColor.light },
         ]}
       >
-        <View style={[styles.topRow, styles.rowCenter]}>
+        <View style={styles.topRow}>
           <View style={styles.rowCenter}>
             <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
               <Icon size="md" color="white" name="coins" />
@@ -68,15 +68,30 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
           </View>
         </View>
 
-        <Typography size="h3" color={selected && isDarkMode ? "black" : undefined}>
-          <Trans
-            i18nKey={"plans.selectPlan.yield"}
-            values={{ from: Plans[type].yield.from, to: Plans[type].yield.to }}
-            components={{
-              small: <Typography color="primary.500" style={styles.yield} />,
-            }}
-          />
-        </Typography>
+        <View style={styles.bottomRow}>
+          <Typography size="h3" color={selected && isDarkMode ? "black" : undefined}>
+            <Trans
+              i18nKey={"plans.selectPlan.fee"}
+              values={{ fee: Plans[type].fee }}
+              components={{
+                small: <Typography color="primary.500" style={styles.fee} />,
+              }}
+            />
+          </Typography>
+          <Typography
+            size="headline"
+            weight="bold"
+            color={selected && isDarkMode ? "black" : undefined}
+          >
+            <Trans
+              i18nKey={"plans.selectPlan.price"}
+              values={{ price: Plans[type].price }}
+              components={{
+                small: <Typography weight="semibold" style={styles.fee} />,
+              }}
+            />
+          </Typography>
+        </View>
       </RootView>
     </Pressable>
   )
@@ -103,11 +118,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
   topRow: {
+    marginBottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
+  },
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
   rowCenter: {
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "space-between",
   },
   iconCircle: {
     width: 32,
@@ -131,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: accentColors.black,
   },
-  yield: {
+  fee: {
     lineHeight: 36,
   },
 })
