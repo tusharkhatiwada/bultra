@@ -6,8 +6,8 @@ import {
   dateFilterButtons,
 } from "components/ButtonBar/constants/DateFilterButtons"
 import { FC, useState } from "react"
-import { Pressable, ScrollView, Share, StyleSheet } from "react-native"
-import { Stack, useTheme } from "native-base"
+import { Pressable, ScrollView, Share, StyleSheet, View } from "react-native"
+import { Spinner, Stack, useTheme } from "native-base"
 
 import { ButtonBar } from "components/ButtonBar"
 import { DateRange } from "models/Date"
@@ -66,7 +66,13 @@ export const Referrals: FC<ReferralsProps> = () => {
     setHistoryDateRange(result)
   }
 
-  if (!referralLevels) return null
+  if (!referralLevels) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
 
   return (
     <ScrollView>
@@ -140,5 +146,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 8,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

@@ -12,11 +12,11 @@ const props = {
 describe("Withdraw", () => {
   it("can send a withdrawal request", async () => {
     jest.spyOn(api.wallet, "withdrawalRequest")
-    const { getByLabelText } = await render(<Withdraw {...props} />)
+    const { findByLabelText } = await render(<Withdraw {...props} />)
 
-    fireEvent.changeText(getByLabelText("wallet.withdraw.walletAddress"), "AAAAAAAA")
-    fireEvent.changeText(getByLabelText("wallet.withdraw.amount"), "23.33")
-    fireEvent.press(getByLabelText("wallet.withdraw.cta"))
+    fireEvent.changeText(await findByLabelText("wallet.withdraw.walletAddress"), "AAAAAAAA")
+    fireEvent.changeText(await findByLabelText("wallet.withdraw.amount"), "23.33")
+    fireEvent.press(await findByLabelText("wallet.withdraw.cta"))
 
     await waitFor(() => {
       expect(api.wallet.withdrawalRequest).toHaveBeenCalledWith({

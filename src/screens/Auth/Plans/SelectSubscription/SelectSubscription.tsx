@@ -1,16 +1,17 @@
 import * as Clipboard from "expo-clipboard"
 
 import { Dispatch, FC, SetStateAction } from "react"
-import { NetworkList, NetworkTypes } from "models/Networks"
 import { PlanTypes, Plans } from "models/Plans"
 import { ScrollView, StyleSheet, View } from "react-native"
+import { Spinner, useTheme } from "native-base"
 import { Trans, useTranslation } from "react-i18next"
 
+import { NetworkTypes } from "models/Networks"
 import { Select } from "components/Select"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
-import { useTheme } from "native-base"
+import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useToastContext } from "context/ToastContext"
 
 export type SelectSubscriptionProps = {
@@ -30,8 +31,6 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   const { colors } = useTheme()
   const { showToast } = useToastContext()
 
-  const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
-
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
       showToast({
@@ -41,6 +40,18 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
       })
     })
   }
+
+  const { networkList } = useGetNetworkList()
+
+  if (!networkList) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
+  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
 
   return (
     <ScrollView style={styles.container}>
@@ -98,5 +109,9 @@ const styles = StyleSheet.create({
   },
   padding: {
     padding: 24,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

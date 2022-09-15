@@ -1,18 +1,18 @@
-import { Stack, useTheme } from "native-base"
+import { FC, useEffect } from "react"
+import { Spinner, Stack, useTheme } from "native-base"
+import { StyleSheet, View } from "react-native"
 
 import { Button } from "components/Button"
-import { FC } from "react"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
-import { NetworkList } from "models/Networks"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Select } from "components/Select"
-import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { WalletStackScreenProps } from "models/Navigation"
 import { parseFloatWithLocale } from "utils/float"
+import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
@@ -30,6 +30,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
   const { showToast } = useToastContext()
 
   const { withdrawalRequest } = useWithdrawalRequest()
+
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values } =
     useWithdrawalRequestForm({
       onSubmit: ({ network, amount, walletAddress }) => {
@@ -56,8 +57,6 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
       },
     })
 
-  const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
-
   const goToKYCForm = () => {
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.kyc,
@@ -73,6 +72,22 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
   const shouldGoToKYCForm = parseFloatWithLocale(values.amount) >= MAX_USTD
 
   const isDisabled = !isValid || !dirty || shouldGoToKYCForm
+
+  const { networkList } = useGetNetworkList()
+
+  useEffect(() => {
+    if (networkList) setValue("network", networkList[0].type)
+  }, [networkList])
+
+  if (!networkList) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
+  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
 
   return (
     <RootView
@@ -138,5 +153,9 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 24,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

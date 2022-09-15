@@ -4,7 +4,7 @@ import {
   dateFilterButtons,
 } from "components/ButtonBar/constants/DateFilterButtons"
 import { FC, useState } from "react"
-import { ScrollView, Stack, useTheme } from "native-base"
+import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
@@ -50,7 +50,13 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
     setHistoryDateRange(result)
   }
 
-  if (!wallet || !walletHistory) return null
+  if (!wallet || !walletHistory) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
 
   const hasPositivePercentage = wallet.profitSummary.last24hours >= 0
 
@@ -161,5 +167,9 @@ const styles = StyleSheet.create({
   },
   balanceProfit: {
     marginBottom: 8,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

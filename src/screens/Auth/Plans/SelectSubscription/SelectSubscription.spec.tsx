@@ -16,9 +16,9 @@ describe("SelectSubscription", () => {
   it("can copy the walletID", async () => {
     const clipboardSpy = jest.spyOn(Clipboard, "setStringAsync")
 
-    const { getByLabelText } = await render(<SelectSubscription {...props} />)
+    const { findByLabelText } = await render(<SelectSubscription {...props} />)
 
-    fireEvent.press(getByLabelText("plans.selectSubscription.deposit.copy-button"))
+    fireEvent.press(await findByLabelText("plans.selectSubscription.deposit.copy-button"))
 
     await waitFor(() => {
       expect(clipboardSpy).toHaveBeenCalledWith("FG2022-OF93PP001XT0993AR")

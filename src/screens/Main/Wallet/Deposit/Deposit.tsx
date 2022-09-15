@@ -1,10 +1,11 @@
 import * as Clipboard from "expo-clipboard"
 
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
+import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 
 import { Button } from "components/Button"
-import { NetworkList } from "models/Networks"
+import { NetworkTypes } from "models/Networks"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Select } from "components/Select"
@@ -12,8 +13,8 @@ import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { WalletStackScreenProps } from "models/Navigation"
+import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useTheme } from "native-base"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 
@@ -26,8 +27,7 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
-  const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
-  const [selectedNetwork, setSelectedNetwork] = useState<string>(networks[0].value)
+  const [selectedNetwork, setSelectedNetwork] = useState<NetworkTypes>()
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -42,6 +42,22 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
   const goBack = () => {
     navigation.goBack()
   }
+
+  const { networkList } = useGetNetworkList()
+
+  useEffect(() => {
+    if (networkList) setSelectedNetwork(networkList[0].type)
+  }, [networkList])
+
+  if (!networkList) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
+  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
 
   return (
     <RootView
@@ -68,7 +84,7 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
           value={selectedNetwork}
           cta={t("wallet.deposit.selectNetwork")}
           options={networks}
-          onChange={(value) => setSelectedNetwork(value)}
+          onChange={(value) => setSelectedNetwork(value as NetworkTypes)}
         />
         <TextInput
           label={t("wallet.deposit.walletAddress")}
@@ -92,5 +108,9 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 24,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

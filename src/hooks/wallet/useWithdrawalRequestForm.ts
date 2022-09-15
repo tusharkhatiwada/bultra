@@ -2,7 +2,6 @@ import * as y from "yup"
 
 import { UseFormProps, useForm } from "hooks/useForm"
 
-import { NetworkList } from "models/Networks"
 import { useTranslation } from "react-i18next"
 
 type WithdrawalRequestValues = {
@@ -11,10 +10,8 @@ type WithdrawalRequestValues = {
   amount: string
 }
 
-const networks = NetworkList.map((network) => ({ value: network.type, label: network.name }))
-
 const DEFAULT_VALUES: WithdrawalRequestValues = {
-  network: networks[0].value,
+  network: "",
   walletAddress: "",
   amount: "",
 }
