@@ -14,7 +14,7 @@ export type WalletHistoryListProps = {
 }
 
 export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { colors } = useTheme()
   const WalletTransactionTypes = {
     DEPOSIT: {
@@ -60,7 +60,7 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory })
               <View>
                 <Typography>{t(transactionProps.translationKey as TranslationKeys)}</Typography>
                 <Typography color={colors.primary[400]}>
-                  {transaction.date.toLocaleDateString()}
+                  {transaction.date.toLocaleDateString(i18n.language)}
                 </Typography>
               </View>
             </View>

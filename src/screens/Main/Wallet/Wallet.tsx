@@ -11,6 +11,7 @@ import { Trans, useTranslation } from "react-i18next"
 import { Button } from "components/Button"
 import { ButtonBar } from "components/ButtonBar"
 import { DateRange } from "models/Date"
+import { Icon } from "components/Icon"
 import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -51,6 +52,8 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
 
   if (!wallet || !walletHistory) return null
 
+  const hasPositivePercentage = wallet.profitSummary.last24hours >= 0
+
   return (
     <ScrollView>
       <RootView
@@ -84,15 +87,28 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
         </View>
 
         <Typography
-          color={colors.success[400]}
+          color={hasPositivePercentage ? colors.success[400] : colors.error[400]}
           style={styles.balanceProfit}
-        >{`+${wallet.profitSummary.last24hours}% (24h)`}</Typography>
+        >
+          {`${hasPositivePercentage ? "+" : ""}${wallet.profitSummary.last24hours}% ${t(
+            "wallet.last24hours",
+          ).toLowerCase()}`}
+        </Typography>
 
         <Stack space="lg" direction="row" style={styles.buttonContainer}>
-          <Button onPress={goToDepositScreen} width="45%">
+          <Button
+            onPress={goToDepositScreen}
+            leftIcon={<Icon name="arrow-down" size="md" />}
+            style={styles.button}
+          >
             {t("wallet.deposit.title")}
           </Button>
-          <Button onPress={goToWithdrawalScreen} width="45%" variant="outline">
+          <Button
+            onPress={goToWithdrawalScreen}
+            variant="outline"
+            leftIcon={<Icon name="arrow-up" size="md" />}
+            style={styles.button}
+          >
             {t("wallet.withdraw.title")}
           </Button>
         </Stack>
@@ -135,8 +151,13 @@ const styles = StyleSheet.create({
     lineHeight: 60,
   },
   buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 16,
     marginBottom: 24,
+  },
+  button: {
+    flex: 1,
   },
   balanceProfit: {
     marginBottom: 8,
