@@ -8,6 +8,7 @@ import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
+import { UserStatus } from "models/Profile"
 import { useAuthContext } from "context/AuthContext"
 import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -21,7 +22,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
-  const { isLoggedIn } = useAuthContext()
+  const { isLoggedIn, user } = useAuthContext()
 
   const { wallet } = useGetWallet()
 
@@ -78,7 +79,6 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         <Spinner />
       )}
 
-      {isLoggedIn && <Button onPress={goToPlans}>{t("plans.title")}</Button>}
       {!isLoggedIn && (
         <Stack space="md">
           <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
@@ -86,6 +86,10 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
             {t("login.title")}
           </Button>
         </Stack>
+      )}
+
+      {user?.status === UserStatus.MISSING_PLAN && (
+        <Button onPress={goToPlans}>{t("plans.title")}</Button>
       )}
     </RootView>
   )

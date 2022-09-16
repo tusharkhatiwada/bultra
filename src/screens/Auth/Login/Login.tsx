@@ -22,7 +22,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
 
-  const { login } = useLogin()
+  const { login, isLoading } = useLogin()
   const { setToken } = useAuthContext()
 
   const { t } = useTranslation()
@@ -88,6 +88,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
         <View>
           <Button
+            isLoading={isLoading}
             isDisabled={!isValid || !dirty}
             onPress={() => handleSubmit()}
             style={styles.button}

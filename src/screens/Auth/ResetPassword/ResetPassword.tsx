@@ -26,7 +26,7 @@ export const ResetPassword: FC<ResetPasswordProps> = ({ navigation, route }) => 
   const { top, bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
-  const { resetPassword } = useResetPassword()
+  const { resetPassword, isLoading } = useResetPassword()
 
   const { t } = useTranslation()
 
@@ -86,6 +86,7 @@ export const ResetPassword: FC<ResetPasswordProps> = ({ navigation, route }) => 
         </View>
 
         <Button
+          isLoading={isLoading}
           isDisabled={!isValid || !dirty}
           onPress={() => handleSubmit()}
           style={styles.button}

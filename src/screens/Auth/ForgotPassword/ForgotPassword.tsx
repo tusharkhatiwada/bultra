@@ -23,7 +23,7 @@ export const ForgotPassword: FC<ForgotPasswordProps> = () => {
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
-  const { forgotPassword } = useForgotPassword()
+  const { forgotPassword, isLoading } = useForgotPassword()
 
   const { t } = useTranslation()
 
@@ -69,6 +69,7 @@ export const ForgotPassword: FC<ForgotPasswordProps> = () => {
         </View>
 
         <Button
+          isLoading={isLoading}
           isDisabled={!isValid || !dirty}
           onPress={() => handleSubmit()}
           style={styles.marginBottom}

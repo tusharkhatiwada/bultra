@@ -24,7 +24,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
 
-  const { createAccount } = useCreateAccount()
+  const { createAccount, isLoading } = useCreateAccount()
   const { setToken } = useAuthContext()
 
   const { t } = useTranslation()
@@ -108,6 +108,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
         </Typography>
 
         <Button
+          isLoading={isLoading}
           isDisabled={!isValid || !dirty}
           onPress={() => handleSubmit()}
           style={styles.button}

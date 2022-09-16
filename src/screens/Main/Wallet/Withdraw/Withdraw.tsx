@@ -29,7 +29,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
-  const { withdrawalRequest } = useWithdrawalRequest()
+  const { withdrawalRequest, isLoading } = useWithdrawalRequest()
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values } =
     useWithdrawalRequestForm({
@@ -138,7 +138,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
           </Button>
         )}
 
-        <Button isDisabled={isDisabled} onPress={() => handleSubmit()}>
+        <Button isLoading={isLoading} isDisabled={isDisabled} onPress={() => handleSubmit()}>
           {t("wallet.withdraw.cta")}
         </Button>
       </Stack>

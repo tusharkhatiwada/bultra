@@ -36,7 +36,7 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
 
   const { showToast } = useToastContext()
 
-  const { planSubscription } = usePlanSubscription()
+  const { planSubscription, isLoading } = usePlanSubscription()
 
   const handleButtonPress = () => {
     if (currentStep === TOTAL_STEPS) {
@@ -103,7 +103,7 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
       )}
 
       <View style={styles.padding}>
-        <Button onPress={handleButtonPress}>
+        <Button isLoading={isLoading} onPress={handleButtonPress}>
           {currentStep === TOTAL_STEPS ? t("common.finish") : t("common.continue")}
         </Button>
       </View>

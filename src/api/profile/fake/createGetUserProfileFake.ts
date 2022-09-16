@@ -1,6 +1,6 @@
 import { GetUserProfile } from "api/domain/profile"
-import { createUserInformationFixture } from "fixtures/profile/createUserInformationFixture"
+import { createUserFixture } from "fixtures/profile/createUserFixture"
 
 export const createGetUserProfileFake = (): GetUserProfile.Request => () => {
-  return Promise.resolve(createUserInformationFixture())
+  return Promise.resolve(createUserFixture())
 }

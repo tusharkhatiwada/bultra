@@ -11,15 +11,15 @@ const props = {
 
 describe("Profile", () => {
   it("displays the default message", async () => {
-    const { getByText } = await render(<Profile {...props} />)
+    const { findByText } = await render(<Profile {...props} />)
 
-    expect(getByText("profile.title")).toBeTruthy()
+    expect(await findByText("profile.title")).toBeTruthy()
   })
 
   it("navigates to the support screen", async () => {
-    const { getByText } = await render(<Profile {...props} />)
+    const { findByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.support.title")
+    const link = await findByText("profile.support.title")
 
     fireEvent.press(link)
 
@@ -27,9 +27,9 @@ describe("Profile", () => {
   })
 
   it("navigates to the change password screen", async () => {
-    const { getByText } = await render(<Profile {...props} />)
+    const { findByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.changePassword.title")
+    const link = await findByText("profile.changePassword.title")
 
     fireEvent.press(link)
 
@@ -37,9 +37,9 @@ describe("Profile", () => {
   })
 
   it("navigates to the logout screen", async () => {
-    const { getByText } = await render(<Profile {...props} />)
+    const { findByText } = await render(<Profile {...props} />)
 
-    const link = getByText("profile.logout.title")
+    const link = await findByText("profile.logout.title")
 
     fireEvent.press(link)
 

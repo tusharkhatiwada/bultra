@@ -1,10 +1,14 @@
-import React, { FC, useContext, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useMemo, useState } from "react"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
+
+import { UserInformation } from "models/Profile"
+import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 
 export type AuthContextProps = {
   token: string | null
   setToken: (token: string) => void
   isLoggedIn: boolean
+  user?: UserInformation
   logout: () => Promise<void>
 }
 
@@ -13,6 +17,7 @@ export const AuthContext = React.createContext(null as unknown as AuthContextPro
 const storage = createSecureStorage()
 
 export const AuthProvider: FC = ({ children }) => {
+  const [user, setUser] = useState<UserInformation>()
   const [stateToken, setStateToken] = useState<string | null>(null)
 
   storage.get(StorageKey.ACCESS_TOKEN).then((storageToken) => {
@@ -27,6 +32,7 @@ export const AuthProvider: FC = ({ children }) => {
   }
 
   const logout = async () => {
+    setUser(undefined)
     await storage.delete(StorageKey.ACCESS_TOKEN).then(() => {
       setStateToken(null)
     })
@@ -34,10 +40,19 @@ export const AuthProvider: FC = ({ children }) => {
 
   const isLoggedIn = Boolean(stateToken)
 
+  const { userProfile } = useGetUserProfile()
+
+  useEffect(() => {
+    if (userProfile && stateToken) {
+      setUser(userProfile)
+    }
+  }, [userProfile, stateToken])
+
   const value = useMemo(
     () => ({
       token: stateToken,
       setToken,
+      user,
       isLoggedIn,
       logout,
     }),

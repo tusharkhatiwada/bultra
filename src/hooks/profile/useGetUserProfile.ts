@@ -8,11 +8,13 @@ export const useGetUserProfile = (
   options?: UseQueryOptions<GetUserProfile.Response, AxiosError>,
 ) => {
   const { profile } = useApi()
+
   const request = useQuery<GetUserProfile.Response, AxiosError>(
-    ["getUserProfile"],
+    ["user-profile"],
     () => profile.getUserProfile(),
     options,
   )
+
   return {
     ...request,
     userProfile: request.data,

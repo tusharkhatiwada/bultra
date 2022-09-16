@@ -21,7 +21,7 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
 
   const { space } = useTheme()
 
-  const { changePassword } = useChangePassword()
+  const { changePassword, isLoading } = useChangePassword()
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useChangePasswordForm({
     onSubmit: ({ oldPassword, newPassword }) => {
       changePassword(
@@ -78,7 +78,11 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
           />
         </View>
 
-        <Button isDisabled={!isValid || !dirty} onPress={() => handleSubmit()}>
+        <Button
+          isLoading={isLoading}
+          isDisabled={!isValid || !dirty}
+          onPress={() => handleSubmit()}
+        >
           {t("profile.changePassword.form.submit")}
         </Button>
       </KeyboardAwareScrollView>

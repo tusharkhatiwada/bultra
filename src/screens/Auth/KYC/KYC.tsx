@@ -34,7 +34,7 @@ export const KYC: FC<KYCProps> = ({ navigation, route }) => {
   const withdrawalRequestParams = route.params
 
   const { kyc } = useKYC()
-  const { withdrawalRequest } = useWithdrawalRequest()
+  const { withdrawalRequest, isLoading } = useWithdrawalRequest()
   const { showToast } = useToastContext()
 
   const { getTextFieldProps, getFieldProps, setValue, values, handleSubmit, dirty, isValid } =
@@ -184,7 +184,11 @@ export const KYC: FC<KYCProps> = ({ navigation, route }) => {
           </View>
         </TouchableOpacity>
 
-        <Button onPress={() => handleSubmit()} isDisabled={!dirty || !isValid}>
+        <Button
+          isLoading={isLoading}
+          onPress={() => handleSubmit()}
+          isDisabled={!dirty || !isValid}
+        >
           {t("wallet.kyc.form.cta")}
         </Button>
       </KeyboardAwareScrollView>

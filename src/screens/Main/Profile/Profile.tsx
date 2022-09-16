@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
+import { Spinner, useTheme } from "native-base"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
 import { Icon } from "components/Icon"
@@ -10,9 +11,8 @@ import { Select } from "components/Select"
 import { Typography } from "components/Typography"
 import { changeLanguage } from "i18next"
 import { languagesList } from "models/Languages"
-import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
+import { useAuthContext } from "context/AuthContext"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
 export type ProfileProps = ProfileStackScreenProps<typeof Routes.main.profile.userProfile>
@@ -27,7 +27,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
 
-  const { userProfile } = useGetUserProfile()
+  const { user } = useAuthContext()
 
   const handleChangeLanguage = (language: string) => {
     changeLanguage(language)
@@ -56,6 +56,14 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
     getCurrentLanguage()
   }, [])
 
+  if (!user) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
   return (
     <RootView style={[styles.container, { paddingTop: top + space[6] }]}>
       <View>
@@ -64,11 +72,14 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
             {t("profile.title")}
           </Typography>
 
-          <Typography size="headline" weight="semibold">
-            {`${userProfile?.name} ${userProfile?.surname}`}
-          </Typography>
+          {user.name && (
+            <Typography size="headline" weight="semibold">
+              {user.name}
+            </Typography>
+          )}
+
           <Typography color="primary.400" style={styles.button}>
-            {userProfile?.email}
+            {user?.email}
           </Typography>
         </View>
 
@@ -149,5 +160,9 @@ const styles = StyleSheet.create({
   },
   paddingHorizontal: {
     paddingHorizontal: 24,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

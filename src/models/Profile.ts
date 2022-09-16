@@ -1,7 +1,14 @@
 export type UserInformation = {
-  name: string
-  surname: string
+  name?: string
   email: string
-  userRole: string // TODO: Define the types of users
   referralId: string
+  status: UserStatus
+}
+
+export enum UserStatus {
+  ACCOUNT_NOT_VALIDATED = "ACCOUNT_NOT_VALIDATED",
+  MISSING_PLAN = "MISSING_PLAN",
+  MISSING_PAYMENT = "MISSING_PAYMENT",
+  MISSING_FUNDS = "MISSING_FUNDS",
+  VALIDATED = "VALIDATED",
 }

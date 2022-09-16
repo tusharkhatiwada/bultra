@@ -11,6 +11,7 @@ import { ToastProvider } from "context/ToastContext"
 import { createApiFake } from "api/createApiFake"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createTheme } from "styles/theme"
+import { createUserFixture } from "fixtures/profile/createUserFixture"
 import { render as rtlRender } from "@testing-library/react-native"
 
 const Stack = createNativeStackNavigator()
@@ -36,6 +37,7 @@ const authContext = {
   token: "stateToken",
   setToken: jest.fn(),
   isLoggedIn: true,
+  user: createUserFixture(),
   logout: jest.fn(() => Promise.resolve()),
 } as AuthContextProps
 

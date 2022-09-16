@@ -20,7 +20,7 @@ export type SupportProps = ProfileStackScreenProps<typeof Routes.main.profile.su
 export const Support: FC<SupportProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const { showToast } = useToastContext()
-  const { supportRequest } = useSupportRequest()
+  const { supportRequest, isLoading } = useSupportRequest()
 
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useSupportRequestForm({
     onSubmit: ({ phoneNumber, message }) => {
@@ -70,7 +70,11 @@ export const Support: FC<SupportProps> = ({ navigation }) => {
           />
         </View>
 
-        <Button isDisabled={!isValid || !dirty} onPress={() => handleSubmit()}>
+        <Button
+          isLoading={isLoading}
+          isDisabled={!isValid || !dirty}
+          onPress={() => handleSubmit()}
+        >
           {t("profile.support.form.submit")}
         </Button>
       </KeyboardAwareScrollView>
