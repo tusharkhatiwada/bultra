@@ -9,12 +9,14 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { useAuthContext } from "context/AuthContext"
 import { useCreateAccount } from "hooks/auth/useCreateAccount"
 import { useCreateAccountForm } from "hooks/auth/useCreateAccountForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { useToastContext } from "context/ToastContext"
 
 export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_account>
 
@@ -26,6 +28,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
 
   const { createAccount, isLoading } = useCreateAccount()
   const { setToken } = useAuthContext()
+  const { showToast } = useToastContext()
 
   const { t } = useTranslation()
 
@@ -36,6 +39,13 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
         {
           onSuccess: (token) => {
             setToken(token)
+
+            showToast({
+              type: ToastType.info,
+              title: t("createAccount.toast.title"),
+              description: t("createAccount.toast.description"),
+            })
+
             navigation.dispatch(
               CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
             )

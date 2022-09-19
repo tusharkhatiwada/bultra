@@ -101,6 +101,11 @@
         "submit": "Crear cuenta"
       },
 
+      "toast": {
+        "title": "Cuenta creada",
+        "description": "Tu cuenta fue creada exitosamente."
+      },
+
       "disclaimer": "Creando una cuenta, aceptas nuestra <bold>Política de Privacidad</bold> y nuestros <bold>Términos y Condiciones</bold>",
       "login": "¿Ya tienes una cuenta? <bold>Inicia sesión</bold>"
     },

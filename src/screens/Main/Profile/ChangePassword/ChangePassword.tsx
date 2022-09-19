@@ -1,5 +1,5 @@
 import { Button, useTheme } from "native-base"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 
 import { FC } from "react"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
@@ -8,6 +8,7 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
+import { Typography } from "components/Typography"
 import { useChangePassword } from "hooks/profile/useChangePassword"
 import { useChangePasswordForm } from "hooks/profile/useChangePasswordForm"
 import { useToastContext } from "context/ToastContext"
@@ -46,6 +47,10 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
     },
   })
 
+  const goToForgotPassword = () => {
+    navigation.navigate(Routes.auth.navigator, { screen: Routes.auth.forgot_password })
+  }
+
   return (
     <RootView style={[styles.container, { padding: space[6] }]}>
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -76,6 +81,12 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
             placeholder={t("profile.changePassword.form.repeatPassword.placeholder")}
             {...getTextFieldProps("repeatPassword")}
           />
+
+          <TouchableOpacity onPress={goToForgotPassword}>
+            <Typography textAlign="right" weight="semibold" style={styles.forgotPassword}>
+              {t("login.forgotPassword")}
+            </Typography>
+          </TouchableOpacity>
         </View>
 
         <Button
@@ -94,5 +105,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  forgotPassword: {
+    marginBottom: 24,
+    textAlign: "right",
   },
 })

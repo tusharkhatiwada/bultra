@@ -101,6 +101,11 @@
         "submit": "Create account"
       },
 
+      "toast": {
+        "title": "Account created",
+        "description": "Your account has been created successfully"
+      },
+
       "disclaimer": "By registering, you agree to our <bold>Privacy Policy</bold> and <bold>Terms and Conditions</bold>",
       "login": "Already have an account? <bold>Log in</bold>"
     },
