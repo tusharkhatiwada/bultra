@@ -43,6 +43,7 @@ export type WalletStackScreenProps<Screen extends keyof WalletStackParamList> =
 export type MainTabParamList = {
   [Routes.main.home]: undefined
   [Routes.main.referrals]: undefined
+  [Routes.main.transactionHistory]: undefined
   [Routes.main.profile.navigator]: undefined
   [Routes.main.wallet.navigator]: undefined
 }

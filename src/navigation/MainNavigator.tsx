@@ -10,6 +10,7 @@ import useColorScheme from "../hooks/useColorScheme"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
+import { TransactionHistory } from "../screens/Main/TransactionHistory"
 
 const BottomTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -55,6 +56,14 @@ export function MainNavigator() {
         options={() => ({
           title: t("referrals.title"),
           tabBarIcon: ({ color }) => <Icon size="xl" name="user-plus" color={color} />,
+        })}
+      />
+      <BottomTab.Screen
+        name={Routes.main.transactionHistory}
+        component={TransactionHistory}
+        options={() => ({
+          title: t("wallet.history.title"),
+          tabBarIcon: ({ color }) => <Icon size="xl" name="history" color={color} />,
         })}
       />
       <BottomTab.Screen

@@ -24,6 +24,7 @@ const linking: LinkingOptions<RootStackParamList> = {
             },
           },
           [Routes.main.referrals]: Routes.main.referrals,
+          [Routes.main.transactionHistory]: Routes.main.transactionHistory,
           [Routes.main.profile.navigator]: {
             screens: {
               [Routes.main.profile.userProfile]: Routes.main.profile.userProfile,

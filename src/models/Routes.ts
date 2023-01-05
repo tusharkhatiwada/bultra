@@ -13,6 +13,7 @@ export const Routes = {
   main: {
     navigator: "main",
     home: "main/home",
+    transactionHistory: "main/transactionHistory",
     referrals: "main/referrals",
     profile: {
       navigator: "main/profile",
