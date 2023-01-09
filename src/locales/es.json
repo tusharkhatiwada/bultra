@@ -41,7 +41,7 @@
         },
         "otp": {
           "label": "Email confirmation",
-          "description": "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address.",
+          "description": "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address."
         },
         "submit": "Entrar",
         "submitOtp": "Confirm email"
