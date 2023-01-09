@@ -96,7 +96,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp }) =>
 
         return (
           <Input
-            w={50}
+            w={45}
             h={55}
             mr={3}
             fontSize={32}
