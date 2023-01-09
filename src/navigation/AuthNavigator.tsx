@@ -10,6 +10,7 @@ import { ResetPassword } from "screens/Auth/ResetPassword"
 import { Routes } from "models/Routes"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTranslation } from "react-i18next"
+import { Otp } from "../screens/Auth/OTP/Otp"
 
 const Stack = createNativeStackNavigator<AuthStackParamList>()
 
@@ -21,6 +22,15 @@ export function AuthNavigator() {
       <Stack.Screen
         name={Routes.auth.login}
         component={Login}
+        options={{
+          header: ({ navigation }) => (
+            <Header navigation={navigation} canGoBack title={t("login.title")} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.auth.otp}
+        component={Otp}
         options={{
           header: ({ navigation }) => (
             <Header navigation={navigation} canGoBack title={t("login.title")} />

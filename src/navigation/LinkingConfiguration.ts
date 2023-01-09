@@ -38,6 +38,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       [Routes.auth.navigator]: {
         screens: {
           [Routes.auth.login]: Routes.auth.login,
+          [Routes.auth.otp]: Routes.auth.otp,
           [Routes.auth.create_account]: Routes.auth.create_account,
           [Routes.auth.forgot_password]: Routes.auth.forgot_password,
           [Routes.auth.reset_password]: Routes.auth.reset_password,

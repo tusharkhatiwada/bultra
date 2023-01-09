@@ -50,6 +50,7 @@ export type MainTabParamList = {
 
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
+  [Routes.auth.otp]: undefined
   [Routes.auth.create_account]: { referralId?: string } | undefined
   [Routes.auth.forgot_password]: undefined
   [Routes.auth.reset_password]: { token: string }

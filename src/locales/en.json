@@ -41,6 +41,10 @@
         },
         "submit": "Log In"
       },
+      "errors": {
+        "loginFailed": "Login failed",
+        "checkCredentials": "Please check your email and password",
+      },
       "forgotPassword": "Forgot my password",
       "signUp": "Don't have an account yet? <bold>Sign up</bold>"
     },

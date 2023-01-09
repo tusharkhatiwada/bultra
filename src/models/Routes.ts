@@ -3,6 +3,7 @@ export const Routes = {
   auth: {
     navigator: "auth",
     login: "auth/login",
+    otp: "auth/otp",
     create_account: "auth/create_account",
     forgot_password: "auth/forgot_password",
     reset_password: "auth/reset_password",

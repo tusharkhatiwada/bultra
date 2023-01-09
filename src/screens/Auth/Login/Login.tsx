@@ -15,6 +15,8 @@ import { useLogin } from "hooks/auth/useLogin"
 import { useLoginForm } from "hooks/auth/useLoginForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
+import { ToastType } from "../../../components/Toast/Toast"
+import { useToastContext } from "../../../context/ToastContext"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
@@ -24,6 +26,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
   const { login, isLoading } = useLogin()
   const { setToken } = useAuthContext()
+  const { showToast } = useToastContext()
 
   const { t } = useTranslation()
 
@@ -37,6 +40,13 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             navigation.dispatch(
               CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
             )
+          },
+          onError: () => {
+            showToast({
+              type: ToastType.error,
+              title: t("login.errors.loginFailed"),
+              description: t("login.errors.checkCredentials"),
+            })
           },
         },
       )
