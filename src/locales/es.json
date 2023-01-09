@@ -39,7 +39,7 @@
           "label": "Contraseña",
           "placeholder": "Escribe tu contraseña"
         },
-        otp: {
+        "otp": {
           "label": "Email confirmation",
           "description": "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address.",
         },
