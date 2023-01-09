@@ -11,7 +11,7 @@ import { OtpInput } from "../../../components/OTPInput/OtpInput"
 
 export type OtpProps = AuthStackScreenProps<typeof Routes.auth.otp>
 
-export const Otp: FC<OtpProps> = ({ navigation }) => {
+export const Otp: FC<OtpProps> = () => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
 

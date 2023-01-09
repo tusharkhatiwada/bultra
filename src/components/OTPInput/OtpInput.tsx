@@ -31,7 +31,7 @@ export const OtpInput: FC = () => {
   const handleChange = (name: keyof FormState, value: string) => {
     setForm({ ...form, [name]: value});
   };
-
+  //@ts-ignore
   const onBackspaceClick = (nativeEvent: TextInputKeyPressEventData, refToFocus?: any) => {
     if (!isNil(refToFocus) && nativeEvent.key === 'Backspace'){
       refToFocus.current.focus();
@@ -51,7 +51,7 @@ export const OtpInput: FC = () => {
       codeInput6.current.focus();
     }
   }
-
+  //@ts-ignore
   const recordCode = (name: keyof FormState, code: string, inputToFocus?: any) => {
     const onlyNumbersCode = code.replace(/[^0-9]/g, '');
 
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
   },
+  // eslint-disable-next-line react-native/no-color-literals
   codeInput: {
     fontWeight: "bold",
     backgroundColor: "#F7F7F7",

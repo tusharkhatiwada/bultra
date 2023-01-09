@@ -17,7 +17,6 @@ import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFa
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
-import { createLoginHttp } from "./auth/http/createLoginHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
