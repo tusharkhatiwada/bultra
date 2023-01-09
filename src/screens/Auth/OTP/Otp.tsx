@@ -53,7 +53,6 @@ export const Otp: FC<OtpProps> = () => {
         // isLoading={isLoading}
         isDisabled={otp.join("").length < 6}
         onPress={() => console.log('!!!!')}
-        style={styles.button}
       >
         {t("login.form.submitOtp")}
       </Button>
@@ -69,8 +68,5 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 24,
-  },
-  button: {
-    marginBottom: 40,
   },
 })
