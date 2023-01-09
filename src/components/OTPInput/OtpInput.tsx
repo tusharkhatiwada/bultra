@@ -1,10 +1,17 @@
 import { StyleSheet, View, TextInput, TextInputKeyPressEventData } from "react-native"
+import { Input } from "native-base"
 import { isNil } from "lodash"
 import { FC, useEffect, useRef, useState } from "react"
 
+
 const otpInputsCount = 6;
 
-export const OtpInput: FC = () => {
+interface Props {
+  handleSetOtpItem: (code: string, index: number) => void;
+  handleSetPastedOtp: (fullCode: string[]) => void;
+}
+
+export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp }) => {
   const [form, setForm] = useState<Record<string, string>>({});
   const inputsRefs = useRef<TextInput[] | null[]>([]);
 
@@ -16,11 +23,12 @@ export const OtpInput: FC = () => {
     }
   }, []);
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = (name: string, value: string, currentIndex: number) => {
     setForm({ ...form, [name]: value});
-  };
+    handleSetOtpItem(value, currentIndex);
+  }
 
-  const onBackspaceClick2 = (nativeEvent: TextInputKeyPressEventData, refToFocusIndex: number) => {
+  const onBackspaceClick = (nativeEvent: TextInputKeyPressEventData, refToFocusIndex: number) => {
     const needToMovePrev = !isNil(refToFocusIndex) && !isNil(inputsRefs.current[refToFocusIndex]) && nativeEvent.key === 'Backspace'
 
     if(needToMovePrev) {
@@ -32,23 +40,31 @@ export const OtpInput: FC = () => {
     const codeArray = code.split('');
     const filledCodeObject: Record<string, string> = {};
     const lastInputRef = inputsRefs.current[codeArray.length - 1];
+    const filledSecretCode: string[] = [];
 
     codeArray.forEach((codeItem, index) => {
       filledCodeObject[`CODE${index}`] = codeItem;
+      filledSecretCode[index] = codeItem;
     });
     setForm(filledCodeObject);
+    handleSetPastedOtp(filledSecretCode);
 
     if(!isNil(lastInputRef)) {
       lastInputRef.focus();
     }
   }
 
-  const recordCode2 = (name: string, code: string, inputToFocusIndex: number) => {
+  const recordCode = (
+    name: string,
+    code: string,
+    currentIndex: number,
+    inputToFocusIndex: number) =>
+  {
     const onlyNumbersCode = code.replace(/[^0-9]/g, '');
     const inputToFocus = inputsRefs.current[inputToFocusIndex];
 
     if (onlyNumbersCode.length === 1) {
-      handleChange(name, onlyNumbersCode);
+      handleChange(name, onlyNumbersCode, currentIndex);
       if(!isNil(inputToFocus)) {
         inputsRefs.current[inputToFocusIndex]?.focus();
       }
@@ -56,7 +72,7 @@ export const OtpInput: FC = () => {
     }
 
     if (onlyNumbersCode.length === 2) {
-      handleChange(name, onlyNumbersCode[1]);
+      handleChange(name, onlyNumbersCode[1], currentIndex);
       if(!isNil(inputToFocus)) {
         inputsRefs.current[inputToFocusIndex]?.focus();
       }
@@ -68,9 +84,9 @@ export const OtpInput: FC = () => {
       return;
     }
 
-    handleChange(name, '');
+    handleChange(name, '', currentIndex);
   };
-  
+
   return (
     <View style={styles.codeInputBox}>
       {Array.from(Array(otpInputsCount).keys()).map((index) => {
@@ -79,16 +95,20 @@ export const OtpInput: FC = () => {
         const inputName = `CODE${index}`;
 
         return (
-          <TextInput
+          <Input
+            w={50}
+            h={55}
+            mr={3}
+            fontSize={32}
+            textAlign="center"
             key={inputName}
-            style={styles.codeInput}
             value={form[inputName]}
             onChangeText={(code) => {
-              recordCode2(inputName, code, nextInputRefIndex );
+              recordCode(inputName, code, index, nextInputRefIndex );
              }}
             onKeyPress={
               ({ nativeEvent }) =>
-                onBackspaceClick2(nativeEvent, prevInputRefIndex)
+                onBackspaceClick(nativeEvent, prevInputRefIndex)
             }
             underlineColorAndroid="transparent"
             keyboardType="phone-pad"
@@ -107,21 +127,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
   },
-  // eslint-disable-next-line react-native/no-color-literals
-  codeInput: {
-    fontWeight: "bold",
-    backgroundColor: "#F7F7F7",
-    height: 50,
-    width: 40,
-    borderRadius: 12,
-    color: "#5A5A5A",
-    fontSize: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    borderColor: "#F2F4F9",
-    borderStyle: "solid",
-    borderWidth: 1,
-    marginRight: 8,
-  },
 })
+

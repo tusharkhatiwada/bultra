@@ -39,7 +39,12 @@
           "label": "Password",
           "placeholder": "Write your password"
         },
-        "submit": "Log In"
+        otp: {
+          label: "Email confirmation",
+          description: "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address.",
+        },
+        "submit": "Log In",
+        "submitOtp": "Confirm email"
       },
       "errors": {
         "loginFailed": "Login failed",

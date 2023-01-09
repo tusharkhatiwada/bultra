@@ -33,7 +33,7 @@ export function AuthNavigator() {
         component={Otp}
         options={{
           header: ({ navigation }) => (
-            <Header navigation={navigation} canGoBack title={t("login.title")} />
+            <Header navigation={navigation} canGoBack title={t("login.form.otp.label")} />
           ),
         }}
       />
