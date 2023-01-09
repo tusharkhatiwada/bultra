@@ -40,8 +40,8 @@
           "placeholder": "Escribe tu contraseña"
         },
         otp: {
-          label: "Email confirmation",
-          description: "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address.",
+          "label": "Email confirmation",
+          "description": "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address.",
         },
         "submit": "Entrar",
         "submitOtp": "Confirm email"
