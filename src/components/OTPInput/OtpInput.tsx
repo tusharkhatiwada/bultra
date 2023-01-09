@@ -1,64 +1,56 @@
 import { StyleSheet, View, TextInput, TextInputKeyPressEventData } from "react-native"
 import { isNil } from "lodash"
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 
-interface FormState {
-  CODE1: string;
-  CODE2: string;
-  CODE3: string;
-  CODE4: string;
-  CODE5: string;
-  CODE6: string;
-}
+const otpInputsCount = 6;
 
 export const OtpInput: FC = () => {
-  const [form, setForm] = useState<FormState>({
-    CODE1: '',
-    CODE2: '',
-    CODE3: '',
-    CODE4: '',
-    CODE5: '',
-    CODE6: '',
-  });
+  const [form, setForm] = useState<Record<string, string>>({});
+  const inputsRefs = useRef<TextInput[] | null[]>([]);
 
-  const codeInput1 = useRef<TextInput | null>(null);
-  const codeInput2 = useRef<TextInput | null>(null);
-  const codeInput3 = useRef<TextInput | null>(null);
-  const codeInput4 = useRef<TextInput | null>(null);
-  const codeInput5 = useRef<TextInput | null>(null);
-  const codeInput6 = useRef<TextInput | null>(null);
+  useEffect(() => {
+    let count = 0;
+    while (count < otpInputsCount) {
+      form[`CODE${count}`] = '';
+      count++;
+    }
+  }, []);
 
-  const handleChange = (name: keyof FormState, value: string) => {
+  const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value});
   };
-  //@ts-ignore
-  const onBackspaceClick = (nativeEvent: TextInputKeyPressEventData, refToFocus?: any) => {
-    if (!isNil(refToFocus) && nativeEvent.key === 'Backspace'){
-      refToFocus.current.focus();
+
+  const onBackspaceClick2 = (nativeEvent: TextInputKeyPressEventData, refToFocusIndex: number) => {
+    const needToMovePrev = !isNil(refToFocusIndex) && !isNil(inputsRefs.current[refToFocusIndex]) && nativeEvent.key === 'Backspace'
+
+    if(needToMovePrev) {
+      inputsRefs.current[refToFocusIndex]?.focus();
     }
   }
 
   const pasteCode = (code: string) => {
-    setForm({
-      CODE1: code[0],
-      CODE2: code[1],
-      CODE3: code[2],
-      CODE4: code[3],
-      CODE5: code[4],
-      CODE6: code[5],
-    })
-    if(!isNil(codeInput6.current)) {
-      codeInput6.current.focus();
+    const codeArray = code.split('');
+    const filledCodeObject: Record<string, string> = {};
+    const lastInputRef = inputsRefs.current[codeArray.length - 1];
+
+    codeArray.forEach((codeItem, index) => {
+      filledCodeObject[`CODE${index}`] = codeItem;
+    });
+    setForm(filledCodeObject);
+
+    if(!isNil(lastInputRef)) {
+      lastInputRef.focus();
     }
   }
-  //@ts-ignore
-  const recordCode = (name: keyof FormState, code: string, inputToFocus?: any) => {
+
+  const recordCode2 = (name: string, code: string, inputToFocusIndex: number) => {
     const onlyNumbersCode = code.replace(/[^0-9]/g, '');
+    const inputToFocus = inputsRefs.current[inputToFocusIndex];
 
     if (onlyNumbersCode.length === 1) {
       handleChange(name, onlyNumbersCode);
       if(!isNil(inputToFocus)) {
-        inputToFocus.current.focus();
+        inputsRefs.current[inputToFocusIndex]?.focus();
       }
       return;
     }
@@ -66,7 +58,7 @@ export const OtpInput: FC = () => {
     if (onlyNumbersCode.length === 2) {
       handleChange(name, onlyNumbersCode[1]);
       if(!isNil(inputToFocus)) {
-        inputToFocus.current.focus();
+        inputsRefs.current[inputToFocusIndex]?.focus();
       }
       return;
     }
@@ -78,75 +70,32 @@ export const OtpInput: FC = () => {
 
     handleChange(name, '');
   };
-
+  
   return (
     <View style={styles.codeInputBox}>
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE1}
-        onChangeText={(code) => {
-          recordCode('CODE1', code, codeInput2 );
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput1}
-      />
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE2}
-        onChangeText={(code) => {
-          recordCode('CODE2', code, codeInput3 );
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, codeInput1)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput2}
-      />
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE3}
-        onChangeText={(code) => {
-          recordCode('CODE3', code, codeInput4 );
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, codeInput2)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput3}
-      />
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE4}
-        onChangeText={(code) => {
-          recordCode('CODE4', code, codeInput5 );
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, codeInput3)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput4}
-      />
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE5}
-        onChangeText={(code) => {
-          recordCode('CODE5', code, codeInput6 );
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, codeInput4)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput5}
-      />
-      <TextInput
-        style={styles.codeInput}
-        value={form.CODE6}
-        onChangeText={(code) => {
-          recordCode('CODE6', code);
-        }}
-        onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, codeInput5)}
-        underlineColorAndroid="transparent"
-        keyboardType="phone-pad"
-        ref={codeInput6}
-      />
+      {Array.from(Array(otpInputsCount).keys()).map((index) => {
+        const nextInputRefIndex = index + 1;
+        const prevInputRefIndex = index - 1;
+        const inputName = `CODE${index}`;
+
+        return (
+          <TextInput
+            key={inputName}
+            style={styles.codeInput}
+            value={form[inputName]}
+            onChangeText={(code) => {
+              recordCode2(inputName, code, nextInputRefIndex );
+             }}
+            onKeyPress={
+              ({ nativeEvent }) =>
+                onBackspaceClick2(nativeEvent, prevInputRefIndex)
+            }
+            underlineColorAndroid="transparent"
+            keyboardType="phone-pad"
+            ref={el => inputsRefs.current[index] = el}
+          />
+        )
+      })}
     </View>
   )
 }
