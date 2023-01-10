@@ -13,11 +13,13 @@ import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFa
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
+import { createOtpFake } from "./auth/fake/createOtpFake"
 
 export function createApiFake(): Api {
   return {
     auth: {
       login: createLoginFake(),
+      otp: createOtpFake(),
       forgotPassword: createForgotPasswordFake(),
       resetPassword: createResetPasswordFake(),
       createAccount: createCreateAccountFake(),

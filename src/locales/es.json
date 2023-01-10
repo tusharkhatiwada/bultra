@@ -40,11 +40,12 @@
           "placeholder": "Escribe tu contraseña"
         },
         "otp": {
-          "label": "Email confirmation",
-          "description": "We have just sent you an email with a confirmation code. Please enter the code below and confirm your email address."
+          "label": "Confirmar email",
+          "description": "Acabamos de enviarte un email con tu código de confirmación. Por favor, introduce el siguiente código y confirma tu email.",
+          "error": "Código de confirmación inválido"
         },
         "submit": "Entrar",
-        "submitOtp": "Confirm email"
+        "submitOtp": "Confirmar email"
       },
       "errors": {
         "loginFailed": "Login fallado",

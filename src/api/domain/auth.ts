@@ -12,6 +12,14 @@ export namespace Login {
   export type Request = (params: Login.Params) => Promise<Login.Response>
 }
 
+export namespace Otp {
+  export type Params = {
+    otpCode: string
+  }
+  export type Response = string
+  export type Request = (params: Otp.Params) => Promise<Otp.Response>
+}
+
 export namespace ForgotPassword {
   export type Params = {
     email: string
@@ -63,6 +71,7 @@ export namespace KYC {
 
 export interface AuthApi {
   login: Login.Request
+  otp: Otp.Request
   forgotPassword: ForgotPassword.Request
   resetPassword: ResetPassword.Request
   createAccount: CreateAccount.Request
