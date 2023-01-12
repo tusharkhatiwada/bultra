@@ -12,7 +12,5 @@ export const createLoginHttp =
       },
     )
 
-    console.log(data)
-
     return data
   }

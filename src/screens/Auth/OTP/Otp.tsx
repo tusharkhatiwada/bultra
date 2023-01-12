@@ -41,11 +41,11 @@ export const Otp: FC<OtpProps> = ({ navigation, route }) => {
   const { t } = useTranslation()
 
   const secondsString = seconds < 10 ? `0${seconds}` : seconds
-  const minutesString = minutes > 0 ? minutes : '0'
+  const minutesString = minutes > 0 ? minutes : "0"
 
   const handleResendOtp = () => {
     resetTimer()
-    resendOtp({email})
+    resendOtp({ email })
   }
 
   const { handleSubmit, setValue } = useOtpForm({
@@ -79,7 +79,7 @@ export const Otp: FC<OtpProps> = ({ navigation, route }) => {
   }, [otp])
 
   useEffect(() => {
-    if(isError) {
+    if (isError) {
       setTimeout(() => {
         setIsError(false)
       }, 3000)
@@ -117,10 +117,11 @@ export const Otp: FC<OtpProps> = ({ navigation, route }) => {
             isError={isError}
           />
           {!showResend
-            ? <Typography color="primary.400" style={styles.timer}>{`Resend in: ${minutesString}:${secondsString}` }</Typography>
+            ? <Typography color="primary.400"
+                          style={styles.timer}>{`${t("login.form.otp.timerText")}: ${minutesString}:${secondsString}`}</Typography>
             : <TouchableOpacity onPress={handleResendOtp}>
               <Typography color="primary.400" style={styles.timer}>
-                resend code
+                {t("login.form.otp.resendCode")}
               </Typography>
             </TouchableOpacity>
           }

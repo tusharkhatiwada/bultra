@@ -42,7 +42,9 @@
         "otp": {
           "label": "Confirmar email",
           "description": "Acabamos de enviarte un email con tu código de confirmación. Por favor, introduce el siguiente código y confirma tu email.",
-          "error": "Código de confirmación inválido"
+          "error": "Código de confirmación inválido",
+          "timerText": "Reenviar en",
+          "resendCode": "Reenviar código"
         },
         "submit": "Entrar",
         "submitOtp": "Confirmar email"
@@ -116,7 +118,7 @@
         "description": "Tu cuenta fue creada exitosamente.",
         "error": {
           "title": "This email is already registered",
-          "description": "Please use another email or log in with this one"
+          "description": "Por favor, usa otro email o log in con este otro."
         }
       },
 
