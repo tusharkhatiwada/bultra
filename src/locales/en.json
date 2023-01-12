@@ -115,8 +115,8 @@
         "title": "Account created",
         "description": "Your account has been created successfully",
         "error": {
-          title: "This email is already registered",
-          description: "Please use another email or log in with this one"
+          "title": "This email is already registered",
+          "description": "Please use another email or log in with this one"
         }
       },
 

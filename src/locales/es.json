@@ -113,7 +113,11 @@
 
       "toast": {
         "title": "Cuenta creada",
-        "description": "Tu cuenta fue creada exitosamente."
+        "description": "Tu cuenta fue creada exitosamente.",
+        "error": {
+          "title": "This email is already registered",
+          "description": "Please use another email or log in with this one"
+        }
       },
 
       "disclaimer": "Creando una cuenta, aceptas nuestra <bold>Política de Privacidad</bold> y nuestros <bold>Términos y Condiciones</bold>",
