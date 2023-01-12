@@ -4,13 +4,15 @@ import { AxiosInstance, AxiosResponse } from "axios"
 export const createLoginHttp =
   (client: AxiosInstance): Login.Request =>
   async ({ email, password }) => {
-    const { data }: AxiosResponse<string> = await client.post(
-      "/v1/auth/login",
+    const { data }: AxiosResponse<Login.Response> = await client.post(
+      "user/signIn",
       {
         email,
         password,
       },
     )
+
+    console.log(data)
 
     return data
   }

@@ -38,12 +38,6 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  const goToOTPInput = () => {
-    navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.otp,
-    })
-  }
-
   const goToPlans = () => {
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.plans,
@@ -90,9 +84,6 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
           <Button variant="outline" onPress={goToLogin}>
             {t("login.title")}
-          </Button>
-          <Button variant="outline" onPress={goToOTPInput}>
-            TEST
           </Button>
         </Stack>
       )}

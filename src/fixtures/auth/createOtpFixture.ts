@@ -1,3 +1,5 @@
-import { Otp } from "api/domain/auth"
+import { ConfirmOtp } from "api/domain/auth"
 
-export const createOtpFixture = (): Otp.Response => "test_jwt"
+export const createOtpFixture = (): ConfirmOtp.Response => {
+  return { accessToken: "test_jwt" }
+}

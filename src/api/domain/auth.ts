@@ -8,16 +8,25 @@ export namespace Login {
     email: string
     password: string
   }
-  export type Response = string
+  export type Response = { status?: string, accessToken: string }
   export type Request = (params: Login.Params) => Promise<Login.Response>
 }
 
-export namespace Otp {
+export namespace ConfirmOtp {
   export type Params = {
-    otpCode: string
+    email: string
+    code: string
   }
-  export type Response = string
-  export type Request = (params: Otp.Params) => Promise<Otp.Response>
+  export type Response = { accessToken: string }
+  export type Request = (params: ConfirmOtp.Params) => Promise<ConfirmOtp.Response>
+}
+
+export namespace ResendOtp {
+  export type Params = {
+    email: string
+  }
+  export type Response = {message: string, codeEndTime: string}
+  export type Request = (params: ResendOtp.Params) => Promise<ResendOtp.Response>
 }
 
 export namespace ForgotPassword {
@@ -43,7 +52,7 @@ export namespace CreateAccount {
     password: string
     referralId?: string
   }
-  export type Response = string
+  export type Response = {message: string, codeEndTime: string}
   export type Request = (params: CreateAccount.Params) => Promise<CreateAccount.Response>
 }
 
@@ -71,7 +80,8 @@ export namespace KYC {
 
 export interface AuthApi {
   login: Login.Request
-  otp: Otp.Request
+  otp: ConfirmOtp.Request
+  resendOtp: ResendOtp.Request
   forgotPassword: ForgotPassword.Request
   resetPassword: ResetPassword.Request
   createAccount: CreateAccount.Request

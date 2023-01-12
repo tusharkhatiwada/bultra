@@ -4,7 +4,6 @@ import { Api } from "./domain/api"
 import axios from "axios"
 import { createApiFake } from "./createApiFake"
 import { createChangePasswordFake } from "./profile/fake/createChangePasswordFake"
-import { createCreateAccountFake } from "./auth/fake/createCreateAccountFake"
 import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferralLevelsFake"
 import { createFetchWalletHistoryFake } from "./wallet/fake/createFetchWalletHistoryFake"
 import { createForgotPasswordFake } from "./auth/fake/createForgotPasswordFake"
@@ -12,18 +11,20 @@ import { createGetNetworkListFake } from "./wallet/fake/createGetNetworkListFake
 import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
 import { createGetWalletFake } from "./wallet/fake/createGetWalletFake"
 import { createKYCFake } from "./auth/fake/createKYCFake"
-import { createLoginFake } from "./auth/fake/createLoginFake"
 import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
-import { createOtpFake } from "./auth/fake/createOtpFake"
+import { createCreateAccountHttp } from "./auth/http/createCreateAccountHttp"
+import { confirmOtpHttp } from "./auth/http/confirmOtpHttp"
+import { createLoginHttp } from "./auth/http/createLoginHttp"
+import { resendOtpHttp } from "./auth/http/resendOtp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
 
   const httpClient = axios.create({
-    baseURL: "https://api.exchangerate-api.com/v4/latest/BTC",
+    baseURL: "https://45.155.120.204/api",
   })
 
   const secureStorage = createSecureStorage()
@@ -58,20 +59,23 @@ export function createApi(offline: boolean): Api {
         url: config.url,
       }
 
-      console.error(response)
+      if(response.data.status === "NOT_CONFIRMED"){
+        return response;
+      }
 
+      console.error(response)
       throw new Error(error.response.data)
     },
   )
 
   return {
     auth: {
-      // login: createLoginHttp(httpClient),
-      login: createLoginFake(),
-      otp: createOtpFake(),
+      login: createLoginHttp(httpClient),
+      otp: confirmOtpHttp(httpClient),
+      resendOtp: resendOtpHttp(httpClient),
       forgotPassword: createForgotPasswordFake(),
       resetPassword: createResetPasswordFake(),
-      createAccount: createCreateAccountFake(),
+      createAccount: createCreateAccountHttp(httpClient),
       planSubscription: createPlanSubscriptionFake(),
       kyc: createKYCFake(),
     },

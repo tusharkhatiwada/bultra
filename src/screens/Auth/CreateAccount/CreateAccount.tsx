@@ -3,7 +3,6 @@ import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
-import { CommonActions } from "@react-navigation/native"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -11,7 +10,6 @@ import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
-import { useAuthContext } from "context/AuthContext"
 import { useCreateAccount } from "hooks/auth/useCreateAccount"
 import { useCreateAccountForm } from "hooks/auth/useCreateAccountForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -27,7 +25,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   const { bottom } = useSafeAreaInsets()
 
   const { createAccount, isLoading } = useCreateAccount()
-  const { setToken } = useAuthContext()
+  // const { setToken } = useAuthContext()
   const { showToast } = useToastContext()
 
   const { t } = useTranslation()
@@ -37,18 +35,15 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
       createAccount(
         { email, password, referralId },
         {
-          onSuccess: (token) => {
-            setToken(token)
-
+          onSuccess: (response) => {
+            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime })
+          },
+          onError: () => {
             showToast({
-              type: ToastType.info,
-              title: t("createAccount.toast.title"),
-              description: t("createAccount.toast.description"),
+              type: ToastType.error,
+              title: t("createAccount.toast.error.title"),
+              description: t("createAccount.toast.error.description"),
             })
-
-            navigation.dispatch(
-              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-            )
           },
         },
       )

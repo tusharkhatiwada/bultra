@@ -15,6 +15,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { ToastType } from "../../../components/Toast/Toast"
 import { useToastContext } from "../../../context/ToastContext"
+import { CommonActions } from "@react-navigation/native"
+import { useAuthContext } from "../../../context/AuthContext"
+import { isNil } from "lodash"
+import { useResendOtp } from "../../../hooks/auth/useResendOtp"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
@@ -23,7 +27,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets()
 
   const { login, isLoading } = useLogin()
-  // const { setToken } = useAuthContext()
+  const { resendOtp } = useResendOtp()
+  const { setToken } = useAuthContext()
   const { showToast } = useToastContext()
 
   const { t } = useTranslation()
@@ -33,12 +38,16 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
       login(
         { email, password },
         {
-          onSuccess: () => {
-            // setToken(token)
-            // navigation.dispatch(
-            //   CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-            // )
-            navigation.navigate(Routes.auth.otp)
+          onSuccess: (response) => {
+            if(isNil(response.status)){
+              setToken(response.accessToken)
+              navigation.dispatch(
+                CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+              )
+            }else{
+              resendOtp({email})
+              navigation.navigate(Routes.auth.otp, { email })
+            }
           },
           onError: () => {
             showToast({

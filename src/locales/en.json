@@ -108,12 +108,16 @@
           "label": "Repeat Password",
           "placeholder": "Repeat your password"
         },
-        "submit": "Create account"
+        "submit": "Create account",
       },
 
       "toast": {
         "title": "Account created",
-        "description": "Your account has been created successfully"
+        "description": "Your account has been created successfully",
+        "error": {
+          title: "This email is already registered",
+          description: "Please use another email or log in with this one"
+        }
       },
 
       "disclaimer": "By registering, you agree to our <bold>Privacy Policy</bold> and <bold>Terms and Conditions</bold>",

@@ -1,6 +1,6 @@
-import { Otp } from "api/domain/auth"
+import { ConfirmOtp } from "api/domain/auth"
 import { createOtpFixture } from "../../../fixtures/auth/createOtpFixture"
 
-export const createOtpFake = (): Otp.Request => () => {
+export const createOtpFake = (): ConfirmOtp.Request => () => {
   return Promise.resolve(createOtpFixture())
 }
