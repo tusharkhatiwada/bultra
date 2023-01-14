@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next"
 
 export type ForgotPasswordProps = AuthStackScreenProps<typeof Routes.auth.forgot_password>
 
-export const ForgotPassword: FC<ForgotPasswordProps> = () => {
+export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
@@ -27,18 +27,25 @@ export const ForgotPassword: FC<ForgotPasswordProps> = () => {
 
   const { t } = useTranslation()
 
-  const { getTextFieldProps, handleSubmit, dirty, isValid, resetForm } = useForgotPasswordForm({
+  const { getTextFieldProps, handleSubmit, dirty, isValid } = useForgotPasswordForm({
     onSubmit: ({ email }) => {
       forgotPassword(
         { email },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             showToast({
               type: ToastType.info,
               title: t("forgotPassword.toast.title"),
               description: t("forgotPassword.toast.description"),
             })
-            resetForm()
+            navigation.navigate(Routes.auth.forgot_password_otp, { email, codeEndTime: response.codeEndTime })
+          },
+          onError: () => {
+            showToast({
+              type: ToastType.error,
+              title: 'Email not registered',
+              description: t("createAccount.toast.error.description"),
+            })
           },
         },
       )

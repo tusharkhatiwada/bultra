@@ -53,6 +53,8 @@ export type AuthStackParamList = {
   [Routes.auth.otp]: { email: string, codeEndTime?: string }
   [Routes.auth.create_account]: { referralId?: string } | undefined
   [Routes.auth.forgot_password]: undefined
+  [Routes.auth.forgot_password_otp]: { email: string, codeEndTime?: string }
+  [Routes.auth.forgot_password_create_new]: { email: string, hash: string }
   [Routes.auth.reset_password]: { token: string }
   [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined

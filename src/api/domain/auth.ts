@@ -21,6 +21,15 @@ export namespace ConfirmOtp {
   export type Request = (params: ConfirmOtp.Params) => Promise<ConfirmOtp.Response>
 }
 
+export namespace ConfirmForgotPasswordOtp {
+  export type Params = {
+    email: string
+    code: string
+  }
+  export type Response = { hash: string }
+  export type Request = (params: ConfirmForgotPasswordOtp.Params) => Promise<ConfirmForgotPasswordOtp.Response>
+}
+
 export namespace ResendOtp {
   export type Params = {
     email: string
@@ -33,8 +42,18 @@ export namespace ForgotPassword {
   export type Params = {
     email: string
   }
-  export type Response = void
+  export type Response = {message: string, codeEndTime: string}
   export type Request = (params: ForgotPassword.Params) => Promise<ForgotPassword.Response>
+}
+
+export namespace PasswordRecovery {
+  export type Params = {
+    hash: string
+    email: string
+    password: string
+  }
+  export type Response = { message: string }
+  export type Request = (params: PasswordRecovery.Params) => Promise<PasswordRecovery.Response>
 }
 
 export namespace ResetPassword {
@@ -81,6 +100,8 @@ export namespace KYC {
 export interface AuthApi {
   login: Login.Request
   otp: ConfirmOtp.Request
+  confirmForgotPasswordOtp: ConfirmForgotPasswordOtp.Request
+  passwordRecovery: PasswordRecovery.Request
   resendOtp: ResendOtp.Request
   forgotPassword: ForgotPassword.Request
   resetPassword: ResetPassword.Request

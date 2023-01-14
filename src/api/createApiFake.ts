@@ -15,6 +15,7 @@ import { createSupportRequestFake } from "./profile/fake/createSupportRequestFak
 import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
 import { createOtpFake } from "./auth/fake/createOtpFake"
 import { createResendOtpFake } from "./auth/fake/createResendOtpFake"
+import { createForgotPasswordOtpFake } from "./auth/fake/createForgotPasswordOtpFake"
 
 export function createApiFake(): Api {
   return {
@@ -22,6 +23,8 @@ export function createApiFake(): Api {
       login: createLoginFake(),
       otp: createOtpFake(),
       resendOtp: createResendOtpFake(),
+      passwordRecovery: createForgotPasswordFake(),
+      confirmForgotPasswordOtp: createForgotPasswordOtpFake(),
       forgotPassword: createForgotPasswordFake(),
       resetPassword: createResetPasswordFake(),
       createAccount: createCreateAccountFake(),
