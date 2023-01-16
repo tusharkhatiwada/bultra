@@ -6,7 +6,13 @@ import { useTranslation } from "react-i18next"
 
 import { lightColors } from "../../styles/colors"
 
-const otpInputsCount = 6
+const otpInputsOptions = {
+  otpInputsCount: 6,
+  singleCodeItemLength: 1,
+  replaceSingleCodeItemLength: 2,
+  pastedCodeLength: 6,
+  maxPastedCodeLength: 7,
+}
 
 interface Props {
   handleSetOtpItem: (code: string, index: number) => void;
@@ -22,7 +28,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
   const resetForm = () => {
     let count = 0
     const filledCodeObject: Record<string, string> = {}
-    while (count < otpInputsCount) {
+    while (count < otpInputsOptions.otpInputsCount) {
       filledCodeObject[`CODE${count}`] = ""
       count++
     }
@@ -32,10 +38,6 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
   useEffect(() => {
     resetForm();
   }, [])
-
-  useEffect(() => {
-    console.log('form', form)
-  }, [form])
 
   const handleChange = (name: string, value: string, currentIndex: number) => {
     setForm({ ...form, [name]: value })
@@ -77,7 +79,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
     const onlyNumbersCode = code.replace(/[^0-9]/g, "")
     const inputToFocus = inputsRefs.current[inputToFocusIndex]
 
-    if (onlyNumbersCode.length === 1) {
+    if (onlyNumbersCode.length === otpInputsOptions.singleCodeItemLength) {
       handleChange(name, onlyNumbersCode, currentIndex)
       if (!isNil(inputToFocus)) {
         inputsRefs.current[inputToFocusIndex]?.focus()
@@ -85,7 +87,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
       return
     }
 
-    if (onlyNumbersCode.length === 2) {
+    if (onlyNumbersCode.length === otpInputsOptions.replaceSingleCodeItemLength) {
       handleChange(name, onlyNumbersCode[1], currentIndex)
       if (!isNil(inputToFocus)) {
         inputsRefs.current[inputToFocusIndex]?.focus()
@@ -93,13 +95,13 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
       return
     }
 
-    if (onlyNumbersCode.length === 6) {
+    if (onlyNumbersCode.length === otpInputsOptions.pastedCodeLength) {
       resetForm();
       pasteCode(onlyNumbersCode);
       return
     }
 
-    if (onlyNumbersCode.length === 7) {
+    if (onlyNumbersCode.length === otpInputsOptions.maxPastedCodeLength) {
       const codeToPaste = [...onlyNumbersCode]
       codeToPaste.shift()
       resetForm();
@@ -113,7 +115,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
   return (
     <View style={styles.container}>
       <View style={styles.codeInputBox}>
-        {Array.from(Array(otpInputsCount).keys()).map((index) => {
+        {Array.from(Array(otpInputsOptions.otpInputsCount).keys()).map((index) => {
           const nextInputRefIndex = index + 1
           const prevInputRefIndex = index - 1
           const inputName = `CODE${index}`
