@@ -2,7 +2,7 @@ import * as y from "yup"
 
 import { useForm, UseFormProps } from "hooks/useForm"
 
-type OtpForm = {
+export type OtpForm = {
   otpCode: string
 }
 

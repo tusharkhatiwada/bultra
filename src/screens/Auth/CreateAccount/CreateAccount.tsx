@@ -15,20 +15,49 @@ import { useCreateAccountForm } from "hooks/auth/useCreateAccountForm"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useToastContext } from "context/ToastContext"
+import { OtpForm } from "../../../hooks/auth/useOtpForm"
+import { CommonActions } from "@react-navigation/native"
+import { useOtp } from "../../../hooks/auth/useOtp"
+import { useAuthContext } from "../../../context/AuthContext"
 
 export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_account>
 
 export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => {
   const referralId = route?.params?.referralId
-
+  const { t } = useTranslation()
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
-
-  const { createAccount, isLoading } = useCreateAccount()
-  // const { setToken } = useAuthContext()
+  const { sendOtp } = useOtp()
+  const { setToken } = useAuthContext()
   const { showToast } = useToastContext()
+  const { createAccount, isLoading } = useCreateAccount()
 
-  const { t } = useTranslation()
+  const submitOtp = (form: OtpForm, email: string) => {
+      sendOtp({
+          email,
+          code: form.otpCode,
+        },
+        {
+          onSuccess: (response) => {
+            setToken(response.accessToken)
+            showToast({
+              type: ToastType.info,
+              title: t("createAccount.toast.title"),
+              description: t("createAccount.toast.description"),
+            })
+            navigation.dispatch(
+              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+            )
+          },
+          onError: () => {
+            showToast({
+              type: ToastType.error,
+              title: t("login.form.otp.error"),
+            })
+          },
+        },
+      )
+  }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue } = useCreateAccountForm({
     onSubmit: ({ email, password, referralId }) => {
@@ -36,7 +65,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
         { email, password, referralId },
         {
           onSuccess: (response) => {
-            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime })
+            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime, submitOtp })
           },
           onError: () => {
             showToast({

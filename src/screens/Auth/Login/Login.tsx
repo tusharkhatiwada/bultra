@@ -19,6 +19,8 @@ import { CommonActions } from "@react-navigation/native"
 import { useAuthContext } from "../../../context/AuthContext"
 import { isNil } from "lodash"
 import { useResendOtp } from "../../../hooks/auth/useResendOtp"
+import { OtpForm } from "../../../hooks/auth/useOtpForm"
+import { useOtp } from "../../../hooks/auth/useOtp"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
@@ -30,8 +32,36 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
   const { resendOtp } = useResendOtp()
   const { setToken } = useAuthContext()
   const { showToast } = useToastContext()
+  const { sendOtp } = useOtp()
 
   const { t } = useTranslation()
+
+  const submitOtp = (form: OtpForm, email: string) => {
+    sendOtp({
+        email,
+        code: form.otpCode,
+      },
+      {
+        onSuccess: (response) => {
+          setToken(response.accessToken)
+          showToast({
+            type: ToastType.info,
+            title: t("createAccount.toast.title"),
+            description: t("createAccount.toast.description"),
+          })
+          navigation.dispatch(
+            CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+          )
+        },
+        onError: () => {
+          showToast({
+            type: ToastType.error,
+            title: t("login.form.otp.error"),
+          })
+        },
+      },
+    )
+  }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useLoginForm({
     onSubmit: ({ email, password }) => {
@@ -46,7 +76,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
               )
             }else{
               resendOtp({email})
-              navigation.navigate(Routes.auth.otp, { email })
+              navigation.navigate(Routes.auth.otp, { email, submitOtp })
             }
           },
           onError: () => {

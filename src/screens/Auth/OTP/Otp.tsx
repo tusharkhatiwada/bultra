@@ -8,33 +8,24 @@ import { useTranslation } from "react-i18next"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 
 import { AuthStackScreenProps } from "models/Navigation"
-import { CommonActions } from "@react-navigation/native"
 import { OtpInput } from "../../../components/OTPInput/OtpInput"
 import { Typography } from "../../../components/Typography"
 import { Button } from "../../../components/Button"
-import { useAuthContext } from "../../../context/AuthContext"
 import { useOtpForm } from "../../../hooks/auth/useOtpForm"
-import { useOtp } from "../../../hooks/auth/useOtp"
-import { useToastContext } from "../../../context/ToastContext"
-import { ToastType } from "../../../components/Toast/Toast"
 import { useResendOtp } from "../../../hooks/auth/useResendOtp"
 import { useOtpTimer } from "../../../hooks/auth/useOtpTimer"
 
 export type OtpProps = AuthStackScreenProps<typeof Routes.auth.otp>
 
-export const Otp: FC<OtpProps> = ({ navigation, route }) => {
-  const { email, codeEndTime } = route.params
+export const Otp: FC<OtpProps> = ({  route }) => {
+  const { email, codeEndTime, submitOtp } = route.params
 
   const [otp, setOtp] = useState<string[]>([])
   const [isError, setIsError] = useState<boolean>(false)
 
-
-  const { sendOtp, isLoading } = useOtp()
   const { resendOtp } = useResendOtp()
-  const { showToast } = useToastContext()
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
-  const { setToken } = useAuthContext()
   const { seconds, minutes, resetTimer } = useOtpTimer(codeEndTime)
   const showResend = minutes <= 0 && seconds === 0
 
@@ -51,27 +42,7 @@ export const Otp: FC<OtpProps> = ({ navigation, route }) => {
 
   const { handleSubmit, setValue } = useOtpForm({
     onSubmit: (form) => {
-      sendOtp({
-          email,
-          code: form.otpCode,
-        },
-        {
-          onSuccess: (response) => {
-            setToken(response.accessToken)
-            showToast({
-              type: ToastType.info,
-              title: t("createAccount.toast.title"),
-              description: t("createAccount.toast.description"),
-            })
-            navigation.dispatch(
-              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-            )
-          },
-          onError: () => {
-            setIsError(true)
-          },
-        },
-      )
+      submitOtp(form, email);
     },
   })
 
@@ -129,7 +100,7 @@ export const Otp: FC<OtpProps> = ({ navigation, route }) => {
         </View>
       </KeyboardAwareScrollView>
       <Button
-        isLoading={isLoading}
+        isLoading={false}
         isDisabled={otp.join("").length < 6}
         onPress={() => handleSubmit()}
       >

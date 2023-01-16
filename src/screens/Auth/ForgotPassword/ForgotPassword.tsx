@@ -15,6 +15,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
+import { useForgotPasswordOtp } from "../../../hooks/auth/useForgotPasswordOtp"
+import { OtpForm } from "../../../hooks/auth/useOtpForm"
 
 export type ForgotPasswordProps = AuthStackScreenProps<typeof Routes.auth.forgot_password>
 
@@ -24,8 +26,28 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
   const { showToast } = useToastContext()
 
   const { forgotPassword, isLoading } = useForgotPassword()
+  const { sendOtp } = useForgotPasswordOtp()
 
   const { t } = useTranslation()
+
+  const submitOtp = (form: OtpForm, email: string) => {
+    sendOtp({
+        email,
+        code: form.otpCode,
+      },
+      {
+        onSuccess: (response) => {
+          navigation.navigate(Routes.auth.forgot_password_create_new, { email, hash: response.hash })
+        },
+        onError: () => {
+          showToast({
+            type: ToastType.error,
+            title: t("login.form.otp.error"),
+          })
+        },
+      },
+    )
+  }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useForgotPasswordForm({
     onSubmit: ({ email }) => {
@@ -38,7 +60,7 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
               title: t("forgotPassword.toast.title"),
               description: t("forgotPassword.toast.description"),
             })
-            navigation.navigate(Routes.auth.forgot_password_otp, { email, codeEndTime: response.codeEndTime })
+            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime, submitOtp })
           },
           onError: () => {
             showToast({

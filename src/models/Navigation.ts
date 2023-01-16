@@ -4,6 +4,7 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Routes } from "./Routes"
 import { WithdrawalRequest } from "api/domain/wallet"
+import { OtpForm } from "../hooks/auth/useOtpForm"
 
 export type RootStackParamList = {
   [Routes.home]: undefined
@@ -50,10 +51,9 @@ export type MainTabParamList = {
 
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
-  [Routes.auth.otp]: { email: string, codeEndTime?: string }
+  [Routes.auth.otp]: { email: string, codeEndTime?: string, submitOtp: (form: OtpForm, email: string) => void  }
   [Routes.auth.create_account]: { referralId?: string } | undefined
   [Routes.auth.forgot_password]: undefined
-  [Routes.auth.forgot_password_otp]: { email: string, codeEndTime?: string }
   [Routes.auth.forgot_password_create_new]: { email: string, hash: string }
   [Routes.auth.reset_password]: { token: string }
   [Routes.auth.kyc]: WithdrawalRequest.Params

@@ -11,7 +11,6 @@ import { Routes } from "models/Routes"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTranslation } from "react-i18next"
 import { Otp } from "../screens/Auth/OTP/Otp"
-import { ForgotPasswordOtp } from "../screens/Auth/ForgotPassword/ForgotPasswordOtp"
 import { CreateNewPassword } from "../screens/Auth/ForgotPassword/CreateNewPassword"
 
 const Stack = createNativeStackNavigator<AuthStackParamList>()
@@ -54,15 +53,6 @@ export function AuthNavigator() {
         options={{
           header: ({ navigation }) => (
             <Header navigation={navigation} canGoBack title={t("resetPassword.form.password.label")} />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name={Routes.auth.forgot_password_otp}
-        component={ForgotPasswordOtp}
-        options={{
-          header: ({ navigation }) => (
-            <Header navigation={navigation} canGoBack title={t("login.form.otp.label")} />
           ),
         }}
       />

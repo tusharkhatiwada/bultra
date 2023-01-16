@@ -19,13 +19,23 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
   const inputsRefs = useRef<TextInput[] | null[]>([])
   const { t } = useTranslation()
 
-  useEffect(() => {
+  const resetForm = () => {
     let count = 0
+    const filledCodeObject: Record<string, string> = {}
     while (count < otpInputsCount) {
-      form[`CODE${count}`] = ""
+      filledCodeObject[`CODE${count}`] = ""
       count++
     }
+    setForm(filledCodeObject);
+  }
+
+  useEffect(() => {
+    resetForm();
   }, [])
+
+  useEffect(() => {
+    console.log('form', form)
+  }, [form])
 
   const handleChange = (name: string, value: string, currentIndex: number) => {
     setForm({ ...form, [name]: value })
@@ -62,7 +72,8 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
     name: string,
     code: string,
     currentIndex: number,
-    inputToFocusIndex: number) => {
+    inputToFocusIndex: number
+  ) => {
     const onlyNumbersCode = code.replace(/[^0-9]/g, "")
     const inputToFocus = inputsRefs.current[inputToFocusIndex]
 
@@ -83,7 +94,16 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
     }
 
     if (onlyNumbersCode.length === 6) {
-      pasteCode(onlyNumbersCode)
+      resetForm();
+      pasteCode(onlyNumbersCode);
+      return
+    }
+
+    if (onlyNumbersCode.length === 7) {
+      const codeToPaste = [...onlyNumbersCode]
+      codeToPaste.shift()
+      resetForm();
+      pasteCode(codeToPaste.join(""));
       return
     }
 
