@@ -63,7 +63,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     )
   }
 
-  const { getTextFieldProps, handleSubmit, dirty, isValid } = useLoginForm({
+  const { getTextFieldProps, handleSubmit, dirty, isValid, resetForm } = useLoginForm({
     onSubmit: ({ email, password }) => {
       login(
         { email, password },
@@ -93,10 +93,12 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
   const goToSignUp = () => {
     navigation.navigate(Routes.auth.create_account)
+    resetForm()
   }
 
   const goToForgotPassword = () => {
     navigation.navigate(Routes.auth.forgot_password)
+    resetForm()
   }
 
   return (
