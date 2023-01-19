@@ -8,7 +8,6 @@ import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferr
 import { createFetchWalletHistoryFake } from "./wallet/fake/createFetchWalletHistoryFake"
 import { createGetNetworkListFake } from "./wallet/fake/createGetNetworkListFake"
 import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
-import { createGetWalletFake } from "./wallet/fake/createGetWalletFake"
 import { createKYCFake } from "./auth/fake/createKYCFake"
 import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
@@ -21,6 +20,7 @@ import { resendOtpHttp } from "./auth/http/resendOtp"
 import { createForgotPasswordHttp } from "./auth/http/createForgotPasswordHttp"
 import { confirmForgotPasswordOtpHttp } from "./auth/http/confirmForgotPasswordOtpHttp"
 import { createPasswordRecoveryHttp } from "./auth/http/createPasswordRecoveryHttp"
+import { createGetWalletHttp } from "./wallet/http/createGetWalletHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -92,7 +92,7 @@ export function createApi(offline: boolean): Api {
       fetchReferralLevels: createFetchReferralLevelsFake(),
     },
     wallet: {
-      getWallet: createGetWalletFake(),
+      getWallet: createGetWalletHttp(httpClient),
       withdrawalRequest: createWithdrawalRequestFake(),
       fetchWalletHistory: createFetchWalletHistoryFake(),
       getNetworkList: createGetNetworkListFake(),
