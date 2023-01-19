@@ -1,6 +1,5 @@
-import { Wallet, WalletHistory } from "models/Wallet"
+import { TransactionRange, Wallet, WalletHistory } from "models/Wallet"
 
-import { DateRange } from "models/Date"
 import { Network } from "models/Networks"
 
 export namespace GetWallet {
@@ -19,7 +18,7 @@ export namespace WithdrawalRequest {
 }
 
 export namespace FetchWalletHistory {
-  export type Params = DateRange
+  export type Params = TransactionRange
   export type Response = WalletHistory[]
   export type Request = (params: FetchWalletHistory.Params) => Promise<FetchWalletHistory.Response>
 }

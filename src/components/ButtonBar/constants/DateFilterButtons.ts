@@ -10,19 +10,19 @@ import { ButtonBarElement } from "../ButtonBar"
 export const dateFilterButtons: ButtonBarElement[] = [
   {
     label: "wallet.history.filters.thisMonth",
-    value: "THIS_MONTH",
+    value: "month",
   },
   {
     label: "wallet.history.filters.lastMonth",
-    value: "LAST_MONTH",
+    value: "lastMonth",
   },
   {
     label: "wallet.history.filters.last6Months",
-    value: "LAST_6_MONTHS",
+    value: "last6",
   },
   {
     label: "wallet.history.filters.all",
-    value: "ALL",
+    value: "all",
   },
 ]
 

@@ -5,8 +5,13 @@ import { WalletHistory } from "models/Wallet"
 
 export const createFetchWalletHistoryHttp =
   (client: AxiosInstance): FetchWalletHistory.Request =>
-  async () => {
-    const { data }: AxiosResponse<WalletHistory[]> = await client.get("/v1/wallet/history")
+  async (dateRange) => {
+    const { data }: AxiosResponse<WalletHistory[]> = await client.get("/transaction", {
+      params: {
+        dateRange,
+      }
+    })
 
     return data
   }
+

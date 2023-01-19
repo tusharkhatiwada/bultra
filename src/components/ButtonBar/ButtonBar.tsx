@@ -5,16 +5,17 @@ import { ScrollView, StyleSheet } from "react-native"
 import { TranslationKeys } from "models/TranslationKeys"
 import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
+import { TransactionRange } from "../../models/Wallet"
 
 export type ButtonBarElement = {
   label: TranslationKeys
-  value: string
+  value: TransactionRange
 }
 
 export type ButtonBarProps = {
   buttons: ButtonBarElement[]
-  onChange: (value: string) => void
-  defaultValue: string
+  onChange: (value: TransactionRange) => void
+  defaultValue: TransactionRange
 }
 
 export const ButtonBar: FC<ButtonBarProps> = ({ buttons, onChange }) => {

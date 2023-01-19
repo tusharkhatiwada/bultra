@@ -6,14 +6,15 @@ import { TranslationKeys } from "models/TranslationKeys"
 import { Typography } from "components/Typography"
 import { WalletHistory } from "models/Wallet"
 import { formatNumberToCurrency } from "utils/currency"
-import { useTheme } from "native-base"
+import { Spinner, useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
 export type WalletHistoryListProps = {
-  walletHistory: WalletHistory[]
+  walletHistory: WalletHistory[],
+  isLoading?: boolean,
 }
 
-export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory }) => {
+export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, isLoading }) => {
   const { t, i18n } = useTranslation()
   const { colors } = useTheme()
   const WalletTransactionTypes = {
@@ -31,10 +32,21 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory })
     },
   }
 
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       {walletHistory.map((transaction, index) => {
         const transactionProps = WalletTransactionTypes[transaction.type]
+
+        const date = new Date(transaction.date)
 
         return (
           <View
@@ -60,12 +72,12 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory })
               <View>
                 <Typography>{t(transactionProps.translationKey as TranslationKeys)}</Typography>
                 <Typography color={colors.primary[400]}>
-                  {transaction.date.toLocaleDateString(i18n.language)}
+                  {date.toLocaleDateString(i18n.language)}
                 </Typography>
               </View>
             </View>
             <View style={styles.profitValue}>
-              <Typography>{formatNumberToCurrency(transaction.balance)}</Typography>
+              <Typography>{formatNumberToCurrency(transaction.amount)}</Typography>
               <Icon color={colors.primary[400]} name="dollar-sign" />
             </View>
           </View>
@@ -93,5 +105,9 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 50,
     marginRight: 16,
+  },
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

@@ -1,16 +1,13 @@
 import {
-  DateFilterToDateRange,
-  DateFilterValue,
   dateFilterButtons,
 } from "components/ButtonBar/constants/DateFilterButtons"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { Button } from "components/Button"
 import { ButtonBar } from "components/ButtonBar"
-import { DateRange } from "models/Date"
 import { Icon } from "components/Icon"
 import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
@@ -19,10 +16,10 @@ import { Typography } from "components/Typography"
 import { WalletHistoryList } from "./WalletHistoryList"
 import { WalletStackScreenProps } from "models/Navigation"
 import { formatNumberToCurrency } from "utils/currency"
-import { getThisMonthRange } from "utils/date"
 import { useFetchWalletHistory } from "hooks/wallet/useFetchWalletHistory"
 import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { TransactionRange, WalletHistory } from "../../../models/Wallet"
 
 export type WalletProps = WalletStackScreenProps<typeof Routes.main.wallet.walletDetails>
 
@@ -31,9 +28,11 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const { top, bottom } = useSafeAreaInsets()
   const { colors } = useTheme()
   const { wallet } = useGetWallet()
-  const [historyDateRange, setHistoryDateRange] = useState<DateRange>(getThisMonthRange())
+  const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>('month')
 
-  const { walletHistory } = useFetchWalletHistory(historyDateRange)
+  const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
+
+  const { getWalletHistory, isLoading } = useFetchWalletHistory(historyDateRange)
 
   const { t } = useTranslation()
 
@@ -45,9 +44,18 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
     navigation.push("main/wallet/withdraw")
   }
 
-  const onDateRangeChange = (value: string) => {
-    const result = DateFilterToDateRange[value as DateFilterValue]
-    setHistoryDateRange(result)
+  useEffect(() => {
+    onDateRangeChange('month')
+  }, [])
+
+  const onDateRangeChange = (value: TransactionRange) => {
+    getWalletHistory(value, {
+        onSuccess: (response) => {
+          setWalletHistory(response)
+        },
+      },
+    )
+    setHistoryDateRange(value)
   }
 
   if (!wallet || !walletHistory) {
@@ -132,10 +140,10 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
         <ButtonBar
           onChange={onDateRangeChange}
           buttons={dateFilterButtons}
-          defaultValue={"THIS_MONTH"}
+          defaultValue={"month"}
         />
 
-        <WalletHistoryList walletHistory={walletHistory} />
+        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading}/>
       </RootView>
     </ScrollView>
   )

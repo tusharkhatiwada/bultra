@@ -1,6 +1,6 @@
 import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View, ScrollView } from "react-native"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
 
@@ -11,13 +11,10 @@ import { Typography } from "components/Typography"
 import { ButtonBar } from "../../../components/ButtonBar"
 import {
   dateFilterButtons,
-  DateFilterToDateRange,
-  DateFilterValue,
 } from "../../../components/ButtonBar/constants/DateFilterButtons"
 import { WalletHistoryList } from "../Wallet/WalletHistoryList"
-import { DateRange } from "../../../models/Date"
-import { getThisMonthRange } from "../../../utils/date"
 import { useFetchWalletHistory } from "../../../hooks/wallet/useFetchWalletHistory"
+import { TransactionRange, WalletHistory } from "../../../models/Wallet"
 
 export type TransactionHistoryProps = MainTabScreenProps<typeof Routes.main.transactionHistory>
 
@@ -25,13 +22,22 @@ export const TransactionHistory: FC<TransactionHistoryProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
   const { t } = useTranslation()
-  const [historyDateRange, setHistoryDateRange] = useState<DateRange>(getThisMonthRange())
+  const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
+  const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
+  const { getWalletHistory, isLoading } = useFetchWalletHistory(historyDateRange)
 
-  const { walletHistory } = useFetchWalletHistory(historyDateRange)
+  useEffect(() => {
+    onDateRangeChange('month')
+  }, [])
 
-  const onDateRangeChange = (value: string) => {
-    const result = DateFilterToDateRange[value as DateFilterValue]
-    setHistoryDateRange(result)
+  const onDateRangeChange = (value: TransactionRange) => {
+    getWalletHistory(value, {
+        onSuccess: (response) => {
+          setWalletHistory(response)
+        },
+      },
+    )
+    setHistoryDateRange(value)
   }
 
   if (!walletHistory) {
@@ -60,10 +66,10 @@ export const TransactionHistory: FC<TransactionHistoryProps> = () => {
       <ButtonBar
         onChange={onDateRangeChange}
         buttons={dateFilterButtons}
-        defaultValue={"THIS_MONTH"}
+        defaultValue={"month"}
       />
 
-      <WalletHistoryList walletHistory={walletHistory} />
+      <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading}/>
     </RootView>
   </ScrollView>
   )
