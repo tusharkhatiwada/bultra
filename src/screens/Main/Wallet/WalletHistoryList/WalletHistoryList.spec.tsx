@@ -13,7 +13,7 @@ describe("WalletHistoryList", () => {
     const { findAllByText } = await render(<WalletHistoryList {...props} />)
 
     expect(
-      await findAllByText(formatNumberToCurrency(props.walletHistory[0].balance)),
+      await findAllByText(formatNumberToCurrency(props.walletHistory[0].amount)),
     ).toHaveLength(6)
   })
 })
