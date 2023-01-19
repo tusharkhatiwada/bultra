@@ -121,7 +121,7 @@ export const Referrals: FC<ReferralsProps> = () => {
         <ButtonBar
           onChange={onDateRangeChange}
           buttons={dateFilterButtons}
-          defaultValue={"THIS_MONTH"}
+          defaultValue={"month"}
         />
 
         {referralLevels.map((level, index) => (
