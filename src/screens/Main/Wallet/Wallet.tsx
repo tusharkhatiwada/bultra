@@ -1,6 +1,4 @@
-import {
-  dateFilterButtons,
-} from "components/ButtonBar/constants/DateFilterButtons"
+import { dateFilterButtons } from "components/ButtonBar/constants/DateFilterButtons"
 import { FC, useEffect, useState } from "react"
 import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
@@ -28,7 +26,7 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const { top, bottom } = useSafeAreaInsets()
   const { colors } = useTheme()
   const { wallet } = useGetWallet()
-  const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>('month')
+  const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
 
   const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
 
@@ -45,16 +43,15 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    onDateRangeChange('month')
+    onDateRangeChange("month")
   }, [])
 
   const onDateRangeChange = (value: TransactionRange) => {
     getWalletHistory(value, {
-        onSuccess: (response) => {
-          setWalletHistory(response)
-        },
+      onSuccess: (response) => {
+        setWalletHistory(response)
       },
-    )
+    })
     setHistoryDateRange(value)
   }
 
@@ -143,7 +140,7 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
           defaultValue={"month"}
         />
 
-        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading}/>
+        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading} />
       </RootView>
     </ScrollView>
   )

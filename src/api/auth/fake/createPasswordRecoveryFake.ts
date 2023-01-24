@@ -1,4 +1,4 @@
-import {  PasswordRecovery } from "api/domain/auth"
+import { PasswordRecovery } from "api/domain/auth"
 
 export const createPasswordRecoveryFake = (): PasswordRecovery.Request => () => {
   const createPasswordRecoveryFixture = (): PasswordRecovery.Response => {

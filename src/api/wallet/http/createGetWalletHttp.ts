@@ -11,10 +11,9 @@ export const createGetWalletHttp =
     return {
       ...data,
       profitSummary: {
-      last24hours: 1.45,
+        last24hours: 1.45,
         last7days: -3.33,
         lastMonth: 6.32,
-    },
+      },
     }
-
   }

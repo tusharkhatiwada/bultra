@@ -37,7 +37,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
   const { t } = useTranslation()
 
   const submitOtp = (form: OtpForm, email: string) => {
-    sendOtp({
+    sendOtp(
+      {
         email,
         code: form.otpCode,
       },
@@ -69,13 +70,13 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         { email, password },
         {
           onSuccess: (response) => {
-            if(isNil(response.status)){
+            if (isNil(response.status)) {
               setToken(response.accessToken)
               navigation.dispatch(
                 CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
               )
-            }else{
-              resendOtp({email})
+            } else {
+              resendOtp({ email })
               navigation.navigate(Routes.auth.otp, { email, submitOtp })
             }
           },

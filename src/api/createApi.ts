@@ -31,7 +31,7 @@ export function createApi(offline: boolean): Api {
 
   const secureStorage = createSecureStorage()
 
-  httpClient.interceptors.request.use(async function(config) {
+  httpClient.interceptors.request.use(async function (config) {
     const token = await secureStorage.get(StorageKey.ACCESS_TOKEN)
 
     if (config.headers) {

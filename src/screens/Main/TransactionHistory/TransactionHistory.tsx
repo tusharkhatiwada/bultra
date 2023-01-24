@@ -9,9 +9,7 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
 import { ButtonBar } from "../../../components/ButtonBar"
-import {
-  dateFilterButtons,
-} from "../../../components/ButtonBar/constants/DateFilterButtons"
+import { dateFilterButtons } from "../../../components/ButtonBar/constants/DateFilterButtons"
 import { WalletHistoryList } from "../Wallet/WalletHistoryList"
 import { useFetchWalletHistory } from "../../../hooks/wallet/useFetchWalletHistory"
 import { TransactionRange, WalletHistory } from "../../../models/Wallet"
@@ -27,16 +25,15 @@ export const TransactionHistory: FC<TransactionHistoryProps> = () => {
   const { getWalletHistory, isLoading } = useFetchWalletHistory(historyDateRange)
 
   useEffect(() => {
-    onDateRangeChange('month')
+    onDateRangeChange("month")
   }, [])
 
   const onDateRangeChange = (value: TransactionRange) => {
     getWalletHistory(value, {
-        onSuccess: (response) => {
-          setWalletHistory(response)
-        },
+      onSuccess: (response) => {
+        setWalletHistory(response)
       },
-    )
+    })
     setHistoryDateRange(value)
   }
 
@@ -49,29 +46,29 @@ export const TransactionHistory: FC<TransactionHistoryProps> = () => {
   }
 
   return (
-  <ScrollView>
-    <RootView
-      style={[
-        styles.container,
-        {
-          paddingHorizontal: space[6],
-          paddingTop: top + space[6],
-          paddingBottom: bottom + space[6],
-        },
-      ]}
-    >
-      <Typography size="h3" style={styles.title}>
-        {t("wallet.history.title")}
-      </Typography>
-      <ButtonBar
-        onChange={onDateRangeChange}
-        buttons={dateFilterButtons}
-        defaultValue={"month"}
-      />
+    <ScrollView>
+      <RootView
+        style={[
+          styles.container,
+          {
+            paddingHorizontal: space[6],
+            paddingTop: top + space[6],
+            paddingBottom: bottom + space[6],
+          },
+        ]}
+      >
+        <Typography size="h3" style={styles.title}>
+          {t("wallet.history.title")}
+        </Typography>
+        <ButtonBar
+          onChange={onDateRangeChange}
+          buttons={dateFilterButtons}
+          defaultValue={"month"}
+        />
 
-      <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading}/>
-    </RootView>
-  </ScrollView>
+        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading} />
+      </RootView>
+    </ScrollView>
   )
 }
 

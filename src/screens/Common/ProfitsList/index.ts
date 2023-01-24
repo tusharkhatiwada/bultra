@@ -1,1 +1,1 @@
-export { ProfitsList } from './ProfitsList'
+export { ProfitsList } from "./ProfitsList"

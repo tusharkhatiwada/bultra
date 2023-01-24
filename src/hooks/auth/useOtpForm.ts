@@ -22,8 +22,7 @@ export const useOtpForm = ({ onSubmit, defaultValues = DEFAULT_VALUES }: OtpForm
     defaultValues,
     onSubmit,
     schema: y.object().shape({
-      otpCode: y.string().required().min(6, "")
-        .max(6, ""),
+      otpCode: y.string().required().min(6, "").max(6, ""),
     }),
   })
 }

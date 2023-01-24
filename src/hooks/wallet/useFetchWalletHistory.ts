@@ -1,16 +1,26 @@
-import { UseQueryOptions, useQuery, useMutation, UseMutationResult, UseMutationOptions } from "@tanstack/react-query"
+import {
+  UseQueryOptions,
+  useQuery,
+  useMutation,
+  UseMutationResult,
+  UseMutationOptions,
+} from "@tanstack/react-query"
 
 import { AxiosError } from "axios"
 import { FetchWalletHistory } from "api/domain/wallet"
 import { useApi } from "context/ApiContext"
 
 type Result = UseMutationResult<FetchWalletHistory.Response, AxiosError, FetchWalletHistory.Params>
-type RequestOptions = UseMutationOptions<FetchWalletHistory.Response, AxiosError, FetchWalletHistory.Params>
+type RequestOptions = UseMutationOptions<
+  FetchWalletHistory.Response,
+  AxiosError,
+  FetchWalletHistory.Params
+>
 
 export const useFetchWalletHistory = (
   params: FetchWalletHistory.Params,
   options?: UseQueryOptions<FetchWalletHistory.Response, AxiosError>,
-  requestOptions? : RequestOptions
+  requestOptions?: RequestOptions,
 ) => {
   const { wallet } = useApi()
   const request = useQuery<FetchWalletHistory.Response, AxiosError>(

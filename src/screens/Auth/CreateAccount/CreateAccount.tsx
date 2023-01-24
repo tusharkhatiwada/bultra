@@ -33,30 +33,31 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   const { createAccount, isLoading } = useCreateAccount()
 
   const submitOtp = (form: OtpForm, email: string) => {
-      sendOtp({
-          email,
-          code: form.otpCode,
+    sendOtp(
+      {
+        email,
+        code: form.otpCode,
+      },
+      {
+        onSuccess: (response) => {
+          setToken(response.accessToken)
+          showToast({
+            type: ToastType.info,
+            title: t("createAccount.toast.title"),
+            description: t("createAccount.toast.description"),
+          })
+          navigation.dispatch(
+            CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+          )
         },
-        {
-          onSuccess: (response) => {
-            setToken(response.accessToken)
-            showToast({
-              type: ToastType.info,
-              title: t("createAccount.toast.title"),
-              description: t("createAccount.toast.description"),
-            })
-            navigation.dispatch(
-              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-            )
-          },
-          onError: () => {
-            showToast({
-              type: ToastType.error,
-              title: t("login.form.otp.error"),
-            })
-          },
+        onError: () => {
+          showToast({
+            type: ToastType.error,
+            title: t("login.form.otp.error"),
+          })
         },
-      )
+      },
+    )
   }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue } = useCreateAccountForm({
@@ -65,7 +66,11 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
         { email, password, referralId },
         {
           onSuccess: (response) => {
-            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime, submitOtp })
+            navigation.navigate(Routes.auth.otp, {
+              email,
+              codeEndTime: response.codeEndTime,
+              submitOtp,
+            })
           },
           onError: () => {
             showToast({

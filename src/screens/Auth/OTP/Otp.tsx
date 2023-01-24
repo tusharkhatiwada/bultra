@@ -17,7 +17,7 @@ import { useOtpTimer } from "../../../hooks/auth/useOtpTimer"
 
 export type OtpProps = AuthStackScreenProps<typeof Routes.auth.otp>
 
-export const Otp: FC<OtpProps> = ({  route }) => {
+export const Otp: FC<OtpProps> = ({ route }) => {
   const { email, codeEndTime, submitOtp } = route.params
 
   const [otp, setOtp] = useState<string[]>([])
@@ -42,7 +42,7 @@ export const Otp: FC<OtpProps> = ({  route }) => {
 
   const { handleSubmit, setValue } = useOtpForm({
     onSubmit: (form) => {
-      submitOtp(form, email);
+      submitOtp(form, email)
     },
   })
 
@@ -88,22 +88,20 @@ export const Otp: FC<OtpProps> = ({  route }) => {
             handleSetPastedOtp={handleSetPastedOtp}
             isError={isError}
           />
-          {!showResend
-            ? <Typography color="primary.400"
-                          style={styles.timer}>{`${t("login.form.otp.timerText")}: ${minutesString}:${secondsString}`}</Typography>
-            : <TouchableOpacity onPress={handleResendOtp}>
+          {!showResend ? (
+            <Typography color="primary.400" style={styles.timer}>{`${t(
+              "login.form.otp.timerText",
+            )}: ${minutesString}:${secondsString}`}</Typography>
+          ) : (
+            <TouchableOpacity onPress={handleResendOtp}>
               <Typography color="primary.400" style={styles.timer}>
                 {t("login.form.otp.resendCode")}
               </Typography>
             </TouchableOpacity>
-          }
+          )}
         </View>
       </KeyboardAwareScrollView>
-      <Button
-        isLoading={false}
-        isDisabled={otp.join("").length < 6}
-        onPress={() => handleSubmit()}
-      >
+      <Button isLoading={false} isDisabled={otp.join("").length < 6} onPress={() => handleSubmit()}>
         {t("login.form.submitOtp")}
       </Button>
     </RootView>

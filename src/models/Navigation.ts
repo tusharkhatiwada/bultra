@@ -51,10 +51,14 @@ export type MainTabParamList = {
 
 export type AuthStackParamList = {
   [Routes.auth.login]: undefined
-  [Routes.auth.otp]: { email: string, codeEndTime?: string, submitOtp: (form: OtpForm, email: string) => void  }
+  [Routes.auth.otp]: {
+    email: string
+    codeEndTime?: string
+    submitOtp: (form: OtpForm, email: string) => void
+  }
   [Routes.auth.create_account]: { referralId?: string } | undefined
   [Routes.auth.forgot_password]: undefined
-  [Routes.auth.forgot_password_create_new]: { email: string, hash: string }
+  [Routes.auth.forgot_password_create_new]: { email: string; hash: string }
   [Routes.auth.reset_password]: { token: string }
   [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined

@@ -1,1 +1,1 @@
-export { WalletHistoryList } from './WalletHistoryList'
+export { WalletHistoryList } from "./WalletHistoryList"

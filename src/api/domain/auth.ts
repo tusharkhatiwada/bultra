@@ -8,7 +8,7 @@ export namespace Login {
     email: string
     password: string
   }
-  export type Response = { status?: string, accessToken: string }
+  export type Response = { status?: string; accessToken: string }
   export type Request = (params: Login.Params) => Promise<Login.Response>
 }
 
@@ -27,14 +27,16 @@ export namespace ConfirmForgotPasswordOtp {
     code: string
   }
   export type Response = { hash: string }
-  export type Request = (params: ConfirmForgotPasswordOtp.Params) => Promise<ConfirmForgotPasswordOtp.Response>
+  export type Request = (
+    params: ConfirmForgotPasswordOtp.Params,
+  ) => Promise<ConfirmForgotPasswordOtp.Response>
 }
 
 export namespace ResendOtp {
   export type Params = {
     email: string
   }
-  export type Response = {message: string, codeEndTime: string}
+  export type Response = { message: string; codeEndTime: string }
   export type Request = (params: ResendOtp.Params) => Promise<ResendOtp.Response>
 }
 
@@ -42,7 +44,7 @@ export namespace ForgotPassword {
   export type Params = {
     email: string
   }
-  export type Response = {message: string, codeEndTime: string}
+  export type Response = { message: string; codeEndTime: string }
   export type Request = (params: ForgotPassword.Params) => Promise<ForgotPassword.Response>
 }
 
@@ -71,7 +73,7 @@ export namespace CreateAccount {
     password: string
     referralId?: string
   }
-  export type Response = {message: string, codeEndTime: string}
+  export type Response = { message: string; codeEndTime: string }
   export type Request = (params: CreateAccount.Params) => Promise<CreateAccount.Response>
 }
 

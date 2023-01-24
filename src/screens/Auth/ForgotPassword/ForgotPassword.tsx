@@ -20,7 +20,7 @@ import { OtpForm } from "../../../hooks/auth/useOtpForm"
 
 export type ForgotPasswordProps = AuthStackScreenProps<typeof Routes.auth.forgot_password>
 
-export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
+export const ForgotPassword: FC<ForgotPasswordProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
@@ -31,13 +31,17 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
   const { t } = useTranslation()
 
   const submitOtp = (form: OtpForm, email: string) => {
-    sendOtp({
+    sendOtp(
+      {
         email,
         code: form.otpCode,
       },
       {
         onSuccess: (response) => {
-          navigation.navigate(Routes.auth.forgot_password_create_new, { email, hash: response.hash })
+          navigation.navigate(Routes.auth.forgot_password_create_new, {
+            email,
+            hash: response.hash,
+          })
         },
         onError: () => {
           showToast({
@@ -60,12 +64,16 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({navigation}) => {
               title: t("forgotPassword.toast.title"),
               description: t("forgotPassword.toast.description"),
             })
-            navigation.navigate(Routes.auth.otp, { email, codeEndTime: response.codeEndTime, submitOtp })
+            navigation.navigate(Routes.auth.otp, {
+              email,
+              codeEndTime: response.codeEndTime,
+              submitOtp,
+            })
           },
           onError: () => {
             showToast({
               type: ToastType.error,
-              title: 'Email not registered',
+              title: "Email not registered",
               description: t("createAccount.toast.error.description"),
             })
           },

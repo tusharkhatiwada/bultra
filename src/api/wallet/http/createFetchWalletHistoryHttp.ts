@@ -9,9 +9,8 @@ export const createFetchWalletHistoryHttp =
     const { data }: AxiosResponse<WalletHistory[]> = await client.get("/transaction", {
       params: {
         dateRange,
-      }
+      },
     })
 
     return data
   }
-

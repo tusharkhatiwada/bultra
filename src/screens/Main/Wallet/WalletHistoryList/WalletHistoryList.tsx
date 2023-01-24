@@ -10,8 +10,8 @@ import { Spinner, useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 
 export type WalletHistoryListProps = {
-  walletHistory: WalletHistory[],
-  isLoading?: boolean,
+  walletHistory: WalletHistory[]
+  isLoading?: boolean
 }
 
 export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, isLoading }) => {
@@ -31,7 +31,6 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, i
       icon: "arrow-circle-dowm",
     },
   }
-
 
   if (isLoading) {
     return (

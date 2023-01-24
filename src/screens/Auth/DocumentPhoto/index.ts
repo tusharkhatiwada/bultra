@@ -1,1 +1,1 @@
-export { DocumentPhoto } from './DocumentPhoto'
+export { DocumentPhoto } from "./DocumentPhoto"

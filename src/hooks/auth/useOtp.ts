@@ -1,8 +1,4 @@
-import {
-  UseMutationOptions,
-  UseMutationResult,
-  useMutation,
-} from "@tanstack/react-query"
+import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query"
 
 import { AxiosError } from "axios"
 import { ConfirmOtp } from "api/domain/auth"

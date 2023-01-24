@@ -15,9 +15,9 @@ const otpInputsOptions = {
 }
 
 interface Props {
-  handleSetOtpItem: (code: string, index: number) => void;
-  handleSetPastedOtp: (fullCode: string[]) => void;
-  isError?: boolean;
+  handleSetOtpItem: (code: string, index: number) => void
+  handleSetPastedOtp: (fullCode: string[]) => void
+  isError?: boolean
 }
 
 export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isError }) => {
@@ -32,11 +32,11 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
       filledCodeObject[`CODE${count}`] = ""
       count++
     }
-    setForm(filledCodeObject);
+    setForm(filledCodeObject)
   }
 
   useEffect(() => {
-    resetForm();
+    resetForm()
   }, [])
 
   const handleChange = (name: string, value: string, currentIndex: number) => {
@@ -45,7 +45,10 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
   }
 
   const onBackspaceClick = (nativeEvent: TextInputKeyPressEventData, refToFocusIndex: number) => {
-    const needToMovePrev = !isNil(refToFocusIndex) && !isNil(inputsRefs.current[refToFocusIndex]) && nativeEvent.key === "Backspace"
+    const needToMovePrev =
+      !isNil(refToFocusIndex) &&
+      !isNil(inputsRefs.current[refToFocusIndex]) &&
+      nativeEvent.key === "Backspace"
 
     if (needToMovePrev) {
       inputsRefs.current[refToFocusIndex]?.focus()
@@ -74,7 +77,7 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
     name: string,
     code: string,
     currentIndex: number,
-    inputToFocusIndex: number
+    inputToFocusIndex: number,
   ) => {
     const onlyNumbersCode = code.replace(/[^0-9]/g, "")
     const inputToFocus = inputsRefs.current[inputToFocusIndex]
@@ -96,16 +99,16 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
     }
 
     if (onlyNumbersCode.length === otpInputsOptions.pastedCodeLength) {
-      resetForm();
-      pasteCode(onlyNumbersCode);
+      resetForm()
+      pasteCode(onlyNumbersCode)
       return
     }
 
     if (onlyNumbersCode.length === otpInputsOptions.maxPastedCodeLength) {
       const codeToPaste = [...onlyNumbersCode]
       codeToPaste.shift()
-      resetForm();
-      pasteCode(codeToPaste.join(""));
+      resetForm()
+      pasteCode(codeToPaste.join(""))
       return
     }
 
@@ -132,13 +135,10 @@ export const OtpInput: FC<Props> = ({ handleSetOtpItem, handleSetPastedOtp, isEr
               onChangeText={(code) => {
                 recordCode(inputName, code, index, nextInputRefIndex)
               }}
-              onKeyPress={
-                ({ nativeEvent }) =>
-                  onBackspaceClick(nativeEvent, prevInputRefIndex)
-              }
+              onKeyPress={({ nativeEvent }) => onBackspaceClick(nativeEvent, prevInputRefIndex)}
               underlineColorAndroid="transparent"
               keyboardType="phone-pad"
-              ref={el => inputsRefs.current[index] = el}
+              ref={(el) => (inputsRefs.current[index] = el)}
             />
           )
         })}
@@ -164,4 +164,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 })
-

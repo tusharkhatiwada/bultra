@@ -15,7 +15,9 @@ import { useToastContext } from "context/ToastContext"
 import { useCreateNewPasswordForm } from "../../../hooks/auth/useCreateNewPasswordForm"
 import { usePasswordRecovery } from "../../../hooks/auth/usePasswordRecovery"
 
-export type CreateNewPasswordProps = AuthStackScreenProps<typeof Routes.auth.forgot_password_create_new>
+export type CreateNewPasswordProps = AuthStackScreenProps<
+  typeof Routes.auth.forgot_password_create_new
+>
 
 export const CreateNewPassword: FC<CreateNewPasswordProps> = ({ navigation, route }) => {
   const { email, hash } = route.params
@@ -29,7 +31,7 @@ export const CreateNewPassword: FC<CreateNewPasswordProps> = ({ navigation, rout
   const { t } = useTranslation()
 
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useCreateNewPasswordForm({
-    onSubmit: ({ password}) => {
+    onSubmit: ({ password }) => {
       passwordRecovery(
         { email, password, hash },
         {
@@ -37,21 +39,20 @@ export const CreateNewPassword: FC<CreateNewPasswordProps> = ({ navigation, rout
             showToast({
               type: ToastType.success,
               title: t("resetPassword.toast.title"),
-              description: t('resetPassword.toast.description'),
+              description: t("resetPassword.toast.description"),
             })
             navigation.navigate(Routes.auth.login)
           },
           onError: () => {
             showToast({
               type: ToastType.error,
-              title: 'Password change error',
+              title: "Password change error",
             })
           },
         },
       )
     },
   })
-
 
   return (
     <RootView
