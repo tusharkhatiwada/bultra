@@ -85,9 +85,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   }, [networkList])
 
   useEffect(() => {
-    if (!isNil(route.params)) {
-      setValue("walletAddress", route.params.addressToSend)
-    }
+    setValue("walletAddress", route.params?.addressToSend)
   }, [route])
 
   if (!networkList) {
