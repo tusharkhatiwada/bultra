@@ -52,7 +52,11 @@ export function AuthNavigator() {
         component={CreateNewPassword}
         options={{
           header: ({ navigation }) => (
-            <Header navigation={navigation} canGoBack title={t("resetPassword.form.password.label")} />
+            <Header
+              navigation={navigation}
+              canGoBack
+              title={t("resetPassword.form.password.label")}
+            />
           ),
         }}
       />
