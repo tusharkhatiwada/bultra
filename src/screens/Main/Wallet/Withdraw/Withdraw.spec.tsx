@@ -6,6 +6,9 @@ import { Routes } from "models/Routes"
 const props = {
   navigation: {
     navigate: jest.fn(),
+    params: {
+      addressToSend: "",
+    },
   },
 } as unknown as WithdrawProps
 
