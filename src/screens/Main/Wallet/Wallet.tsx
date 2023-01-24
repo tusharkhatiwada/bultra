@@ -39,7 +39,7 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   }
 
   const goToWithdrawalScreen = () => {
-    navigation.navigate(Routes.main.wallet.withdraw, {})
+    navigation.navigate(Routes.main.wallet.withdraw, { addressToSend: "" })
   }
 
   useEffect(() => {
