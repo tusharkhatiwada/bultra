@@ -30,6 +30,7 @@ export const Routes = {
       walletDetails: "main/wallet/detail",
       deposit: "main/wallet/deposit",
       withdraw: "main/wallet/withdraw",
+      qr_scanner: "main/wallet/qr_scanner",
     },
   },
   notFound: "notFound",

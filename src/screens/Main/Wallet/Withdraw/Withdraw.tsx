@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react"
 import { Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
+import { isNil } from "lodash"
 
 import { Button } from "components/Button"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
@@ -23,13 +24,17 @@ export type WithdrawProps = WalletStackScreenProps<typeof Routes.main.wallet.wit
 
 const MAX_USTD = 20000
 
-export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
+export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
   const { withdrawalRequest, isLoading } = useWithdrawalRequest()
+
+  const handleGoToQrScanner = () => {
+    navigation.push("main/wallet/qr_scanner")
+  }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values } =
     useWithdrawalRequestForm({
@@ -79,6 +84,12 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
     if (networkList) setValue("network", networkList[0].type)
   }, [networkList])
 
+  useEffect(() => {
+    if (!isNil(route.params)) {
+      setValue("walletAddress", route.params.addressToSend)
+    }
+  }, [route.params])
+
   if (!networkList) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
@@ -119,6 +130,8 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation }) => {
         <TextInput
           label={t("wallet.withdraw.walletAddress")}
           {...getTextFieldProps("walletAddress")}
+          rightIcon="qrcode"
+          onIconPress={handleGoToQrScanner}
         />
         <TextInput
           label={t("wallet.withdraw.amount")}

@@ -18,6 +18,7 @@ import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
 import { WalletsType } from "../../../../models/Wallet"
+import { QrCode } from "../../../../components/QrCode"
 
 export type DepositProps = WalletStackScreenProps<typeof Routes.main.wallet.deposit>
 
@@ -75,7 +76,7 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
         {
           paddingHorizontal: space[6],
           paddingTop: space[6],
-          paddingBottom: bottom + space[6],
+          paddingBottom: bottom + space[1],
         },
       ]}
     >
@@ -104,6 +105,7 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
           iconLabel={t("plans.selectSubscription.deposit.copy-button")}
           onIconPress={() => copyToClipboard(selectedNetwork?.address)}
         />
+        {!isNil(selectedNetwork) && <QrCode walletKey={selectedNetwork.address} />}
       </View>
       <Button onPress={goBack}>{t("wallet.deposit.cta")}</Button>
     </RootView>
