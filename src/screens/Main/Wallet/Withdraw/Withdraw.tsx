@@ -29,9 +29,9 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
+  const { addressToSend } = route.params
 
   const { withdrawalRequest, isLoading } = useWithdrawalRequest()
-  const { addressToSend } = route.params
 
   const handleGoToQrScanner = () => {
     navigation.push("main/wallet/qr_scanner")
