@@ -1,7 +1,6 @@
 import { FC, useEffect } from "react"
 import { Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
-import { isNil } from "lodash"
 
 import { Button } from "components/Button"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
