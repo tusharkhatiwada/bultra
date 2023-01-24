@@ -3,9 +3,9 @@ import * as Clipboard from "expo-clipboard"
 import { FC, useEffect, useState } from "react"
 import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
+import { isNil } from "lodash"
 
 import { Button } from "components/Button"
-import { NetworkTypes } from "models/Networks"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Select } from "components/Select"
@@ -13,10 +13,11 @@ import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { WalletStackScreenProps } from "models/Navigation"
-import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
+import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
+import { WalletsType } from "../../../../models/Wallet"
 
 export type DepositProps = WalletStackScreenProps<typeof Routes.main.wallet.deposit>
 const walletID = "FG2022-OF93PP001XT0993AR"
@@ -26,8 +27,9 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
+  const { wallet } = useGetWallet()
 
-  const [selectedNetwork, setSelectedNetwork] = useState<NetworkTypes>()
+  const [selectedNetwork, setSelectedNetwork] = useState<WalletsType>()
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -43,13 +45,13 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
     navigation.goBack()
   }
 
-  const { networkList } = useGetNetworkList()
-
   useEffect(() => {
-    if (networkList) setSelectedNetwork(networkList[0].type)
-  }, [networkList])
+    if (wallet) {
+      setSelectedNetwork(wallet.wallets[0])
+    }
+  }, [wallet])
 
-  if (!networkList) {
+  if (!wallet) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
         <Spinner />
@@ -57,7 +59,14 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
     )
   }
 
-  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
+  const handleSelectNetwork = (value: string) => {
+    const network = wallet?.wallets.find((network) => network.id === value)
+    if(!isNil(network)) {
+      setSelectedNetwork(network)
+    }
+  }
+
+  const networks = wallet?.wallets.map((network) => ({ value: network.id, label: network.name }))
 
   return (
     <RootView
@@ -81,10 +90,10 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
           })}
           label={t("wallet.deposit.network")}
           bottomLabel={t("wallet.deposit.selectNetwork")}
-          value={selectedNetwork}
+          value={selectedNetwork?.id}
           cta={t("wallet.deposit.selectNetwork")}
           options={networks}
-          onChange={(value) => setSelectedNetwork(value as NetworkTypes)}
+          onChange={handleSelectNetwork}
         />
         <TextInput
           label={t("wallet.deposit.walletAddress")}

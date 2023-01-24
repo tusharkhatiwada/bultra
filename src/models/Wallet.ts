@@ -1,6 +1,7 @@
 export type Wallet = {
   balance: number
   profitSummary: ProfitSummary
+  wallets : WalletsType[]
 }
 
 export type ProfitSummaryRange = "last24hours" | "lastMonth" | "last7days"
@@ -11,6 +12,12 @@ export type ProfitSummary = {
   last24hours: number
   last7days: number
   lastMonth: number
+}
+
+export type WalletsType = {
+  id: string
+  name: 'ERC20' | 'TRC20' | 'BEP20'
+  address: string
 }
 
 export type WalletHistory = {
