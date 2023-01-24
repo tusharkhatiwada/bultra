@@ -20,7 +20,6 @@ import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
 import { WalletsType } from "../../../../models/Wallet"
 
 export type DepositProps = WalletStackScreenProps<typeof Routes.main.wallet.deposit>
-const walletID = "FG2022-OF93PP001XT0993AR"
 
 export const Deposit: FC<DepositProps> = ({ navigation }) => {
   const { t } = useTranslation()
@@ -31,7 +30,8 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
 
   const [selectedNetwork, setSelectedNetwork] = useState<WalletsType>()
 
-  const copyToClipboard = async (value: string) => {
+  const copyToClipboard = async (value?: string) => {
+    if (isNil(value)) return
     await Clipboard.setStringAsync(value).then(() => {
       showToast({
         type: ToastType.info,
@@ -61,7 +61,7 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
 
   const handleSelectNetwork = (value: string) => {
     const network = wallet?.wallets.find((network) => network.id === value)
-    if(!isNil(network)) {
+    if (!isNil(network)) {
       setSelectedNetwork(network)
     }
   }
@@ -98,11 +98,11 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
         <TextInput
           label={t("wallet.deposit.walletAddress")}
           name="walletId"
-          value={walletID}
+          value={selectedNetwork?.address}
           isDisabled
           rightIcon="copy"
           iconLabel={t("plans.selectSubscription.deposit.copy-button")}
-          onIconPress={() => copyToClipboard(walletID)}
+          onIconPress={() => copyToClipboard(selectedNetwork?.address)}
         />
       </View>
       <Button onPress={goBack}>{t("wallet.deposit.cta")}</Button>
