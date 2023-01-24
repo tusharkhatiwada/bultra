@@ -31,6 +31,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { showToast } = useToastContext()
 
   const { withdrawalRequest, isLoading } = useWithdrawalRequest()
+  const { addressToSend } = route.params
 
   const handleGoToQrScanner = () => {
     navigation.push("main/wallet/qr_scanner")
@@ -85,11 +86,10 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   }, [networkList])
 
   useEffect(() => {
-    const routeParams: { addressToSend: string } | undefined = route.params
-    if (!isNil(routeParams)) {
-      setValue("walletAddress", routeParams.addressToSend)
+    if (!isNil(addressToSend)) {
+      setValue("walletAddress", addressToSend)
     }
-  }, [route])
+  }, [addressToSend])
 
   if (!networkList) {
     return (

@@ -75,6 +75,6 @@ export type ProfileStackParamList = {
 export type WalletStackParamList = {
   [Routes.main.wallet.walletDetails]: undefined
   [Routes.main.wallet.deposit]: undefined
-  [Routes.main.wallet.withdraw]: { addressToSend: string } | undefined
+  [Routes.main.wallet.withdraw]: { addressToSend?: string }
   [Routes.main.wallet.qr_scanner]: undefined
 }
