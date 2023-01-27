@@ -113,7 +113,8 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const isAmountMoreThenBalance =
     parseFloatWithLocale(values.amount) > parseFloatWithLocale(tokenBalance || "0")
 
-  const isDisabled = !isValid || !dirty || isAmountZero || isAmountMoreThenBalance
+  const isDisabled =
+    !isValid || !dirty || isAmountZero || isAmountMoreThenBalance || shouldGoToKYCForm
 
   useEffect(() => {
     if (!isNil(addressToSend)) {
