@@ -9,9 +9,10 @@ export namespace GetWallet {
 
 export namespace WithdrawalRequest {
   export type Params = {
-    network: string
-    walletAddress: string
+    blockchain: string
+    addressTo: string
     amount: number
+    token: string
   }
   export type Response = string
   export type Request = (params: WithdrawalRequest.Params) => Promise<WithdrawalRequest.Response>

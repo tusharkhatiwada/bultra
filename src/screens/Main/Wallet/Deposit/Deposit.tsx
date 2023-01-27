@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard"
 
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { isNil } from "lodash"
@@ -45,12 +45,6 @@ export const Deposit: FC<DepositProps> = ({ navigation }) => {
   const goBack = () => {
     navigation.goBack()
   }
-
-  useEffect(() => {
-    if (wallet) {
-      setSelectedNetwork(wallet.wallets[0])
-    }
-  }, [wallet])
 
   if (!wallet) {
     return (

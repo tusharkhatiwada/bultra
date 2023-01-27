@@ -27,6 +27,7 @@ export type SelectProps = ISelectProps & {
   value?: string
   message?: string
   isRequired?: boolean
+  disabled?: boolean
   custom?: boolean
 }
 
@@ -41,6 +42,7 @@ export const Select: FC<SelectProps> = ({
   isRequired,
   onChange,
   custom,
+  disabled,
   ...rest
 }) => {
   const { colors } = useTheme()
@@ -56,6 +58,7 @@ export const Select: FC<SelectProps> = ({
       {custom ? (
         <>
           <Pressable
+            disabled={disabled}
             accessibilityLabel={label}
             onPress={onOpen}
             style={[styles.input, styles.customInput, { borderColor: colors.primary[300] }]}

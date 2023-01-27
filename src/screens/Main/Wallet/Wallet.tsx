@@ -18,6 +18,7 @@ import { useFetchWalletHistory } from "hooks/wallet/useFetchWalletHistory"
 import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { TransactionRange, WalletHistory } from "../../../models/Wallet"
+import { useIsFocused } from "@react-navigation/native"
 
 export type WalletProps = WalletStackScreenProps<typeof Routes.main.wallet.walletDetails>
 
@@ -26,11 +27,13 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const { top, bottom } = useSafeAreaInsets()
   const { colors } = useTheme()
   const { wallet } = useGetWallet()
+  const isFocused = useIsFocused()
   const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
+  const [isLoading, setIsLoading] = useState(false)
 
   const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
 
-  const { getWalletHistory, isLoading } = useFetchWalletHistory(historyDateRange)
+  const { getWalletHistory } = useFetchWalletHistory(historyDateRange)
 
   const { t } = useTranslation()
 
@@ -43,15 +46,23 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    onDateRangeChange("month")
-  }, [])
+    if (isFocused) {
+      onDateRangeChange("month")
+    }
+  }, [isFocused])
 
-  const onDateRangeChange = (value: TransactionRange) => {
+  const handleGetWalletHistory = (value: TransactionRange) => {
     getWalletHistory(value, {
       onSuccess: (response) => {
         setWalletHistory(response)
+        setIsLoading(false)
       },
     })
+  }
+
+  const onDateRangeChange = (value: TransactionRange) => {
+    setIsLoading(true)
+    handleGetWalletHistory(value)
     setHistoryDateRange(value)
   }
 

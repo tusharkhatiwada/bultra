@@ -42,5 +42,6 @@ export const useFetchWalletHistory = (
     ...request,
     walletHistory: result,
     getWalletHistory: mutation.mutate,
+    historyRange: params,
   }
 }

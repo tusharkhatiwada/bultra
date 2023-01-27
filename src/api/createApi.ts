@@ -11,7 +11,6 @@ import { createKYCFake } from "./auth/fake/createKYCFake"
 import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
-import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalRequestFake"
 import { createCreateAccountHttp } from "./auth/http/createCreateAccountHttp"
 import { confirmOtpHttp } from "./auth/http/confirmOtpHttp"
 import { createLoginHttp } from "./auth/http/createLoginHttp"
@@ -21,6 +20,7 @@ import { confirmForgotPasswordOtpHttp } from "./auth/http/confirmForgotPasswordO
 import { createPasswordRecoveryHttp } from "./auth/http/createPasswordRecoveryHttp"
 import { createGetWalletHttp } from "./wallet/http/createGetWalletHttp"
 import { createFetchWalletHistoryHttp } from "./wallet/http/createFetchWalletHistoryHttp"
+import { createWithdrawalRequestHttp } from "./wallet/http/createWithdrawalRequestHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -93,7 +93,7 @@ export function createApi(offline: boolean): Api {
     },
     wallet: {
       getWallet: createGetWalletHttp(httpClient),
-      withdrawalRequest: createWithdrawalRequestFake(),
+      withdrawalRequest: createWithdrawalRequestHttp(httpClient),
       fetchWalletHistory: createFetchWalletHistoryHttp(httpClient),
       getNetworkList: createGetNetworkListFake(),
     },

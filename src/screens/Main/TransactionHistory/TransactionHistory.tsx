@@ -13,6 +13,7 @@ import { dateFilterButtons } from "../../../components/ButtonBar/constants/DateF
 import { WalletHistoryList } from "../Wallet/WalletHistoryList"
 import { useFetchWalletHistory } from "../../../hooks/wallet/useFetchWalletHistory"
 import { TransactionRange, WalletHistory } from "../../../models/Wallet"
+import { useIsFocused } from "@react-navigation/native"
 
 export type TransactionHistoryProps = MainTabScreenProps<typeof Routes.main.transactionHistory>
 
@@ -20,18 +21,24 @@ export const TransactionHistory: FC<TransactionHistoryProps> = () => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
   const { t } = useTranslation()
+  const isFocused = useIsFocused()
   const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
   const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
-  const { getWalletHistory, isLoading } = useFetchWalletHistory(historyDateRange)
+  const { getWalletHistory } = useFetchWalletHistory(historyDateRange)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    onDateRangeChange("month")
-  }, [])
+    if (isFocused) {
+      onDateRangeChange("month")
+    }
+  }, [isFocused])
 
   const onDateRangeChange = (value: TransactionRange) => {
+    setIsLoading(true)
     getWalletHistory(value, {
       onSuccess: (response) => {
         setWalletHistory(response)
+        setIsLoading(false)
       },
     })
     setHistoryDateRange(value)

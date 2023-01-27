@@ -14,10 +14,13 @@ export type ProfitSummary = {
   lastMonth: number
 }
 
+export type WalletBalance = { token: "USDT" | "BNB" | "TRX" | "ETH"; balance: string }
+
 export type WalletsType = {
   id: string
   name: "ERC20" | "TRC20" | "BEP20"
   address: string
+  balance: WalletBalance[]
 }
 
 export type WalletHistory = {

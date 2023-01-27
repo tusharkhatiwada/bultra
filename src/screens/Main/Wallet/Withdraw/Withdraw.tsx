@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useState } from "react"
 import { Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { isNil } from "lodash"
@@ -13,14 +13,16 @@ import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { WalletStackScreenProps } from "models/Navigation"
 import { parseFloatWithLocale } from "utils/float"
-import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
 import { useWithdrawalRequest } from "hooks/wallet/useWithdrawalRequest"
 import { useWithdrawalRequestForm } from "hooks/wallet/useWithdrawalRequestForm"
+import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
 
 export type WithdrawProps = WalletStackScreenProps<typeof Routes.main.wallet.withdraw>
+
+const allowedTokens = ["USDT"]
 
 const MAX_USTD = 20000
 
@@ -30,8 +32,30 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
   const { addressToSend } = route.params
+  const { wallet, refetch } = useGetWallet()
+
+  const [tokenBalance, setTokenBalance] = useState<string | null>(null)
+  const [infoAmountMessage, setInfoAmountMessage] = useState<
+    { text: string; type: "error" | "success" | "info" | "warning" | undefined } | undefined
+  >(undefined)
 
   const { withdrawalRequest, isLoading } = useWithdrawalRequest()
+
+  useEffect(() => {
+    if (!isNil(tokenBalance)) {
+      tokenBalance === "0"
+        ? setInfoAmountMessage({
+            text: `${t("wallet.withdraw.nothingToWithdraw")} ${t("wallet.withdraw.balance")}: 0`,
+            type: "error",
+          })
+        : setInfoAmountMessage({
+            text: `${t("wallet.withdraw.balance")}: ${tokenBalance}`,
+            type: "info",
+          })
+    } else {
+      setInfoAmountMessage(undefined)
+    }
+  }, [tokenBalance])
 
   const handleGoToQrScanner = () => {
     navigation.push("main/wallet/qr_scanner")
@@ -41,7 +65,12 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     useWithdrawalRequestForm({
       onSubmit: ({ network, amount, walletAddress }) => {
         withdrawalRequest(
-          { network, walletAddress, amount: parseFloatWithLocale(amount) },
+          {
+            blockchain: network,
+            addressTo: walletAddress,
+            amount: parseFloatWithLocale(amount),
+            token: "USDT",
+          },
           {
             onSuccess: () => {
               showToast({
@@ -49,6 +78,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
                 title: "Success",
                 description: t("wallet.withdraw.success"),
               })
+              refetch()
               navigation.goBack()
             },
             onError: (err) => {
@@ -67,23 +97,23 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.kyc,
       params: {
-        network: values.network,
-        walletAddress: values.walletAddress,
+        blockchain: values.network,
+        addressTo: values.walletAddress,
         amount: parseFloatWithLocale(values.amount),
+        token: "USDT",
       },
     })
   }
 
-  // TODO: This data should come from an endpoint
+  // // TODO: This data should come from an endpoint
   const shouldGoToKYCForm = parseFloatWithLocale(values.amount) >= MAX_USTD
 
-  const isDisabled = !isValid || !dirty || shouldGoToKYCForm
+  const isAmountZero = parseFloatWithLocale(values.amount) <= parseFloatWithLocale("0")
 
-  const { networkList } = useGetNetworkList()
+  const isAmountMoreThenBalance =
+    parseFloatWithLocale(values.amount) > parseFloatWithLocale(tokenBalance || "0")
 
-  useEffect(() => {
-    if (networkList) setValue("network", networkList[0].type)
-  }, [networkList])
+  const isDisabled = !isValid || !dirty || isAmountZero || isAmountMoreThenBalance
 
   useEffect(() => {
     if (!isNil(addressToSend)) {
@@ -91,7 +121,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     }
   }, [addressToSend])
 
-  if (!networkList) {
+  if (!wallet) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
         <Spinner />
@@ -99,7 +129,41 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     )
   }
 
-  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
+  const handleSelectNetwork = (value: string) => {
+    setValue("network", value)
+    setValue("token", "USDT")
+    if (isNil(wallet)) return
+    const selectedWallet = wallet.wallets.find((network) => network.name === value)
+    if (isNil(selectedWallet)) return
+    const walletTokens = selectedWallet.balance.find((tokenInfo) =>
+      allowedTokens.includes(tokenInfo.token),
+    )
+    if (!isNil(walletTokens)) {
+      setTokenBalance(walletTokens.balance)
+    }
+  }
+
+  const handleChangeAmount = (value: string) => {
+    const parsedValue = value.replace(",", ".")
+    setValue("amount", parsedValue)
+    if (parseFloatWithLocale(parsedValue) > parseFloatWithLocale(tokenBalance || "0")) {
+      setInfoAmountMessage({
+        text: `${t("wallet.withdraw.nothingToWithdraw")} ${t(
+          "wallet.withdraw.balance",
+        )}: ${tokenBalance}`,
+        type: "error",
+      })
+    } else {
+      setInfoAmountMessage({
+        text: `${t("wallet.withdraw.balance")}: ${tokenBalance}`,
+        type: "info",
+      })
+    }
+  }
+
+  const networks = wallet.wallets.map((network) => {
+    return { value: network.name, label: network.name }
+  })
 
   return (
     <RootView
@@ -126,7 +190,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
           cta={t("wallet.withdraw.selectNetwork")}
           options={networks}
           {...getTextFieldProps("network")}
-          onChange={(value) => setValue("network", value)}
+          onChange={handleSelectNetwork}
         />
         <TextInput
           label={t("wallet.withdraw.walletAddress")}
@@ -139,6 +203,10 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
           rightIcon="dollar-sign"
           {...getTextFieldProps("amount")}
           keyboardType="numeric"
+          isDisabled={isNil(tokenBalance) || tokenBalance === "0"}
+          onChangeText={handleChangeAmount}
+          status={infoAmountMessage?.type}
+          message={infoAmountMessage?.text}
         />
         <Typography color="primary.400" size="mini" style={styles.description}>
           {t("wallet.withdraw.withdrawWarning")}
