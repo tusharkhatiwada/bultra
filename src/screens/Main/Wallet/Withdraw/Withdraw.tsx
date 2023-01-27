@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next"
 import { useWithdrawalRequest } from "hooks/wallet/useWithdrawalRequest"
 import { useWithdrawalRequestForm } from "hooks/wallet/useWithdrawalRequestForm"
 import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
+import { useIsFocused } from "@react-navigation/native"
 
 export type WithdrawProps = WalletStackScreenProps<typeof Routes.main.wallet.withdraw>
 
@@ -32,6 +33,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { bottom } = useSafeAreaInsets()
   const { showToast } = useToastContext()
   const { addressToSend } = route.params
+  const isFocused = useIsFocused()
   const { wallet, refetch } = useGetWallet()
 
   const [tokenBalance, setTokenBalance] = useState<string | null>(null)
@@ -59,9 +61,12 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
 
   const handleGoToQrScanner = () => {
     navigation.push("main/wallet/qr_scanner")
+    setInfoAmountMessage(undefined)
+    setTokenBalance(null)
+    resetForm()
   }
 
-  const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values } =
+  const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values, resetForm } =
     useWithdrawalRequestForm({
       onSubmit: ({ network, amount, walletAddress }) => {
         withdrawalRequest(
@@ -117,10 +122,10 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     !isValid || !dirty || isAmountZero || isAmountMoreThenBalance || shouldGoToKYCForm
 
   useEffect(() => {
-    if (!isNil(addressToSend)) {
+    if (!isNil(addressToSend) && addressToSend !== "" && isFocused) {
       setValue("walletAddress", addressToSend)
     }
-  }, [addressToSend])
+  }, [isFocused])
 
   if (!wallet) {
     return (
@@ -181,6 +186,12 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
         <Typography color="primary.400" style={styles.description}>
           {t("wallet.withdraw.description")}
         </Typography>
+        <TextInput
+          label={t("wallet.withdraw.walletAddress")}
+          {...getTextFieldProps("walletAddress")}
+          rightIcon="qrcode"
+          onIconPress={handleGoToQrScanner}
+        />
         <Select
           custom
           placeholder={t("common.select.placeholder", {
@@ -192,12 +203,6 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
           options={networks}
           {...getTextFieldProps("network")}
           onChange={handleSelectNetwork}
-        />
-        <TextInput
-          label={t("wallet.withdraw.walletAddress")}
-          {...getTextFieldProps("walletAddress")}
-          rightIcon="qrcode"
-          onIconPress={handleGoToQrScanner}
         />
         <TextInput
           label={t("wallet.withdraw.amount")}
