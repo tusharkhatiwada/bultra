@@ -40,7 +40,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
       },
       {
         onSuccess: (response) => {
-          setToken(response.accessToken)
+          setToken(response.accessToken.accessToken)
           showToast({
             type: ToastType.info,
             title: t("createAccount.toast.title"),

@@ -7,7 +7,7 @@ export const createPlanSubscriptionFake = (): PlanSubscription.Request => () => 
       id: "Test",
       userId: "Test",
       planId: "Test",
-      Plan: FreePlanMock,
+      Plan: { Plan: FreePlanMock },
     }
   }
   return Promise.resolve(createGetPlansFakeFixture())
