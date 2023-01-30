@@ -2,20 +2,24 @@ import { Dispatch, FC, SetStateAction } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 
 import { PlanCard } from "./PlanCard"
-import { PlanTypes } from "models/Plans"
+import { Plan, PlanTypes } from "models/Plans"
 import { Stack } from "native-base"
 import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
+import { useGetAllPlans } from "../../../../hooks/auth/useGetAllPlans"
+import { isNil } from "lodash"
 
 export type SelectPlanProps = {
-  selectedPlan: PlanTypes
-  setSelectedPlan: Dispatch<SetStateAction<PlanTypes>>
+  selectedPlan: Plan
+  setSelectedPlan: Dispatch<SetStateAction<Plan>>
 }
 
 export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan }) => {
   const { t } = useTranslation()
 
-  const isSelected = (plan: PlanTypes) => selectedPlan === plan
+  const { plans } = useGetAllPlans()
+
+  const isSelected = (plan: PlanTypes) => selectedPlan.name === plan
 
   return (
     <ScrollView style={styles.container}>
@@ -29,23 +33,15 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
         </Typography>
 
         <Stack space="lg" accessibilityRole="radiogroup">
-          <PlanCard
-            type={PlanTypes.BASIC}
-            selected={isSelected(PlanTypes.BASIC)}
-            selectPlan={setSelectedPlan}
-          />
-
-          <PlanCard
-            type={PlanTypes.PREMIUM}
-            selected={isSelected(PlanTypes.PREMIUM)}
-            selectPlan={setSelectedPlan}
-          />
-
-          <PlanCard
-            type={PlanTypes.VIP}
-            selected={isSelected(PlanTypes.VIP)}
-            selectPlan={setSelectedPlan}
-          />
+          {!isNil(plans) &&
+            plans.map((plan) => (
+              <PlanCard
+                key={plan.id}
+                selected={isSelected(plan.name)}
+                selectPlan={setSelectedPlan}
+                plan={plan}
+              />
+            ))}
         </Stack>
       </View>
     </ScrollView>

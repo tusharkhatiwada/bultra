@@ -1,14 +1,19 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from "react"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
-import { UserInformation } from "models/Profile"
+import { UserInformation, UserInformationV2 } from "models/Profile"
 import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
+import { Plan } from "../models/Plans"
 
 export type AuthContextProps = {
   token: string | null
   setToken: (token: string) => void
+  selectedPlan: Plan | null
+  setSelectedPlan: (plan: Plan | null) => void
   isLoggedIn: boolean
   user?: UserInformation
+  setUserV2: (user: UserInformationV2) => void
+  userV2?: UserInformationV2
   logout: () => Promise<void>
 }
 
@@ -18,7 +23,9 @@ const storage = createSecureStorage()
 
 export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInformation>()
+  const [userV2, setUserV2] = useState<UserInformationV2>()
   const [stateToken, setStateToken] = useState<string | null>(null)
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
 
   storage.get(StorageKey.ACCESS_TOKEN).then((storageToken) => {
     setStateToken(storageToken)
@@ -52,11 +59,15 @@ export const AuthProvider: FC = ({ children }) => {
     () => ({
       token: stateToken,
       setToken,
+      selectedPlan,
+      setSelectedPlan,
       user,
+      userV2,
+      setUserV2,
       isLoggedIn,
       logout,
     }),
-    [stateToken, setToken],
+    [stateToken, setToken, selectedPlan, setSelectedPlan],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

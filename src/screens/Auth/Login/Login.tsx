@@ -30,7 +30,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
   const { login, isLoading } = useLogin()
   const { resendOtp } = useResendOtp()
-  const { setToken } = useAuthContext()
+  const { setToken, setUserV2 } = useAuthContext()
   const { showToast } = useToastContext()
   const { sendOtp } = useOtp()
 
@@ -44,7 +44,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
       },
       {
         onSuccess: (response) => {
-          setToken(response.accessToken)
+          setToken(response.accessToken.accessToken)
+          if (!isNil(response.user)) setUserV2(response.user)
           showToast({
             type: ToastType.info,
             title: t("createAccount.toast.title"),
@@ -71,7 +72,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         {
           onSuccess: (response) => {
             if (isNil(response.status)) {
-              setToken(response.accessToken)
+              setToken(response.accessToken.accessToken)
+              if (!isNil(response.user)) setUserV2(response.user)
               navigation.dispatch(
                 CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
               )

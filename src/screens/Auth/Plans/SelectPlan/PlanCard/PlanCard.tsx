@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react"
-import { PlanTypes, Plans } from "models/Plans"
+import { PlanTypes, PlanTranslationsTypes, Plan } from "models/Plans"
 import { Pressable, StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
@@ -11,18 +11,19 @@ import useColorScheme from "hooks/useColorScheme"
 import { useTheme } from "native-base"
 
 export type PlanCardProps = {
-  type: PlanTypes
-  selectPlan: Dispatch<SetStateAction<PlanTypes>>
+  selectPlan: Dispatch<SetStateAction<Plan>>
   selected?: boolean
+  plan: Plan
 }
 
 const typeToAccentColor: { [key: string]: "green" | "blue" | "yellow" } = {
+  [PlanTypes.FREE]: "green",
   [PlanTypes.BASIC]: "green",
   [PlanTypes.PREMIUM]: "blue",
   [PlanTypes.VIP]: "yellow",
 }
 
-export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
+export const PlanCard: FC<PlanCardProps> = ({ plan, selectPlan, selected }) => {
   const { t } = useTranslation()
   const { colors } = useTheme()
 
@@ -30,15 +31,15 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
   const isDarkMode = colorScheme === "dark"
 
   const handlePress = () => {
-    selectPlan(type)
+    selectPlan(plan)
   }
 
-  const accentColor = accentColors[typeToAccentColor[type]]
+  const accentColor = accentColors[typeToAccentColor[plan.name]]
 
   return (
     <Pressable
       accessibilityRole="radio"
-      accessibilityLabel={t(`plans.selectPlan.${type}`)}
+      accessibilityLabel={t(`plans.selectPlan.${PlanTranslationsTypes[plan.name]}`)}
       onPress={handlePress}
     >
       <RootView
@@ -59,7 +60,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
               weight="bold"
               color={selected && isDarkMode ? "black" : undefined}
             >
-              {t(`plans.selectPlan.${type}`)}
+              {t(`plans.selectPlan.${PlanTranslationsTypes[plan.name]}`)}
             </Typography>
           </View>
 
@@ -72,7 +73,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
           <Typography size="h3" color={selected && isDarkMode ? "black" : undefined}>
             <Trans
               i18nKey={"plans.selectPlan.fee"}
-              values={{ fee: Plans[type].fee }}
+              values={{ fee: plan.percent }}
               components={{
                 small: <Typography color="primary.500" style={styles.fee} />,
               }}
@@ -85,7 +86,7 @@ export const PlanCard: FC<PlanCardProps> = ({ type, selectPlan, selected }) => {
           >
             <Trans
               i18nKey={"plans.selectPlan.price"}
-              values={{ price: Plans[type].price }}
+              values={{ price: plan.price }}
               components={{
                 small: <Typography weight="semibold" style={styles.fee} />,
               }}

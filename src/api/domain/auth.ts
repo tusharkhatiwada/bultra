@@ -1,14 +1,18 @@
 import { CameraCapturedPicture } from "expo-camera"
 import { DocumentResult } from "expo-document-picker"
-import { NetworkTypes } from "models/Networks"
-import { PlanTypes } from "models/Plans"
+import { Plan } from "models/Plans"
+import { UserInformationV2 } from "../../models/Profile"
 
 export namespace Login {
   export type Params = {
     email: string
     password: string
   }
-  export type Response = { status?: string; accessToken: string }
+  export type Response = {
+    status?: string
+    accessToken: { accessToken: string }
+    user?: UserInformationV2
+  }
   export type Request = (params: Login.Params) => Promise<Login.Response>
 }
 
@@ -17,7 +21,10 @@ export namespace ConfirmOtp {
     email: string
     code: string
   }
-  export type Response = { accessToken: string }
+  export type Response = {
+    accessToken: { accessToken: string }
+    user?: UserInformationV2
+  }
   export type Request = (params: ConfirmOtp.Params) => Promise<ConfirmOtp.Response>
 }
 
@@ -77,12 +84,27 @@ export namespace CreateAccount {
   export type Request = (params: CreateAccount.Params) => Promise<CreateAccount.Response>
 }
 
+export namespace GetPlans {
+  // export type Params = {
+  //   type: PlanTypes
+  //   network: NetworkTypes
+  // }
+  export type Response = Plan[]
+  export type Request = () => Promise<GetPlans.Response>
+}
+
 export namespace PlanSubscription {
   export type Params = {
-    type: PlanTypes
-    network: NetworkTypes
+    // type: PlanTypes
+    // network: NetworkTypes
+    id: string
   }
-  export type Response = void
+  export type Response = {
+    id: string
+    userId: string
+    planId: string
+    Plan: { Plan: Plan }
+  }
   export type Request = (params: PlanSubscription.Params) => Promise<PlanSubscription.Response>
 }
 
@@ -110,4 +132,5 @@ export interface AuthApi {
   createAccount: CreateAccount.Request
   planSubscription: PlanSubscription.Request
   kyc: KYC.Request
+  getPlans: GetPlans.Request
 }

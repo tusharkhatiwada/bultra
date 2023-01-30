@@ -8,7 +8,6 @@ import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferr
 import { createGetNetworkListFake } from "./wallet/fake/createGetNetworkListFake"
 import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
 import { createKYCFake } from "./auth/fake/createKYCFake"
-import { createPlanSubscriptionFake } from "./auth/fake/createPlanSubscriptionFake"
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
 import { createCreateAccountHttp } from "./auth/http/createCreateAccountHttp"
@@ -21,6 +20,8 @@ import { createPasswordRecoveryHttp } from "./auth/http/createPasswordRecoveryHt
 import { createGetWalletHttp } from "./wallet/http/createGetWalletHttp"
 import { createFetchWalletHistoryHttp } from "./wallet/http/createFetchWalletHistoryHttp"
 import { createWithdrawalRequestHttp } from "./wallet/http/createWithdrawalRequestHttp"
+import { createGetPlansHttp } from "./auth/http/getPlansHttp"
+import { createPlanSubscriptionHttp } from "./auth/http/createPlanSubscriptionHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -80,8 +81,9 @@ export function createApi(offline: boolean): Api {
       forgotPassword: createForgotPasswordHttp(httpClient),
       resetPassword: createResetPasswordFake(),
       createAccount: createCreateAccountHttp(httpClient),
-      planSubscription: createPlanSubscriptionFake(),
+      planSubscription: createPlanSubscriptionHttp(httpClient),
       kyc: createKYCFake(),
+      getPlans: createGetPlansHttp(httpClient),
     },
     profile: {
       changePassword: createChangePasswordFake(),

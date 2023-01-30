@@ -1,8 +1,17 @@
+import { Plan } from "./Plans"
+
 export type UserInformation = {
   name?: string
   email: string
   referralId: string
   status: UserStatus
+}
+
+export type UserInformationV2 = {
+  UserPlan: { Plan: Plan } | null
+  email: string
+  id: string
+  status: string
 }
 
 export enum UserStatus {

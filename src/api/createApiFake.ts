@@ -16,6 +16,7 @@ import { createWithdrawalRequestFake } from "./wallet/fake/createWithdrawalReque
 import { createOtpFake } from "./auth/fake/createOtpFake"
 import { createResendOtpFake } from "./auth/fake/createResendOtpFake"
 import { createForgotPasswordOtpFake } from "./auth/fake/createForgotPasswordOtpFake"
+import { createGetPlansFake } from "./auth/fake/createGetPlansFake"
 
 export function createApiFake(): Api {
   return {
@@ -30,6 +31,7 @@ export function createApiFake(): Api {
       createAccount: createCreateAccountFake(),
       planSubscription: createPlanSubscriptionFake(),
       kyc: createKYCFake(),
+      getPlans: createGetPlansFake(),
     },
     profile: {
       changePassword: createChangePasswordFake(),

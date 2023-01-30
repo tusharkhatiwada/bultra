@@ -6,7 +6,7 @@ import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
 import { NetworkTypes } from "models/Networks"
-import { PlanTypes } from "models/Plans"
+import { FreePlanMock, PlanTranslationsTypes } from "models/Plans"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
@@ -18,6 +18,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
+import { isNil } from "lodash"
+import { Header } from "../../../components/Header"
+import { useAuthContext } from "../../../context/AuthContext"
 
 const PLAN_STEP = 1
 const SUBSCRIPTION_STEP = 2
@@ -25,10 +28,39 @@ const TOTAL_STEPS = 2
 
 export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 
-export const Plans: FC<PlansProps> = ({ navigation }) => {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [selectedPlan, setSelectedPlan] = useState(PlanTypes.PREMIUM)
+export const Plans: FC<PlansProps> = ({ navigation, route }) => {
+  const routeParams = route.params
+  const desiredPlan = !isNil(routeParams) ? routeParams.desiredPlan : FreePlanMock
+  const step = !isNil(routeParams) ? routeParams.step : 1
+  const [currentStep, setCurrentStep] = useState(step)
+  const [planToConfig, setPlanToConfig] = useState(desiredPlan)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
+
+  const { isLoggedIn, setSelectedPlan, userV2, setUserV2 } = useAuthContext()
+
+  const onBackPress = () => {
+    if (isLoggedIn) {
+      setSelectedPlan(null)
+      navigation.dispatch(
+        CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (!isNil(routeParams)) {
+      navigation.setOptions({
+        header: ({ navigation }) => (
+          <Header
+            navigation={navigation}
+            canGoBack
+            title={t(`plans.selectPlan.${PlanTranslationsTypes[routeParams.desiredPlan.name]}`)}
+            onBackPress={onBackPress}
+          />
+        ),
+      })
+    }
+  }, [routeParams])
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
@@ -41,9 +73,10 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
   const handleButtonPress = () => {
     if (currentStep === TOTAL_STEPS) {
       planSubscription(
-        { type: selectedPlan, network: selectedNetwork },
+        { id: planToConfig.id },
         {
           onSuccess: () => {
+            if (!isNil(userV2)) setUserV2({ ...userV2, UserPlan: { Plan: planToConfig } })
             showToast({
               type: ToastType.info,
               title: t("plans.toast.title"),
@@ -91,12 +124,12 @@ export const Plans: FC<PlansProps> = ({ navigation }) => {
       </View>
 
       {currentStep === PLAN_STEP && (
-        <SelectPlan selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
+        <SelectPlan selectedPlan={planToConfig} setSelectedPlan={setPlanToConfig} />
       )}
 
       {currentStep === SUBSCRIPTION_STEP && (
         <SelectSubscription
-          selectedPlan={selectedPlan}
+          selectedPlan={planToConfig.name}
           selectedNetwork={selectedNetwork}
           setSelectedNetwork={setSelectedNetwork}
         />

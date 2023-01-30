@@ -1,8 +1,9 @@
 import { Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
+import { isNil } from "lodash"
 
 import { Button } from "components/Button"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { MainTabScreenProps } from "models/Navigation"
 import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
@@ -10,9 +11,11 @@ import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
 import { UserStatus } from "models/Profile"
 import { useAuthContext } from "context/AuthContext"
-import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
+import { PlansSelector } from "./PlansSelector"
+import { useGetAllPlans } from "../../../hooks/auth/useGetAllPlans"
+import { Plan, PlanTranslationsTypes, PlanTypes } from "../../../models/Plans"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -22,9 +25,24 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
-  const { isLoggedIn, user } = useAuthContext()
+  const { isLoggedIn, user, setSelectedPlan, selectedPlan, userV2 } = useAuthContext()
 
-  const { wallet } = useGetWallet()
+  const { plans } = useGetAllPlans()
+
+  useEffect(() => {
+    const userPlan =
+      !isNil(userV2) && !isNil(userV2.UserPlan) ? userV2.UserPlan.Plan.name : PlanTypes.FREE
+
+    if (isLoggedIn && !isNil(selectedPlan) && selectedPlan.name !== userPlan) {
+      navigation.navigate(Routes.auth.navigator, {
+        screen: Routes.auth.plans,
+        params: {
+          desiredPlan: selectedPlan,
+          step: 2,
+        },
+      })
+    }
+  }, [userV2, isLoggedIn, selectedPlan])
 
   const goToSignUp = () => {
     navigation.navigate(Routes.auth.navigator, {
@@ -32,7 +50,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  const goToLogin = () => {
+  const goToLogin = (selectedPlan?: Plan) => {
+    setSelectedPlan(isNil(selectedPlan) ? null : selectedPlan)
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.login,
     })
@@ -42,6 +61,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.plans,
     })
+  }
+
+  const profitSummary = {
+    last24hours: 1.45,
+    last7days: -3.33,
+    lastMonth: 6.32,
   }
 
   return (
@@ -73,8 +98,10 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         </Typography>
       </View>
 
-      {wallet && wallet.profitSummary ? (
-        <ProfitsList profitSummary={wallet.profitSummary} />
+      <ProfitsList profitSummary={profitSummary} />
+
+      {!isNil(plans) ? (
+        !isLoggedIn && <PlansSelector plans={plans} goToLogin={goToLogin} />
       ) : (
         <Spinner />
       )}
@@ -82,34 +109,41 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       {!isLoggedIn && (
         <Stack space="md">
           <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
-          <Button variant="outline" onPress={goToLogin}>
+          <Button variant="outline" onPress={() => goToLogin()}>
             {t("login.title")}
           </Button>
         </Stack>
       )}
-
+      {isLoggedIn && !isNil(userV2) && (
+        <Typography color="primary.400" style={styles.profitDescription}>
+          {t("plans.selectSubscription.yourPlanIs", {
+            plan: !isNil(userV2.UserPlan)
+              ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.UserPlan.Plan.name]}`)
+              : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),
+          })}
+        </Typography>
+      )}
       {user?.status === UserStatus.MISSING_PLAN && (
         <Button onPress={goToPlans}>{t("plans.title")}</Button>
       )}
     </RootView>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
   },
   title: {
-    marginBottom: 16,
+    marginBottom: 5,
   },
   description: {
-    marginBottom: 24,
+    marginBottom: 10,
   },
   profits: {
-    marginBottom: 8,
+    marginBottom: 5,
   },
   profitDescription: {
-    marginBottom: 28,
+    marginBottom: 5,
   },
 })

@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Routes } from "./Routes"
 import { WithdrawalRequest } from "api/domain/wallet"
 import { OtpForm } from "../hooks/auth/useOtpForm"
+import { Plan } from "./Plans"
 
 export type RootStackParamList = {
   [Routes.home]: undefined
@@ -62,7 +63,7 @@ export type AuthStackParamList = {
   [Routes.auth.reset_password]: { token: string }
   [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined
-  [Routes.auth.plans]: undefined
+  [Routes.auth.plans]: { desiredPlan: Plan; step: number } | undefined
 }
 
 export type ProfileStackParamList = {

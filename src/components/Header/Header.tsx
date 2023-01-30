@@ -8,18 +8,24 @@ import { ParamListBase } from "@react-navigation/native"
 import { RootView } from "components/RootView"
 import { Typography } from "components/Typography"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { isNil } from "lodash"
 
 export type HeaderProps = {
   navigation: NativeStackNavigationProp<ParamListBase>
   title: string
   canGoBack?: boolean
+  onBackPress?: () => void
 }
 
-export const Header: FC<HeaderProps> = ({ navigation, title, canGoBack = false }) => {
+export const Header: FC<HeaderProps> = ({ navigation, title, canGoBack = false, onBackPress }) => {
   const { top } = useSafeAreaInsets()
 
   const handleGoBack = () => {
-    canGoBack ? navigation.goBack() : DeviceEventEmitter.emit(Events.HeaderBackButtonPress)
+    if (!isNil(onBackPress)) {
+      onBackPress()
+    } else {
+      canGoBack ? navigation.goBack() : DeviceEventEmitter.emit(Events.HeaderBackButtonPress)
+    }
   }
 
   return (

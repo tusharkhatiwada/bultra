@@ -11,8 +11,8 @@ import { Select } from "components/Select"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
-import { useGetNetworkList } from "hooks/wallet/useGetNetworkList"
 import { useToastContext } from "context/ToastContext"
+import { useGetWallet } from "../../../../hooks/wallet/useGetWallet"
 
 export type SelectSubscriptionProps = {
   selectedPlan: PlanTypes
@@ -30,6 +30,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   const { t } = useTranslation()
   const { colors } = useTheme()
   const { showToast } = useToastContext()
+  const { wallet } = useGetWallet()
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -41,9 +42,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
     })
   }
 
-  const { networkList } = useGetNetworkList()
-
-  if (!networkList) {
+  if (!wallet) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
         <Spinner />
@@ -51,7 +50,9 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
     )
   }
 
-  const networks = networkList.map((network) => ({ value: network.type, label: network.name }))
+  const networks = wallet.wallets.map((network) => {
+    return { value: network.name, label: network.name }
+  })
 
   return (
     <ScrollView style={styles.container}>

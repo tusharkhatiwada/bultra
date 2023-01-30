@@ -309,11 +309,12 @@
 
     "plans": {
       "title": "Select a plan",
-
+      "changePlan": "Change plan",
       "selectPlan": {
         "title": "Choose your plan",
         "description": "Select one of our plans and start getting benefits as soon as possible:",
 
+        "FREE": "Free Plan",
         "BASIC": "Basic Plan",
         "PREMIUM": "Premium Plan",
         "VIP": "VIP Plan",
@@ -325,7 +326,7 @@
       "selectSubscription": {
         "title": "Subscription",
         "description": "Choose the type of subscription. You can make a monthly payment indefinitely or make a single payment, valid for the next two years:",
-
+        "yourPlanIs": "Your current plan is {{plan}}",
         "monthly": {
           "title": "Monthly subscription",
           "price": "{{price}} <small>USDT</small>",
