@@ -114,6 +114,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           </Button>
         </Stack>
       )}
+
       {isLoggedIn && !isNil(userV2) && (
         <Typography color="primary.400" style={styles.profitDescription}>
           {t("plans.selectSubscription.yourPlanIs", {
