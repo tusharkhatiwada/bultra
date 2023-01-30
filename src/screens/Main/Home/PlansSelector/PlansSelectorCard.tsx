@@ -61,7 +61,7 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
           <Typography
             size="mini"
             color={isDarkMode ? "black" : undefined}
-            style={{ marginLeft: 10 }}
+            style={styles.marginLeft}
           >
             <Trans
               i18nKey={"plans.selectPlan.fee"}
@@ -122,5 +122,9 @@ const styles = StyleSheet.create({
 
   fee: {
     lineHeight: 26,
+  },
+
+  marginLeft: {
+    marginLeft: 10,
   },
 })
