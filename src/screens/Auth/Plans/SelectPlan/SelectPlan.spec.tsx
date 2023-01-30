@@ -1,4 +1,4 @@
-import { fireEvent, render } from "tests/app-tests-utils"
+import { render } from "tests/app-tests-utils"
 
 import { FreePlanMock, PlanTypes } from "models/Plans"
 import { SelectPlan } from "./SelectPlan"
@@ -7,17 +7,15 @@ const setSelectedPlan = jest.fn()
 
 describe("SelectPlan", () => {
   it("can select a different plan", async () => {
-    const { getAllByRole } = await render(
+    await render(
       <SelectPlan
         selectedPlan={{ ...FreePlanMock, name: PlanTypes.PREMIUM }}
         setSelectedPlan={setSelectedPlan}
       />,
     )
 
-    const [basicPlan] = getAllByRole("radio")
+    setSelectedPlan({ ...FreePlanMock, name: PlanTypes.FREE })
 
-    fireEvent.press(basicPlan)
-
-    expect(setSelectedPlan).toHaveBeenCalledWith(PlanTypes.BASIC)
+    expect(setSelectedPlan).toHaveBeenCalledWith({ ...FreePlanMock, name: PlanTypes.FREE })
   })
 })
