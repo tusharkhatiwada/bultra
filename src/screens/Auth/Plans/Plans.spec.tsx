@@ -8,7 +8,10 @@ const props = {
     dispatch: jest.fn(),
   },
   route: {
-    params: undefined,
+    params: {
+      desiredPlan: FreePlanMock,
+      step: 1,
+    },
   },
 } as unknown as PlansProps
 
