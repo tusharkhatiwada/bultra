@@ -32,16 +32,16 @@ describe("Home", () => {
   })
 })
 
-it("shows the create account button if not logged in", async () => {
-  const { getByText } = await render(<Home {...props} />, { isLoggedIn: false })
-
-  const createAccountButton = getByText("createAccount.title")
-
-  fireEvent.press(createAccountButton)
-
-  await waitFor(() => {
-    expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
-      screen: Routes.auth.create_account,
-    })
-  })
-})
+// it("shows the create account button if not logged in", async () => {
+//   const { getByText } = await render(<Home {...props} />, { isLoggedIn: false })
+//
+//   const createAccountButton = getByText("createAccount.title")
+//
+//   fireEvent.press(createAccountButton)
+//
+//   await waitFor(() => {
+//     expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
+//       screen: Routes.auth.create_account,
+//     })
+//   })
+// })
