@@ -26,6 +26,7 @@ describe("Home", () => {
     await waitFor(() => {
       expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
         screen: Routes.auth.plans,
+        params: {},
       })
     })
   })
