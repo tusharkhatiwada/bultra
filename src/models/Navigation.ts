@@ -63,7 +63,7 @@ export type AuthStackParamList = {
   [Routes.auth.reset_password]: { token: string }
   [Routes.auth.kyc]: WithdrawalRequest.Params
   [Routes.auth.document_photo]: undefined
-  [Routes.auth.plans]: { desiredPlan: Plan; step: number } | undefined
+  [Routes.auth.plans]: { desiredPlan?: Plan; step?: number }
 }
 
 export type ProfileStackParamList = {

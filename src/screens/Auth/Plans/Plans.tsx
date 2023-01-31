@@ -6,7 +6,7 @@ import { Button } from "components/Button"
 import { CommonActions } from "@react-navigation/native"
 import { Events } from "models/Events"
 import { NetworkTypes } from "models/Networks"
-import { FreePlanMock, PlanTranslationsTypes } from "models/Plans"
+import { FreePlanMock } from "models/Plans"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next"
 import { isNil } from "lodash"
 import { Header } from "../../../components/Header"
 import { useAuthContext } from "../../../context/AuthContext"
+import { useChangePlansNavigationProps } from "../../../hooks/auth/useChangePlansNavigationProps"
 
 const PLAN_STEP = 1
 const SUBSCRIPTION_STEP = 2
@@ -29,38 +30,29 @@ const TOTAL_STEPS = 2
 export type PlansProps = AuthStackScreenProps<typeof Routes.auth.plans>
 
 export const Plans: FC<PlansProps> = ({ navigation, route }) => {
-  const routeParams = route.params
-  const desiredPlan = !isNil(routeParams) ? routeParams.desiredPlan : FreePlanMock
-  const step = !isNil(routeParams) ? routeParams.step : 1
-  const [currentStep, setCurrentStep] = useState(step)
-  const [planToConfig, setPlanToConfig] = useState(desiredPlan)
+  const { desiredPlan, step } = route.params
+  const defaultPlan = !isNil(desiredPlan) ? desiredPlan : FreePlanMock
+  const defaultStep = !isNil(step) ? step : 1
+  const [currentStep, setCurrentStep] = useState(defaultStep)
+  const [planToConfig, setPlanToConfig] = useState(defaultPlan)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
 
-  const { isLoggedIn, setSelectedPlan, userV2, setUserV2 } = useAuthContext()
-
-  const onBackPress = () => {
-    if (isLoggedIn) {
-      setSelectedPlan(null)
-      navigation.dispatch(
-        CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-      )
-    }
-  }
+  const { userV2, setUserV2 } = useAuthContext()
+  const { needToChangeNavOptions, onBackPress, headerTitle } = useChangePlansNavigationProps({
+    navigation,
+    desiredPlan,
+    step,
+  })
 
   useEffect(() => {
-    if (!isNil(routeParams)) {
+    if (needToChangeNavOptions) {
       navigation.setOptions({
         header: ({ navigation }) => (
-          <Header
-            navigation={navigation}
-            canGoBack
-            title={t(`plans.selectPlan.${PlanTranslationsTypes[routeParams.desiredPlan.name]}`)}
-            onBackPress={onBackPress}
-          />
+          <Header navigation={navigation} canGoBack title={headerTitle} onBackPress={onBackPress} />
         ),
       })
     }
-  }, [routeParams])
+  }, [needToChangeNavOptions])
 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
