@@ -24,7 +24,7 @@ describe("ChangePassword", () => {
     await waitFor(() => {
       expect(api.profile.changePassword).toHaveBeenCalledWith({
         oldPassword: "123",
-        newPassword: "1234",
+        password: "1234",
       })
     })
   })
