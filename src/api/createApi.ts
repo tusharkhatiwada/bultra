@@ -3,7 +3,6 @@ import { createSecureStorage, StorageKey } from "services/SecureStorage"
 import { Api } from "./domain/api"
 import axios from "axios"
 import { createApiFake } from "./createApiFake"
-import { createChangePasswordFake } from "./profile/fake/createChangePasswordFake"
 import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferralLevelsFake"
 import { createGetNetworkListFake } from "./wallet/fake/createGetNetworkListFake"
 import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
@@ -22,6 +21,7 @@ import { createFetchWalletHistoryHttp } from "./wallet/http/createFetchWalletHis
 import { createWithdrawalRequestHttp } from "./wallet/http/createWithdrawalRequestHttp"
 import { createGetPlansHttp } from "./auth/http/getPlansHttp"
 import { createPlanSubscriptionHttp } from "./auth/http/createPlanSubscriptionHttp"
+import { createChangePasswordHttp } from "./profile/http/createChangePasswordHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -86,7 +86,7 @@ export function createApi(offline: boolean): Api {
       getPlans: createGetPlansHttp(httpClient),
     },
     profile: {
-      changePassword: createChangePasswordFake(),
+      changePassword: createChangePasswordHttp(httpClient),
       supportRequest: createSupportRequestFake(),
       getUserProfile: createGetUserProfileFake(),
     },

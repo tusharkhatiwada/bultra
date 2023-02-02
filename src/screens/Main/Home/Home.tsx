@@ -32,21 +32,6 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   useCheckNeedGoToPlan({ navigationProps: navigation })
 
-  // useEffect(() => {
-  //   const userPlan =
-  //     !isNil(userV2) && !isNil(userV2.UserPlan) ? userV2.UserPlan.Plan.name : PlanTypes.FREE
-  //
-  //   if (isLoggedIn && !isNil(selectedPlan) && selectedPlan.name !== userPlan) {
-  //     navigation.navigate(Routes.auth.navigator, {
-  //       screen: Routes.auth.plans,
-  //       params: {
-  //         desiredPlan: selectedPlan,
-  //         step: 2,
-  //       },
-  //     })
-  //   }
-  // }, [userV2, isLoggedIn, selectedPlan])
-
   const goToSignUp = () => {
     navigation.navigate(Routes.auth.navigator, {
       screen: Routes.auth.create_account,

@@ -75,7 +75,7 @@ export const ProfitsList: FC<ProfitsListProps> = ({ profitSummary }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 24,
+    marginBottom: 12,
   },
   profitRow: {
     flexDirection: "row",

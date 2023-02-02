@@ -26,7 +26,7 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
   const { getTextFieldProps, handleSubmit, dirty, isValid } = useChangePasswordForm({
     onSubmit: ({ oldPassword, newPassword }) => {
       changePassword(
-        { oldPassword, newPassword },
+        { oldPassword, password: newPassword },
         {
           onSuccess: () => {
             showToast({

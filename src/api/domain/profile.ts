@@ -3,7 +3,7 @@ import { UserInformation } from "models/Profile"
 export namespace ChangePassword {
   export type Params = {
     oldPassword: string
-    newPassword: string
+    password: string
   }
   export type Response = string
   export type Request = (params: ChangePassword.Params) => Promise<ChangePassword.Response>

@@ -27,7 +27,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
 
-  const { user } = useAuthContext()
+  const { user, userV2 } = useAuthContext()
 
   const handleChangeLanguage = (language: string) => {
     changeLanguage(language)
@@ -79,7 +79,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
           )}
 
           <Typography color="primary.400" style={styles.button}>
-            {user?.email}
+            {userV2?.email}
           </Typography>
         </View>
 
