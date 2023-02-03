@@ -36,11 +36,10 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ navigation }) => {
             })
             navigation.goBack()
           },
-          onError: (err) =>
+          onError: () =>
             showToast({
               type: ToastType.error,
               title: t("profile.changePassword.form.error"),
-              description: err.message,
             }),
         },
       )
