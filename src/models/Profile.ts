@@ -8,7 +8,7 @@ export type UserInformation = {
 }
 
 export type UserInformationV2 = {
-  UserPlan: { Plan: Plan } | null
+  Plan: Plan | null
   email: string
   id: string
   status: string

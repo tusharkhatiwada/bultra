@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react"
 import { PlanTypes, PlanTranslationsTypes, Plan } from "models/Plans"
-import { Pressable, StyleSheet, View } from "react-native"
+import { Image, Pressable, StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { Icon } from "components/Icon"
@@ -52,8 +52,19 @@ export const PlanCard: FC<PlanCardProps> = ({ plan, selectPlan, selected }) => {
       >
         <View style={styles.topRow}>
           <View style={styles.rowCenter}>
+            {/*<View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>*/}
+            {/*  <Icon size="md" color="white" name="coins" />*/}
+            {/*</View>*/}
+
             <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
-              <Icon size="md" color="white" name="coins" />
+              {plan.name === PlanTypes.FREE || plan.name === PlanTypes.BASIC ? (
+                <Image
+                  style={styles.coinImage}
+                  source={require("../../../../../assets/images/coin.png")}
+                />
+              ) : (
+                <Icon size="md" color="white" name="coins" />
+              )}
             </View>
             <Typography
               size="headline"
@@ -100,7 +111,8 @@ export const PlanCard: FC<PlanCardProps> = ({ plan, selectPlan, selected }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingVertical: 17,
     borderRadius: 4,
     borderBottomWidth: 4,
 
@@ -115,6 +127,12 @@ const styles = StyleSheet.create({
 
     elevation: 12,
   },
+
+  coinImage: {
+    width: 16,
+    height: 11,
+  },
+
   selected: {
     shadowOpacity: 0.3,
   },
@@ -134,17 +152,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   iconCircle: {
-    width: 32,
+    width: 42,
     height: 32,
     marginRight: 12,
     borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
   },
+  // eslint-disable-next-line react-native/no-color-literals
   radio: {
     width: 24,
     height: 24,
     borderWidth: 2,
+    borderBottomColor: "transparent",
+    borderTopColor: "transparent",
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",

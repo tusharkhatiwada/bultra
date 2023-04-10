@@ -67,8 +67,8 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
       planSubscription(
         { id: planToConfig.id },
         {
-          onSuccess: () => {
-            if (!isNil(userV2)) setUserV2({ ...userV2, UserPlan: { Plan: planToConfig } })
+          onSuccess: (res) => {
+            setUserV2(res)
             showToast({
               type: ToastType.info,
               title: t("plans.toast.title"),

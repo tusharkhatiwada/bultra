@@ -99,12 +99,7 @@ export namespace PlanSubscription {
     // network: NetworkTypes
     id: string
   }
-  export type Response = {
-    id: string
-    userId: string
-    planId: string
-    Plan: { Plan: Plan }
-  }
+  export type Response = UserInformationV2
   export type Request = (params: PlanSubscription.Params) => Promise<PlanSubscription.Response>
 }
 

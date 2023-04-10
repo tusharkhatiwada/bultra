@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { PlanTypes, Plan, PlanTranslationsTypes } from "models/Plans"
-import { Dimensions, Pressable, StyleSheet, View } from "react-native"
+import { Dimensions, Pressable, StyleSheet, View, Image } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
 import { Icon } from "components/Icon"
@@ -10,11 +10,8 @@ import { accentColors } from "styles/colors"
 import useColorScheme from "hooks/useColorScheme"
 
 export type PlanCardProps = {
-  // type: PlanTypes
   plan: Plan
   goToLogin: (selectedPlanId?: Plan) => void
-  // selectPlan: Dispatch<SetStateAction<PlanTypes>>
-  // selected?: boolean
 }
 
 const typeToAccentColor: { [key: string]: "green" | "blue" | "yellow" } = {
@@ -41,50 +38,61 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
       <RootView style={[styles.container, { borderBottomColor: accentColor.dark }]}>
         <View style={styles.rowCenter}>
           <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
-            <Icon size="sm" color="white" name="coins" />
+            {plan.name === PlanTypes.FREE || plan.name === PlanTypes.BASIC ? (
+              <Image
+                style={styles.coinImage}
+                source={require("../../../../assets/images/coin.png")}
+              />
+            ) : (
+              <Icon size="md" color="white" name="coins" />
+            )}
           </View>
-          <Typography size="small" weight="bold" color={isDarkMode ? "black" : undefined}>
+          <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
             {t(`plans.selectPlan.${PlanTranslationsTypes[plan.name as PlanTypes]}`)}
           </Typography>
         </View>
 
+        <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
+          <Trans
+            i18nKey={"plans.selectPlan.fee"}
+            values={{ fee: plan.percent }}
+            components={{
+              small: <Typography size="mini" color="primary.500" style={styles.fee} />,
+            }}
+          />
+        </Typography>
+
         <View style={styles.bottomRow}>
-          <Typography size="small" weight="bold" color={isDarkMode ? "black" : undefined}>
-            <Trans
-              i18nKey={"plans.selectPlan.price"}
-              values={{ price: plan.price }}
-              components={{
-                small: <Typography size="mini" weight="semibold" style={styles.fee} />,
-              }}
-            />
-          </Typography>
-          <Typography
-            size="mini"
-            color={isDarkMode ? "black" : undefined}
-            style={styles.marginLeft}
-          >
-            <Trans
-              i18nKey={"plans.selectPlan.fee"}
-              values={{ fee: plan.percent }}
-              components={{
-                small: <Typography size="mini" color="primary.500" style={styles.fee} />,
-              }}
-            />
-          </Typography>
+          {plan.price > 0 ? (
+            <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
+              <Trans
+                i18nKey={"plans.selectPlan.price"}
+                values={{ price: plan.price }}
+                components={{
+                  small: <Typography style={styles.fee} />,
+                }}
+              />
+            </Typography>
+          ) : (
+            <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
+              Free
+            </Typography>
+          )}
         </View>
       </RootView>
     </Pressable>
   )
 }
 
-const _width = Dimensions.get("screen").width * 0.43
+const _width = Dimensions.get("screen").width * 0.4
 
 const styles = StyleSheet.create({
   container: {
-    padding: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 17,
     alignSelf: "stretch",
     width: _width,
-    height: 60,
+    height: 122,
     borderRadius: 4,
     borderBottomWidth: 4,
     shadowColor: accentColors.black,
@@ -101,12 +109,17 @@ const styles = StyleSheet.create({
   },
 
   iconCircle: {
-    width: 22,
+    width: 32,
     height: 22,
-    marginRight: 4,
+    marginRight: 12,
     borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  coinImage: {
+    width: 16,
+    height: 11,
   },
 
   rowCenter: {
@@ -122,9 +135,5 @@ const styles = StyleSheet.create({
 
   fee: {
     lineHeight: 26,
-  },
-
-  marginLeft: {
-    marginLeft: 10,
   },
 })

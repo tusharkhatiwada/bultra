@@ -3,11 +3,12 @@ import { ScrollView, StyleSheet, View } from "react-native"
 
 import { PlanCard } from "./PlanCard"
 import { Plan, PlanTypes } from "models/Plans"
-import { Stack } from "native-base"
+import { Stack, Switch } from "native-base"
 import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
 import { useGetAllPlans } from "../../../../hooks/auth/useGetAllPlans"
 import { isNil } from "lodash"
+import { Icon } from "../../../../components/Icon"
 
 export type SelectPlanProps = {
   selectedPlan: Plan
@@ -32,6 +33,14 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan, setSelectedPlan 
           {t("plans.selectPlan.description")}
         </Typography>
 
+        <View style={styles.switcherBox}>
+          <View style={styles.iconAndText}>
+            <Icon name={"sync"} color={"#A1A1AA"} style={styles.icon} />
+            <Typography size="body">{t("plans.selectPlan.autoRenewal")}</Typography>
+          </View>
+          <Switch size="sm" colorScheme="primary" />
+        </View>
+
         <Stack space="lg" accessibilityRole="radiogroup">
           {!isNil(plans) &&
             plans.map((plan) => (
@@ -54,6 +63,19 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 8,
+  },
+  switcherBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 39,
+    marginTop: 14,
+  },
+  iconAndText: {
+    flexDirection: "row",
+  },
+  icon: {
+    marginRight: 12,
   },
   description: {
     marginBottom: 24,

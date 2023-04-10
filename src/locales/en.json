@@ -54,6 +54,7 @@
         "checkCredentials": "Please check your email and password",
       },
       "forgotPassword": "Forgot my password",
+      "verifyMoments": "Verify movements",
       "signUp": "Don't have an account yet? <bold>Sign up</bold>"
     },
 
@@ -313,11 +314,12 @@
       "selectPlan": {
         "title": "Choose your plan",
         "description": "Select one of our plans and start getting benefits as soon as possible:",
+        "autoRenewal": "Auto renewal",
 
-        "FREE": "Free Plan",
-        "BASIC": "Basic Plan",
-        "PREMIUM": "Premium Plan",
-        "VIP": "VIP Plan",
+        "FREE": "Free",
+        "BASIC": "Basic",
+        "PREMIUM": "Premium",
+        "VIP": "VIP",
 
         "fee": "{{fee}}% <small>monthly fee</small>",
         "price": "{{price}} <small>USDT</small>"
@@ -326,7 +328,7 @@
       "selectSubscription": {
         "title": "Subscription",
         "description": "Choose the type of subscription. You can make a monthly payment indefinitely or make a single payment, valid for the next two years:",
-        "yourPlanIs": "Your current plan is {{plan}}",
+        "yourPlanIs": "{{plan}} plan",
         "monthly": {
           "title": "Monthly subscription",
           "price": "{{price}} <small>USDT</small>",

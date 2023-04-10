@@ -1,4 +1,4 @@
-import { Spinner, Stack, useTheme } from "native-base"
+import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { isNil } from "lodash"
 
@@ -9,14 +9,14 @@ import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
-import { UserStatus } from "models/Profile"
 import { useAuthContext } from "context/AuthContext"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
 import { PlansSelector } from "./PlansSelector"
 import { useGetAllPlans } from "../../../hooks/auth/useGetAllPlans"
-import { Plan, PlanTranslationsTypes, PlanTypes } from "../../../models/Plans"
+import { Plan } from "../../../models/Plans"
 import { useCheckNeedGoToPlan } from "../../../hooks/auth/useCheckNeedGoToPlan"
+import useColorScheme from "../../../hooks/useColorScheme"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -26,9 +26,14 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
-  const { isLoggedIn, user, setSelectedPlan, userV2 } = useAuthContext()
+  const { isLoggedIn, setSelectedPlan } = useAuthContext()
 
   const { plans } = useGetAllPlans()
+
+  const { colors } = useTheme()
+
+  const colorScheme = useColorScheme()
+  const isDarkMode = colorScheme === "dark"
 
   useCheckNeedGoToPlan({ navigationProps: navigation })
 
@@ -45,12 +50,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  const goToPlans = () => {
-    navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.plans,
-      params: {},
-    })
-  }
+  // const goToPlans = () => {
+  //   navigation.navigate(Routes.auth.navigator, {
+  //     screen: Routes.auth.plans,
+  //     params: {},
+  //   })
+  // }
 
   const profitSummary = {
     last24hours: 1.45,
@@ -59,70 +64,72 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   }
 
   return (
-    <RootView
-      style={[
-        styles.container,
-        {
+    <RootView style={styles.container}>
+      <ScrollView
+        style={{
           paddingHorizontal: space[6],
           paddingTop: top + space[6],
           paddingBottom: bottom + space[6],
-        },
-      ]}
-    >
-      <View>
-        <Typography size="h3" style={styles.title}>
-          {t("home.greetings")}
-        </Typography>
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <Typography size="h3" style={styles.title}>
+            {t("home.greetings")}
+          </Typography>
 
-        <Typography color="primary.400" style={styles.description}>
-          {t("home.description")}
-        </Typography>
+          <Typography color="primary.400" style={styles.description}>
+            {t("home.description")}
+          </Typography>
 
-        <Typography size="h3" style={styles.profits}>
-          {t("home.profits")}
-        </Typography>
+          <Typography size="h3" style={styles.profits}>
+            {t("home.profits")}
+          </Typography>
 
-        <Typography color="primary.400" style={styles.profitDescription}>
-          {t("home.profit-description")}
-        </Typography>
+          <Typography color="primary.400" style={styles.profitDescription}>
+            {t("home.profit-description")}
+          </Typography>
+        </View>
+
+        <ProfitsList profitSummary={profitSummary} />
+
+        {!isNil(plans)
+          ? !isLoggedIn && <PlansSelector plans={plans} goToLogin={goToLogin} />
+          : !isLoggedIn && <Spinner />}
+      </ScrollView>
+      <View
+        style={{
+          backgroundColor: isDarkMode ? colors.black : "#ffff",
+          paddingHorizontal: space[6],
+          paddingBottom: bottom + space[6],
+        }}
+      >
+        {!isLoggedIn && (
+          <Stack space="md">
+            <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
+            <Button onPress={() => goToLogin()}>{t("login.title")}</Button>
+          </Stack>
+        )}
+
+        {/*{!isNil(userV2) && isLoggedIn && (*/}
+        {/*  <Typography color="primary.400" style={styles.profitDescription}>*/}
+        {/*    {t("plans.selectSubscription.yourPlanIs", {*/}
+        {/*      plan: !isNil(userV2.UserPlan)*/}
+        {/*        ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.UserPlan.Plan.name]}`)*/}
+        {/*        : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),*/}
+        {/*    })}*/}
+        {/*  </Typography>*/}
+        {/*)}*/}
+        {/*{user?.status === UserStatus.MISSING_PLAN && (*/}
+        {/*  <Button onPress={goToPlans}>{t("plans.title")}</Button>*/}
+        {/*)}*/}
       </View>
-
-      <ProfitsList profitSummary={profitSummary} />
-
-      {!isNil(plans) ? (
-        !isLoggedIn && <PlansSelector plans={plans} goToLogin={goToLogin} />
-      ) : (
-        <Spinner />
-      )}
-
-      {!isLoggedIn && (
-        <Stack space="md">
-          <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
-          <Button variant="outline" onPress={() => goToLogin()}>
-            {t("login.title")}
-          </Button>
-        </Stack>
-      )}
-
-      {!isNil(userV2) && isLoggedIn && (
-        <Typography color="primary.400" style={styles.profitDescription}>
-          {t("plans.selectSubscription.yourPlanIs", {
-            plan: !isNil(userV2.UserPlan)
-              ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.UserPlan.Plan.name]}`)
-              : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),
-          })}
-        </Typography>
-      )}
-      {user?.status === UserStatus.MISSING_PLAN && (
-        <Button onPress={goToPlans}>{t("plans.title")}</Button>
-      )}
     </RootView>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
   },
   title: {
     marginBottom: 5,
