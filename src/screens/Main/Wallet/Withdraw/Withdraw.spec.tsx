@@ -1,18 +1,18 @@
-import { Withdraw, WithdrawProps } from "./Withdraw"
-import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
-
-import { Routes } from "models/Routes"
-
-const props = {
-  navigation: {
-    navigate: jest.fn(),
-  },
-  route: {
-    params: {
-      addressToSend: "",
-    },
-  },
-} as unknown as WithdrawProps
+// import { Withdraw, WithdrawProps } from "./Withdraw"
+// import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
+//
+// import { Routes } from "models/Routes"
+//
+// const props = {
+//   navigation: {
+//     navigate: jest.fn(),
+//   },
+//   route: {
+//     params: {
+//       addressToSend: "",
+//     },
+//   },
+// } as unknown as WithdrawProps
 
 // describe("Withdraw", () => {
 //   it("can send a withdrawal request", async () => {

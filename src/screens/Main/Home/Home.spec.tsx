@@ -1,13 +1,13 @@
-import { Home, HomeProps } from "./Home"
-import { fireEvent, render, waitFor } from "tests/app-tests-utils"
-
-import { Routes } from "models/Routes"
-
-const props = {
-  navigation: {
-    navigate: jest.fn(),
-  },
-} as unknown as HomeProps
+// import { Home, HomeProps } from "./Home"
+// import { fireEvent, render, waitFor } from "tests/app-tests-utils"
+//
+// import { Routes } from "models/Routes"
+//
+// const props = {
+//   navigation: {
+//     navigate: jest.fn(),
+//   },
+// } as unknown as HomeProps
 
 // describe("Home", () => {
 //   it("displays the default message", async () => {

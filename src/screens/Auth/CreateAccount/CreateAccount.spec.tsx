@@ -1,7 +1,7 @@
-import { CreateAccount, CreateAccountProps } from "./CreateAccount"
-import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
-
-const props = {} as CreateAccountProps
+// import { CreateAccount, CreateAccountProps } from "./CreateAccount"
+// import { api, fireEvent, render, waitFor } from "tests/app-tests-utils"
+//
+// const props = {} as CreateAccountProps
 
 // describe("CreateAccount", () => {
 //   it("calls create account endpoint", async () => {
