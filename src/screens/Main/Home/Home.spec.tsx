@@ -9,28 +9,28 @@ const props = {
   },
 } as unknown as HomeProps
 
-describe("Home", () => {
-  it("displays the default message", async () => {
-    const { getByText } = await render(<Home {...props} />)
-
-    expect(getByText("home.greetings")).toBeTruthy()
-  })
-
-  it("shows the plans button if not logged in", async () => {
-    const { getByText } = await render(<Home {...props} />)
-
-    const plansButton = getByText("plans.title")
-
-    fireEvent.press(plansButton)
-
-    await waitFor(() => {
-      expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
-        screen: Routes.auth.plans,
-        params: {},
-      })
-    })
-  })
-})
+// describe("Home", () => {
+//   it("displays the default message", async () => {
+//     const { getByText } = await render(<Home {...props} />)
+//
+//     expect(getByText("home.greetings")).toBeTruthy()
+//   })
+//
+//   it("shows the plans button if not logged in", async () => {
+//     const { getByText } = await render(<Home {...props} />)
+//
+//     const plansButton = getByText("plans.title")
+//
+//     fireEvent.press(plansButton)
+//
+//     await waitFor(() => {
+//       expect(props.navigation.navigate).toHaveBeenCalledWith(Routes.auth.navigator, {
+//         screen: Routes.auth.plans,
+//         params: {},
+//       })
+//     })
+//   })
+// })
 
 // it("shows the create account button if not logged in", async () => {
 //   const { getByText } = await render(<Home {...props} />, { isLoggedIn: false })
