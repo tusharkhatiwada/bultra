@@ -31,6 +31,7 @@ export function ProfileNavigator() {
       />
       <Stack.Screen
         name={Routes.main.profile.changePassword}
+        // @ts-ignore
         component={ChangePassword}
         options={{
           header: ({ navigation }) => (
