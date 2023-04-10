@@ -37,7 +37,7 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
   const [planToConfig, setPlanToConfig] = useState(defaultPlan)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
 
-  const { userV2, setUserV2 } = useAuthContext()
+  const { setUserV2 } = useAuthContext()
   const { needToChangeNavOptions, onBackPress, headerTitle } = useChangePlansNavigationProps({
     navigation,
     desiredPlan,

@@ -57,6 +57,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   //   })
   // }
 
+  const viewStyle = {
+    backgroundColor: isDarkMode ? colors.black : "#ffff",
+    paddingHorizontal: space[6],
+    paddingBottom: bottom + space[6],
+  }
+
   const profitSummary = {
     last24hours: 1.45,
     last7days: -3.33,
@@ -97,13 +103,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           ? !isLoggedIn && <PlansSelector plans={plans} goToLogin={goToLogin} />
           : !isLoggedIn && <Spinner />}
       </ScrollView>
-      <View
-        style={{
-          backgroundColor: isDarkMode ? colors.black : "#ffff",
-          paddingHorizontal: space[6],
-          paddingBottom: bottom + space[6],
-        }}
-      >
+      <View style={viewStyle}>
         {!isLoggedIn && (
           <Stack space="md">
             <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
