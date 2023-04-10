@@ -44,6 +44,7 @@ export function RootNavigator() {
       initialRouteName={initialRouteName}
       screenOptions={{ animation: "slide_from_right" }}
     >
+      {/*@ts-ignore*/}
       <Stack.Screen name={Routes.home} component={Home} options={{ headerShown: false }} />
       <Stack.Screen
         name={Routes.main.navigator}
