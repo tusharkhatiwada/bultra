@@ -4,7 +4,7 @@ import { AuthStackParamList, RootStackParamList } from "../../models/Navigation"
 import { Routes } from "../../models/Routes"
 import { useAuthContext } from "../../context/AuthContext"
 import { isNil } from "lodash"
-import { Plan, PlanTranslationsTypes } from "../../models/Plans"
+import { Plan } from "../../models/Plans"
 import { useTranslation } from "react-i18next"
 
 interface Options {
@@ -29,9 +29,7 @@ export const useChangePlansNavigationProps = ({ navigation, desiredPlan, step }:
     }
   }
 
-  const headerTitle = !isNil(desiredPlan)
-    ? t(`plans.selectPlan.${PlanTranslationsTypes[desiredPlan.name]}`)
-    : t("plans.selectPlan.title")
+  const headerTitle = !isNil(desiredPlan) ? desiredPlan.name : t("plans.selectPlan.title")
 
   return {
     needToChangeNavOptions: !isNil(desiredPlan) && step === 2,

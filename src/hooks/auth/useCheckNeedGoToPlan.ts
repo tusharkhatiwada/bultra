@@ -16,9 +16,9 @@ interface Options {
 }
 
 export const useCheckNeedGoToPlan = (options: Options) => {
-  const { isLoggedIn, selectedPlan, userV2 } = useAuthContext()
+  const { isLoggedIn, selectedPlan, user } = useAuthContext()
 
-  const userPlan = !isNil(userV2) && !isNil(userV2.Plan) ? userV2.Plan.name : PlanTypes.FREE
+  const userPlan = !isNil(user) && !isNil(user.UserPlan) ? user.UserPlan.Plan.name : PlanTypes.FREE
 
   if (isLoggedIn && !isNil(selectedPlan) && selectedPlan.name !== userPlan) {
     options.navigationProps.navigate(Routes.auth.navigator, {

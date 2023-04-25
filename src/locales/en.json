@@ -136,6 +136,25 @@
       "profit-description": "Take a look at the benefits that you could have achieved in recent months."
     },
 
+    "invest": {
+      "title": "Invest",
+      "invest": "Invest",
+      "refund": "Refund",
+      "description": "The amount invested will no longer available to withdrawal.",
+      "inputTitle": "USDT amount to invest",
+      "finishInvest": "Finish invest",
+      "investFinished": "Invest finished",
+      "InvestError": "Invest error",
+      "bottomText":  "If the USDT invest is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
+      "refundInformation" : "The amount refunded will be available for reinvestment purposes.",
+      "refundInputTitle": "USDT amount to refund",
+      "refundBottomText": "If the USDT refund is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
+      "finishRefund": "Finish refund",
+      "refundFinished": "Refund finished",
+      "refundError": "Refund error",
+      "openPosition": "Open positions"
+    },
+
     "wallet": {
       "title": "Wallet",
       "total-balance": "Total balance",
@@ -309,7 +328,7 @@
     },
 
     "plans": {
-      "title": "Select a plan",
+      "title": "Change plan",
       "changePlan": "Change plan",
       "selectPlan": {
         "title": "Choose your plan",
@@ -328,7 +347,7 @@
       "selectSubscription": {
         "title": "Subscription",
         "description": "Choose the type of subscription. You can make a monthly payment indefinitely or make a single payment, valid for the next two years:",
-        "yourPlanIs": "{{plan}} plan",
+        "yourPlanIs": " Current plan:",
         "monthly": {
           "title": "Monthly subscription",
           "price": "{{price}} <small>USDT</small>",
@@ -356,7 +375,8 @@
 
       "toast": {
         "title": "Activated plan",
-        "description": "We have successfully received your transfer, so your plan has just started."
+        "description": "We have successfully received your transfer, so your plan has just started.",
+        "error": "Plan change error"
       }
     },
 

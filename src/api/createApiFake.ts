@@ -17,6 +17,9 @@ import { createOtpFake } from "./auth/fake/createOtpFake"
 import { createResendOtpFake } from "./auth/fake/createResendOtpFake"
 import { createForgotPasswordOtpFake } from "./auth/fake/createForgotPasswordOtpFake"
 import { createGetPlansFake } from "./auth/fake/createGetPlansFake"
+import { createPriseUpdatePlanFake } from "./auth/fake/createPriseUpdatePlanFake"
+import { createInvestFake } from "./Invest/createInvestFake"
+import { createDataInvestFake } from "./Invest/createDataInvestFake"
 
 export function createApiFake(): Api {
   return {
@@ -32,6 +35,7 @@ export function createApiFake(): Api {
       planSubscription: createPlanSubscriptionFake(),
       kyc: createKYCFake(),
       getPlans: createGetPlansFake(),
+      getPriceUpdatePlan: createPriseUpdatePlanFake(),
     },
     profile: {
       changePassword: createChangePasswordFake(),
@@ -46,6 +50,11 @@ export function createApiFake(): Api {
       withdrawalRequest: createWithdrawalRequestFake(),
       fetchWalletHistory: createFetchWalletHistoryFake(),
       getNetworkList: createGetNetworkListFake(),
+    },
+    invest: {
+      investRequest: createInvestFake(),
+      refundRequest: createInvestFake(),
+      getDataInvest: createDataInvestFake(),
     },
   }
 }

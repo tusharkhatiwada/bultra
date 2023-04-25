@@ -42,10 +42,17 @@ export type WalletStackScreenProps<Screen extends keyof WalletStackParamList> =
     NativeStackScreenProps<RootStackParamList>
   >
 
+export type InvestStackScreenProps<Screen extends keyof InvestStackParamList> =
+  CompositeScreenProps<
+    NativeStackScreenProps<InvestStackParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+
 export type MainTabParamList = {
   [Routes.main.home]: undefined
   [Routes.main.referrals]: undefined
   [Routes.main.transactionHistory]: undefined
+  [Routes.main.invest.navigator]: undefined
   [Routes.main.profile.navigator]: undefined
   [Routes.main.wallet.navigator]: undefined
 }
@@ -78,4 +85,11 @@ export type WalletStackParamList = {
   [Routes.main.wallet.deposit]: undefined
   [Routes.main.wallet.withdraw]: { addressToSend?: string }
   [Routes.main.wallet.qr_scanner]: undefined
+}
+
+export type InvestStackParamList = {
+  [Routes.main.invest.walletDetails]: undefined
+  [Routes.main.invest.deposit]: undefined
+  [Routes.main.invest.refund]: { addressToSend?: string }
+  [Routes.main.invest.qr_scanner]: undefined
 }

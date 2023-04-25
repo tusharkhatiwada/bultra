@@ -93,6 +93,14 @@ export namespace GetPlans {
   export type Request = () => Promise<GetPlans.Response>
 }
 
+export namespace GetPriceUpdatePlan {
+  export type Params = {
+    id: string
+  }
+  export type Response = []
+  export type Request = (params: GetPriceUpdatePlan.Params) => Promise<GetPriceUpdatePlan.Response>
+}
+
 export namespace PlanSubscription {
   export type Params = {
     // type: PlanTypes
@@ -128,4 +136,5 @@ export interface AuthApi {
   planSubscription: PlanSubscription.Request
   kyc: KYC.Request
   getPlans: GetPlans.Request
+  getPriceUpdatePlan: GetPriceUpdatePlan.Request
 }

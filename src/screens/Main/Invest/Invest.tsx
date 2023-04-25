@@ -10,25 +10,30 @@ import { Icon } from "components/Icon"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { Typography } from "components/Typography"
-import { WalletHistoryList } from "./WalletHistoryList"
-import { WalletStackScreenProps } from "models/Navigation"
+import { InvestHistoryList } from "./InvestHistoryList"
+import { InvestStackScreenProps } from "models/Navigation"
 import { formatNumberToCurrency } from "utils/currency"
 import { useFetchWalletHistory } from "hooks/wallet/useFetchWalletHistory"
-import { useGetWallet } from "hooks/wallet/useGetWallet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { TransactionRange, WalletHistory } from "../../../models/Wallet"
 import { useIsFocused } from "@react-navigation/native"
+import { useAuthContext } from "../../../context/AuthContext"
+import { useGetDataInvest } from "../../../hooks/invest/useGetDataInvest"
+import { InvestProfitsList } from "./InvestProfitsList/InvestProfitsList"
+import { isNil } from "lodash"
+import { InvestOpenPosition } from "./InvestOpenPosition/InvestOpenPosition"
 
-export type WalletProps = WalletStackScreenProps<typeof Routes.main.wallet.walletDetails>
+export type InvestProps = InvestStackScreenProps<typeof Routes.main.invest.walletDetails>
 
-export const Wallet: FC<WalletProps> = ({ navigation }) => {
+export const Invest: FC<InvestProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
   const { colors } = useTheme()
-  const { wallet } = useGetWallet()
+  const { investData } = useGetDataInvest()
+  const { user } = useAuthContext()
   const isFocused = useIsFocused()
   const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
-  const [isLoading, setIsLoading] = useState(false)
+  const [isWalletLoading, setIsWalletLoading] = useState(false)
 
   const [walletHistory, setWalletHistory] = useState<WalletHistory[] | undefined>(undefined)
 
@@ -37,11 +42,11 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const { t } = useTranslation()
 
   const goToDepositScreen = () => {
-    navigation.push("main/wallet/deposit")
+    navigation.push("main/invest/deposit")
   }
 
   const goToWithdrawalScreen = () => {
-    navigation.navigate(Routes.main.wallet.withdraw, { addressToSend: "" })
+    navigation.navigate(Routes.main.invest.refund, { addressToSend: "" })
   }
 
   useEffect(() => {
@@ -54,18 +59,18 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
     getWalletHistory(value, {
       onSuccess: (response) => {
         setWalletHistory(response)
-        setIsLoading(false)
+        setIsWalletLoading(false)
       },
     })
   }
 
   const onDateRangeChange = (value: TransactionRange) => {
-    setIsLoading(true)
+    setIsWalletLoading(true)
     handleGetWalletHistory(value)
     setHistoryDateRange(value)
   }
 
-  if (!wallet || !walletHistory) {
+  if (!investData || !walletHistory) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
         <Spinner />
@@ -73,7 +78,7 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
     )
   }
 
-  const hasPositivePercentage = wallet.profitSummary.last24hours >= 0
+  const hasPositivePercentage = !isNil(investData) ? investData.profits.last24h.percent >= 0 : false
 
   return (
     <ScrollView>
@@ -88,18 +93,21 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
         ]}
       >
         <Typography size="h3" style={styles.title}>
-          {t("wallet.title")}
+          {t("invest.title")}
         </Typography>
 
         <Typography color={colors.primary[400]} style={styles.title}>
           {t("wallet.total-balance")}
         </Typography>
-
         <View style={styles.balance}>
           <Typography size="h1" weight="bold">
             <Trans
               i18nKey={`common.USDT`}
-              values={{ value: formatNumberToCurrency(wallet.balance) }}
+              values={{
+                value: formatNumberToCurrency(
+                  user?.UserContribution[user?.UserContribution.length - 1].deposit,
+                ),
+              }}
               components={{
                 small: <Typography style={styles.unit} />,
               }}
@@ -111,18 +119,18 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
           color={hasPositivePercentage ? colors.success[400] : colors.error[400]}
           style={styles.balanceProfit}
         >
-          {`${hasPositivePercentage ? "+" : ""}${wallet.profitSummary.last24hours}% ${t(
-            "wallet.last24hours",
-          ).toLowerCase()}`}
+          {!isNil(investData) &&
+            `${hasPositivePercentage ? "+" : ""}$${formatNumberToCurrency(
+              investData.profits.last24h.amount,
+            )} (${investData.profits.last24h.percent}% ${t("wallet.last24hours").toLowerCase()})`}
         </Typography>
-
         <Stack space="lg" direction="row" style={styles.buttonContainer}>
           <Button
             onPress={goToDepositScreen}
             leftIcon={<Icon name="arrow-down" size="md" />}
             style={styles.button}
           >
-            {t("wallet.deposit.title")}
+            {t("invest.invest")}
           </Button>
           <Button
             onPress={goToWithdrawalScreen}
@@ -130,27 +138,26 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
             leftIcon={<Icon name="arrow-up" size="md" />}
             style={styles.button}
           >
-            {t("wallet.withdraw.title")}
+            {t("invest.refund")}
           </Button>
         </Stack>
-
-        {/*<Typography size="h3" style={styles.title}>*/}
-        {/*  {t("wallet.profits")}*/}
-        {/*</Typography>*/}
-
-        {/*<ProfitsList profitSummary={wallet.profitSummary} />*/}
-
-        <Typography size="h3" style={styles.title}>
+        <Typography size="h3" style={styles.subTitle}>
+          {t("wallet.profits")}
+        </Typography>
+        <InvestProfitsList profitSummary={investData.profits} />
+        <Typography size="h3" style={styles.subTitle}>
+          {t("invest.openPosition")}
+        </Typography>
+        <InvestOpenPosition investData={investData} />
+        <Typography size="h3" style={styles.subTitle}>
           {t("wallet.history.title")}
         </Typography>
-
         <ButtonBar
           onChange={onDateRangeChange}
           buttons={dateFilterButtons}
           defaultValue={"month"}
         />
-
-        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading} />
+        <InvestHistoryList walletHistory={walletHistory} isLoading={isWalletLoading} />
       </RootView>
     </ScrollView>
   )
@@ -162,6 +169,10 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 16,
+  },
+  subTitle: {
+    marginBottom: 16,
+    marginTop: 24,
   },
   balance: {
     flexDirection: "row",
@@ -175,7 +186,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 16,
-    marginBottom: 24,
   },
   button: {
     flex: 1,

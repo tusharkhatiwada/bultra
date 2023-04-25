@@ -1,10 +1,10 @@
-import { UserInformation, UserStatus } from "models/Profile"
+import { UserInformationV2, UserStatus } from "models/Profile"
 
-export const createUserFixture = (): UserInformation => {
+export const createUserFixture = (): UserInformationV2 => {
   return {
-    name: "Eduardo López Rodríguez",
+    Plan: null,
     email: "eduardo90@gmail.com",
-    referralId: "eduardo90",
+    id: "eduardo90",
     status: UserStatus.MISSING_PLAN,
   }
 }

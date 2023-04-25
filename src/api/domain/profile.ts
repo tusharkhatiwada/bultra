@@ -1,4 +1,4 @@
-import { UserInformation } from "models/Profile"
+import { UserInformationV2 } from "models/Profile"
 
 export namespace ChangePassword {
   export type Params = {
@@ -19,7 +19,7 @@ export namespace SupportRequest {
 }
 
 export namespace GetUserProfile {
-  export type Response = UserInformation
+  export type Response = UserInformationV2
   export type Request = () => Promise<GetUserProfile.Response>
 }
 

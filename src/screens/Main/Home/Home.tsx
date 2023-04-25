@@ -1,9 +1,9 @@
 import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
-import { isNil } from "lodash"
+import { findIndex, isNil } from "lodash"
 
 import { Button } from "components/Button"
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import { MainTabScreenProps } from "models/Navigation"
 import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
@@ -14,9 +14,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
 import { PlansSelector } from "./PlansSelector"
 import { useGetAllPlans } from "../../../hooks/auth/useGetAllPlans"
-import { Plan } from "../../../models/Plans"
+import { Plan, PlanTranslationsTypes, PlanTypes } from "../../../models/Plans"
 import { useCheckNeedGoToPlan } from "../../../hooks/auth/useCheckNeedGoToPlan"
 import useColorScheme from "../../../hooks/useColorScheme"
+import { GetPlans } from "../../../api/domain/auth"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -26,14 +27,27 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
-  const { isLoggedIn, setSelectedPlan } = useAuthContext()
+  const { isLoggedIn, setSelectedPlan, user } = useAuthContext()
 
   const { plans } = useGetAllPlans()
+
+  const [plansToShow, setPlansToShow] = useState<GetPlans.Response | undefined>(undefined)
 
   const { colors } = useTheme()
 
   const colorScheme = useColorScheme()
   const isDarkMode = colorScheme === "dark"
+
+  useEffect(() => {
+    if (!isNil(user) && !isNil(plans)) {
+      const indexOfElement = findIndex(plans, (plan) => user.UserPlan.Plan.name === plan.name)
+      if (indexOfElement !== -1) {
+        setPlansToShow(plans.filter((plan, index) => indexOfElement < index))
+      } else {
+        setPlansToShow(plans)
+      }
+    }
+  }, [plans, user])
 
   useCheckNeedGoToPlan({ navigationProps: navigation })
 
@@ -50,12 +64,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  // const goToPlans = () => {
-  //   navigation.navigate(Routes.auth.navigator, {
-  //     screen: Routes.auth.plans,
-  //     params: {},
-  //   })
-  // }
+  const goToPlans = (selectedPlan?: Plan) => {
+    navigation.navigate(Routes.auth.navigator, {
+      screen: Routes.auth.plans,
+      params: { desiredPlan: selectedPlan, step: 1 },
+    })
+  }
 
   const viewStyle = {
     backgroundColor: isDarkMode ? colors.black : "#ffff",
@@ -98,10 +112,6 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         </View>
 
         <ProfitsList profitSummary={profitSummary} />
-
-        {!isNil(plans)
-          ? !isLoggedIn && <PlansSelector plans={plans} goToLogin={goToLogin} />
-          : !isLoggedIn && <Spinner />}
       </ScrollView>
       <View style={viewStyle}>
         {!isLoggedIn && (
@@ -111,15 +121,22 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           </Stack>
         )}
 
-        {/*{!isNil(userV2) && isLoggedIn && (*/}
-        {/*  <Typography color="primary.400" style={styles.profitDescription}>*/}
-        {/*    {t("plans.selectSubscription.yourPlanIs", {*/}
-        {/*      plan: !isNil(userV2.UserPlan)*/}
-        {/*        ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.UserPlan.Plan.name]}`)*/}
-        {/*        : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),*/}
-        {/*    })}*/}
-        {/*  </Typography>*/}
-        {/*)}*/}
+        {!isNil(user) && isLoggedIn && (
+          <View style={styles.planName}>
+            <Typography color="primary.800">{t("plans.selectSubscription.yourPlanIs")}</Typography>
+            <Typography color="primary.800" size="headline" weight="bold" ml="1">
+              {!isNil(user.UserPlan.Plan)
+                ? t(`plans.selectPlan.${PlanTranslationsTypes[user.UserPlan.Plan.name]}`)
+                : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`)}
+            </Typography>
+          </View>
+        )}
+
+        {!isNil(plansToShow)
+          ? isLoggedIn && <PlansSelector plans={plansToShow} goToPlans={goToPlans} />
+          : isLoggedIn && <Spinner />}
+
+        {/*<ButtonBar onChange={() => {}} buttons={dateFilterButtons} defaultValue={"month"} />*/}
         {/*{user?.status === UserStatus.MISSING_PLAN && (*/}
         {/*  <Button onPress={goToPlans}>{t("plans.title")}</Button>*/}
         {/*)}*/}
@@ -142,5 +159,10 @@ const styles = StyleSheet.create({
   },
   profitDescription: {
     marginBottom: 5,
+  },
+  planName: {
+    marginBottom: 14,
+    flexDirection: "row",
+    alignItems: "baseline",
   },
 })

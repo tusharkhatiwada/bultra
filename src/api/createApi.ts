@@ -5,7 +5,6 @@ import axios from "axios"
 import { createApiFake } from "./createApiFake"
 import { createFetchReferralLevelsFake } from "./referral/fake/createFetchReferralLevelsFake"
 import { createGetNetworkListFake } from "./wallet/fake/createGetNetworkListFake"
-import { createGetUserProfileFake } from "./profile/fake/createGetUserProfileFake"
 import { createKYCFake } from "./auth/fake/createKYCFake"
 import { createResetPasswordFake } from "./auth/fake/createResetPasswordFake"
 import { createSupportRequestFake } from "./profile/fake/createSupportRequestFake"
@@ -22,12 +21,17 @@ import { createWithdrawalRequestHttp } from "./wallet/http/createWithdrawalReque
 import { createGetPlansHttp } from "./auth/http/getPlansHttp"
 import { createPlanSubscriptionHttp } from "./auth/http/createPlanSubscriptionHttp"
 import { createChangePasswordHttp } from "./profile/http/createChangePasswordHttp"
+import { createInvestRequestHttp } from "./Invest/createInvestRequestHttp"
+import { createGetUserHttp } from "./profile/http/createGetUserHttp"
+import { createGetPriseUpdatePlanHttp } from "./profile/http/createGetPriseUpdatePlanHttp"
+import { createRefundRequestHttp } from "./Invest/createRefundRequestHttp"
+import { createGetDataInvestHttp } from "./Invest/createGetDataInvestHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
 
   const httpClient = axios.create({
-    baseURL: "https://45.155.120.204/api",
+    baseURL: "https://exbit.intendex.app/api",
   })
 
   const secureStorage = createSecureStorage()
@@ -84,11 +88,12 @@ export function createApi(offline: boolean): Api {
       planSubscription: createPlanSubscriptionHttp(httpClient),
       kyc: createKYCFake(),
       getPlans: createGetPlansHttp(httpClient),
+      getPriceUpdatePlan: createGetPriseUpdatePlanHttp(httpClient),
     },
     profile: {
       changePassword: createChangePasswordHttp(httpClient),
       supportRequest: createSupportRequestFake(),
-      getUserProfile: createGetUserProfileFake(),
+      getUserProfile: createGetUserHttp(httpClient),
     },
     referral: {
       fetchReferralLevels: createFetchReferralLevelsFake(),
@@ -98,6 +103,11 @@ export function createApi(offline: boolean): Api {
       withdrawalRequest: createWithdrawalRequestHttp(httpClient),
       fetchWalletHistory: createFetchWalletHistoryHttp(httpClient),
       getNetworkList: createGetNetworkListFake(),
+    },
+    invest: {
+      investRequest: createInvestRequestHttp(httpClient),
+      refundRequest: createRefundRequestHttp(httpClient),
+      getDataInvest: createGetDataInvestHttp(httpClient),
     },
   }
 }

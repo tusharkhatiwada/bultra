@@ -1,9 +1,10 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from "react"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
-import { UserInformation, UserInformationV2 } from "models/Profile"
+import { UserInformationV2 } from "models/Profile"
 import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 import { Plan } from "../models/Plans"
+import { isNil } from "lodash"
 
 export type AuthContextProps = {
   token: string | null
@@ -11,10 +12,12 @@ export type AuthContextProps = {
   selectedPlan: Plan | null
   setSelectedPlan: (plan: Plan | null) => void
   isLoggedIn: boolean
-  user?: UserInformation
+  user?: UserInformationV2
   setUserV2: (user: UserInformationV2) => void
+  changeUserPlanLocal: (plan: Plan) => void
   userV2?: UserInformationV2
   logout: () => Promise<void>
+  fetchUserOptions?: { refetchInterval: number }
 }
 
 export const AuthContext = React.createContext(null as unknown as AuthContextProps)
@@ -22,7 +25,7 @@ export const AuthContext = React.createContext(null as unknown as AuthContextPro
 const storage = createSecureStorage()
 
 export const AuthProvider: FC = ({ children }) => {
-  const [user, setUser] = useState<UserInformation>()
+  const [user, setUser] = useState<UserInformationV2>()
   const [userV2, setUserV2] = useState<UserInformationV2>()
   const [stateToken, setStateToken] = useState<string | null>(null)
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
@@ -48,6 +51,14 @@ export const AuthProvider: FC = ({ children }) => {
   const isLoggedIn = Boolean(stateToken)
 
   const { userProfile } = useGetUserProfile()
+  const changeUserPlanLocal = (plan: Plan) => {
+    const newUser = { ...user }
+    if (!isNil(newUser.UserPlan)) {
+      newUser.UserPlan.Plan.name = plan.name
+      // @ts-ignore
+      setUser(newUser)
+    }
+  }
 
   useEffect(() => {
     if (userProfile && stateToken) {
@@ -63,6 +74,7 @@ export const AuthProvider: FC = ({ children }) => {
       setSelectedPlan,
       user,
       userV2,
+      changeUserPlanLocal,
       setUserV2,
       isLoggedIn,
       logout,

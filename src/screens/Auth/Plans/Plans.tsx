@@ -11,7 +11,6 @@ import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
 import { SelectPlan } from "./SelectPlan"
 import { SelectSubscription } from "./SelectSubscription"
-import { Stepper } from "components/Stepper"
 import { ToastType } from "components/Toast/Toast"
 import { usePlanSubscription } from "hooks/auth/usePlanSubscription"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -36,8 +35,15 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
   const [currentStep, setCurrentStep] = useState(defaultStep)
   const [planToConfig, setPlanToConfig] = useState(defaultPlan)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
+  // const { priceUpdatePlan } = useGetPriceUpdatePlan({
+  //   id: !isNil(desiredPlan) ? desiredPlan.id : "",
+  // })
 
-  const { setUserV2 } = useAuthContext()
+  // t("plans.title")
+
+  //console.log(navigation.setParams({ headerTitle: "TEST" }))
+
+  const { changeUserPlanLocal } = useAuthContext()
   const { needToChangeNavOptions, onBackPress, headerTitle } = useChangePlansNavigationProps({
     navigation,
     desiredPlan,
@@ -67,8 +73,8 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
       planSubscription(
         { id: planToConfig.id },
         {
-          onSuccess: (res) => {
-            setUserV2(res)
+          onSuccess: () => {
+            changeUserPlanLocal(planToConfig)
             showToast({
               type: ToastType.info,
               title: t("plans.toast.title"),
@@ -81,8 +87,7 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
           onError: (error) => {
             showToast({
               type: ToastType.error,
-              title: "Error",
-              description: error.message,
+              title: t("plans.toast.error"),
             })
             console.error(error)
           },
@@ -90,14 +95,17 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
       )
     } else {
       setCurrentStep(currentStep + 1)
+      navigation.setParams({ step: currentStep + 1 })
     }
   }
 
   const handleBackButtonPress = () => {
+    console.log("BACK BUTTON PRESSED")
     if (currentStep === 1) {
       navigation.goBack()
     } else {
       setCurrentStep(currentStep - 1)
+      navigation.setParams({ step: currentStep - 1 })
     }
   }
 
@@ -111,9 +119,9 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
 
   return (
     <RootView style={[styles.container, { paddingBottom: bottom + space[6] }]}>
-      <View style={styles.padding}>
-        <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />
-      </View>
+      {/*<View style={styles.padding}>*/}
+      {/*  <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />*/}
+      {/*</View>*/}
 
       {currentStep === PLAN_STEP && (
         <SelectPlan selectedPlan={planToConfig} setSelectedPlan={setPlanToConfig} />

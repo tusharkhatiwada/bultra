@@ -14,8 +14,6 @@ import { languagesList } from "models/Languages"
 import { useAuthContext } from "context/AuthContext"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
-import { isNil } from "lodash"
-import { PlanTranslationsTypes, PlanTypes } from "../../../models/Plans"
 
 export type ProfileProps = ProfileStackScreenProps<typeof Routes.main.profile.userProfile>
 
@@ -58,13 +56,6 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
     getCurrentLanguage()
   }, [])
 
-  const goToPlans = () => {
-    navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.plans,
-      params: {},
-    })
-  }
-
   if (!user) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
@@ -81,9 +72,9 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
             {t("profile.title")}
           </Typography>
 
-          {user.name && (
+          {user.email && (
             <Typography size="headline" weight="semibold">
-              {user.name}
+              {user.email}
             </Typography>
           )}
 
@@ -124,20 +115,20 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
           <Icon name="chevron-right" size="md" />
         </Pressable>
 
-        <Pressable onPress={goToPlans} style={styles.link}>
-          <View style={styles.flexRow}>
-            <Icon name="coins" color={colors.primary[400]} style={styles.icon} />
-            <Typography weight="semibold">
-              {t("plans.selectSubscription.yourPlanIs", {
-                plan:
-                  !isNil(userV2) && !isNil(userV2.Plan)
-                    ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.Plan.name]}`)
-                    : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),
-              })}
-            </Typography>
-          </View>
-          <Icon name="chevron-right" size="md" />
-        </Pressable>
+        {/*<Pressable onPress={goToPlans} style={styles.link}>*/}
+        {/*  <View style={styles.flexRow}>*/}
+        {/*    <Icon name="coins" color={colors.primary[400]} style={styles.icon} />*/}
+        {/*    <Typography weight="semibold">*/}
+        {/*      {t("plans.selectSubscription.yourPlanIs", {*/}
+        {/*        plan:*/}
+        {/*          !isNil(userV2) && !isNil(userV2.UserPlan.Plan)*/}
+        {/*            ? t(`plans.selectPlan.${PlanTranslationsTypes[userV2.UserPlan.Plan.name]}`)*/}
+        {/*            : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`),*/}
+        {/*      })}*/}
+        {/*    </Typography>*/}
+        {/*  </View>*/}
+        {/*  <Icon name="chevron-right" size="md" />*/}
+        {/*</Pressable>*/}
 
         <Pressable
           onPress={goToLogout}

@@ -84,7 +84,7 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
   )
 }
 
-const _width = Dimensions.get("screen").width * 0.4
+const _width = Dimensions.get("screen").width * 0.6
 
 const styles = StyleSheet.create({
   container: {
@@ -92,16 +92,17 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     alignSelf: "stretch",
     width: _width,
-    height: 122,
+    height: 134,
     borderRadius: 4,
     borderBottomWidth: 4,
     shadowColor: accentColors.black,
+    marginTop: 10,
 
     shadowOffset: {
-      width: 0,
-      height: 0,
+      width: 5,
+      height: 3,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.4,
     shadowRadius: 8,
     alignItems: "flex-start",
     justifyContent: "space-between",

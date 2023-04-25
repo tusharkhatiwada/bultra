@@ -32,6 +32,13 @@ export const Routes = {
       withdraw: "main/wallet/withdraw",
       qr_scanner: "main/wallet/qr_scanner",
     },
+    invest: {
+      navigator: "main/invest",
+      walletDetails: "main/invest/detail",
+      deposit: "main/invest/deposit",
+      refund: "main/invest/refund",
+      qr_scanner: "main/invest/qr_scanner",
+    },
   },
   notFound: "notFound",
 } as const
