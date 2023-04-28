@@ -6,6 +6,7 @@ import { Routes } from "./Routes"
 import { WithdrawalRequest } from "api/domain/wallet"
 import { OtpForm } from "../hooks/auth/useOtpForm"
 import { Plan } from "./Plans"
+import { WalletHistory } from "./Wallet"
 
 export type RootStackParamList = {
   [Routes.home]: undefined
@@ -84,6 +85,7 @@ export type WalletStackParamList = {
   [Routes.main.wallet.walletDetails]: undefined
   [Routes.main.wallet.deposit]: undefined
   [Routes.main.wallet.withdraw]: { addressToSend?: string }
+  [Routes.main.wallet.historyPositionDetails]: { position: WalletHistory }
   [Routes.main.wallet.qr_scanner]: undefined
 }
 

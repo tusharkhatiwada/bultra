@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native"
+import { Pressable, StyleSheet, View } from "react-native"
 
 import { FC } from "react"
 import { Icon } from "components/Icon"
@@ -11,10 +11,15 @@ import { useTranslation } from "react-i18next"
 
 export type WalletHistoryListProps = {
   walletHistory: WalletHistory[]
+  goPositionDetails: (position: WalletHistory) => void
   isLoading?: boolean
 }
 
-export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, isLoading }) => {
+export const WalletHistoryList: FC<WalletHistoryListProps> = ({
+  walletHistory,
+  isLoading,
+  goPositionDetails,
+}) => {
   const { t, i18n } = useTranslation()
   const { colors } = useTheme()
   const WalletTransactionTypes = {
@@ -48,7 +53,8 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, i
         const date = new Date(transaction.date)
 
         return (
-          <View
+          <Pressable
+            onPress={() => goPositionDetails(transaction)}
             key={`${transaction.date}-${index}`}
             style={[styles.profitRow, { borderBottomColor: colors.primary[200] }]}
           >
@@ -79,7 +85,7 @@ export const WalletHistoryList: FC<WalletHistoryListProps> = ({ walletHistory, i
               <Typography>{formatNumberToCurrency(transaction.amount)}</Typography>
               <Icon color={colors.primary[400]} name="dollar-sign" />
             </View>
-          </View>
+          </Pressable>
         )
       })}
     </View>

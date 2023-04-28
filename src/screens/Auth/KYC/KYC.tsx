@@ -103,6 +103,7 @@ export const KYC: FC<KYCProps> = ({ navigation, route }) => {
         <TextInput
           label={t("wallet.kyc.form.name.label")}
           placeholder={t("wallet.kyc.form.name.placeholder")}
+          // @ts-ignore
           {...getTextFieldProps("name")}
         />
 

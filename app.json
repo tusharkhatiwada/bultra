@@ -6,8 +6,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo-app.png",
-    "owner": "fastgrowing",
-    "scheme": "fastgrowing",
+    "owner": "supdanil",
+    "scheme": "supdanil",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/images/splash-screen.png",
@@ -70,7 +70,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "e7adacde-31b0-4964-82e8-11885fe97998"
+        "projectId": "c713ac5f-16ae-476b-a674-28c18962a71f"
       }
     },
     "runtimeVersion": {

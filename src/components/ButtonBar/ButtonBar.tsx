@@ -1,11 +1,12 @@
 import { Button, HStack, useTheme } from "native-base"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { ScrollView, StyleSheet } from "react-native"
 
 import { TranslationKeys } from "models/TranslationKeys"
 import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
 import { TransactionRange } from "../../models/Wallet"
+import { isNil } from "lodash"
 
 export type ButtonBarElement = {
   label: TranslationKeys
@@ -16,12 +17,19 @@ export type ButtonBarProps = {
   buttons: ButtonBarElement[]
   onChange: (value: TransactionRange) => void
   defaultValue: TransactionRange
+  value?: string
 }
 
-export const ButtonBar: FC<ButtonBarProps> = ({ buttons, onChange }) => {
+export const ButtonBar: FC<ButtonBarProps> = ({ buttons, onChange, value }) => {
   const { t } = useTranslation()
   const [selected, setSelected] = useState<string>(buttons[0].value)
   const { colors } = useTheme()
+
+  useEffect(() => {
+    if (!isNil(value)) {
+      setSelected(value)
+    }
+  }, [value])
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>

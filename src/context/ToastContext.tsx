@@ -9,6 +9,7 @@ type ToastContextProps = {
 
 const ToastContext = createContext({} as ToastContextProps)
 
+// @ts-ignore
 export const ToastProvider: FC = ({ children }) => {
   const [toast, setToast] = useState<ToastProps | null>(null)
 

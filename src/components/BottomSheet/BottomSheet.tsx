@@ -23,6 +23,7 @@ export const BottomSheet: FC<BottomSheetProps> = ({
   cta,
   options = [],
   onChange,
+  // @ts-ignore
   children,
 }) => {
   const { colors } = useTheme()

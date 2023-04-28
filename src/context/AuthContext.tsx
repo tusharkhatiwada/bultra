@@ -24,6 +24,7 @@ export const AuthContext = React.createContext(null as unknown as AuthContextPro
 
 const storage = createSecureStorage()
 
+// @ts-ignore
 export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInformationV2>()
   const [userV2, setUserV2] = useState<UserInformationV2>()

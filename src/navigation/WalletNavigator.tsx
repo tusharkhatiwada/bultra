@@ -7,6 +7,7 @@ import { Withdraw } from "screens/Main/Wallet/Withdraw"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTranslation } from "react-i18next"
 import { QrScanner } from "../screens/Main/Wallet/QrScanner "
+import { HistoryPositionDetails } from "../screens/Main/Wallet/HistoryPositionDetails/HistoryPositionDetails"
 
 const Stack = createNativeStackNavigator<WalletStackParamList>()
 
@@ -19,6 +20,15 @@ export function WalletNavigator() {
         name={Routes.main.wallet.walletDetails}
         component={Wallet}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={Routes.main.wallet.historyPositionDetails}
+        component={HistoryPositionDetails}
+        options={{
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("wallet.withdraw.title")} />
+          ),
+        }}
       />
       <Stack.Screen
         name={Routes.main.wallet.deposit}

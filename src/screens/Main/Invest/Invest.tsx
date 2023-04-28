@@ -1,5 +1,5 @@
 import { dateFilterButtons } from "components/ButtonBar/constants/DateFilterButtons"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { ScrollView, Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
@@ -16,7 +16,6 @@ import { formatNumberToCurrency } from "utils/currency"
 import { useFetchWalletHistory } from "hooks/wallet/useFetchWalletHistory"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { TransactionRange, WalletHistory } from "../../../models/Wallet"
-import { useIsFocused } from "@react-navigation/native"
 import { useAuthContext } from "../../../context/AuthContext"
 import { useGetDataInvest } from "../../../hooks/invest/useGetDataInvest"
 import { InvestProfitsList } from "./InvestProfitsList/InvestProfitsList"
@@ -31,7 +30,7 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
   const { colors } = useTheme()
   const { investData } = useGetDataInvest()
   const { user } = useAuthContext()
-  const isFocused = useIsFocused()
+  // const isFocused = useIsFocused()
   const [historyDateRange, setHistoryDateRange] = useState<TransactionRange>("month")
   const [isWalletLoading, setIsWalletLoading] = useState(false)
 
@@ -41,6 +40,14 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
 
   const { t } = useTranslation()
 
+  if (!investData || !user) {
+    return (
+      <View style={[styles.container, styles.alignCenter]}>
+        <Spinner />
+      </View>
+    )
+  }
+
   const goToDepositScreen = () => {
     navigation.push("main/invest/deposit")
   }
@@ -49,11 +56,11 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
     navigation.navigate(Routes.main.invest.refund, { addressToSend: "" })
   }
 
-  useEffect(() => {
-    if (isFocused) {
-      onDateRangeChange("month")
-    }
-  }, [isFocused])
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     onDateRangeChange("month")
+  //   }
+  // }, [isFocused])
 
   const handleGetWalletHistory = (value: TransactionRange) => {
     getWalletHistory(value, {
@@ -68,14 +75,6 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
     setIsWalletLoading(true)
     handleGetWalletHistory(value)
     setHistoryDateRange(value)
-  }
-
-  if (!investData || !walletHistory) {
-    return (
-      <View style={[styles.container, styles.alignCenter]}>
-        <Spinner />
-      </View>
-    )
   }
 
   const hasPositivePercentage = !isNil(investData) ? investData.profits.last24h.percent >= 0 : false
@@ -104,9 +103,7 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
             <Trans
               i18nKey={`common.USDT`}
               values={{
-                value: formatNumberToCurrency(
-                  user?.UserContribution[user?.UserContribution.length - 1].deposit,
-                ),
+                value: formatNumberToCurrency(investData.userDeposit),
               }}
               components={{
                 small: <Typography style={styles.unit} />,

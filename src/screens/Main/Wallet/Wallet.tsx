@@ -43,6 +43,10 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
   const goToWithdrawalScreen = () => {
     navigation.navigate(Routes.main.wallet.withdraw, { addressToSend: "" })
   }
+  const goPositionDetails = (position: WalletHistory) => {
+    onDateRangeChange("month")
+    navigation.navigate(Routes.main.wallet.historyPositionDetails, { position })
+  }
 
   useEffect(() => {
     if (isFocused) {
@@ -148,9 +152,14 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
           onChange={onDateRangeChange}
           buttons={dateFilterButtons}
           defaultValue={"month"}
+          value={historyDateRange}
         />
 
-        <WalletHistoryList walletHistory={walletHistory} isLoading={isLoading} />
+        <WalletHistoryList
+          walletHistory={walletHistory}
+          isLoading={isLoading}
+          goPositionDetails={goPositionDetails}
+        />
       </RootView>
     </ScrollView>
   )

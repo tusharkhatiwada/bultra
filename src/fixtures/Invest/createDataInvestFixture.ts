@@ -2,12 +2,13 @@ import { GetDataInvest } from "../../api/domain/invest"
 
 export const createDataInvestFixture = (): GetDataInvest.Response => {
   return {
+    userDeposit: 0,
     positions: [
       {
-        BTCUSDT: [],
+        BTCUSDT: [0],
       },
       {
-        ETHUSDT: [],
+        ETHUSDT: [0],
       },
     ],
     profits: {

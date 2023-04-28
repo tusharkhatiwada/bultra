@@ -54,13 +54,14 @@ export const customRender = async (
   { routeParams, darkMode = false, isLoggedIn = true, ...renderOptions }: customRenderOptions = {},
 ) => {
   const theme = createTheme(darkMode ? "dark" : "light")
-
+  // @ts-ignore
   const Wrapper: FC = ({ children }) => {
     return (
       <QueryClientProvider client={queryClient}>
         <ApiContext.Provider value={api}>
           <AuthContext.Provider value={{ ...authContext, isLoggedIn }}>
             <NativeBaseProvider initialWindowMetrics={nativeBaseInsets} theme={theme}>
+              {/*// @ts-ignore*/}
               <ToastProvider>
                 <NavigationContainer>
                   <Stack.Navigator>

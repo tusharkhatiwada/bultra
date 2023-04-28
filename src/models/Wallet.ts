@@ -28,6 +28,7 @@ export type WalletHistory = {
   userId: string
   type: "DEPOSIT" | "WITHDRAWAL"
   date: Date
+  hash: string
   amount: number
   balance: number
 }

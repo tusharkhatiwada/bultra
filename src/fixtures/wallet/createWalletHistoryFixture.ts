@@ -9,6 +9,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
     {
       type: "WITHDRAWAL",
@@ -17,6 +18,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
     {
       type: "DEPOSIT",
@@ -25,6 +27,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
     {
       type: "WITHDRAWAL",
@@ -33,6 +36,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
     {
       type: "DEPOSIT",
@@ -41,6 +45,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
     {
       type: "WITHDRAWAL",
@@ -49,6 +54,7 @@ export const createWalletHistoryFixture = (): WalletHistory[] => {
       balance: 14320.3,
       id: "1",
       userId: "2",
+      hash: "",
     },
   ]
 }

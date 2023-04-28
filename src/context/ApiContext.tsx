@@ -8,6 +8,7 @@ type ApiProviderProps = {
   offline?: boolean
 }
 
+// @ts-ignore
 export const ApiProvider: FC<ApiProviderProps> = ({ children, offline }) => {
   const api = createApi(offline || false)
 

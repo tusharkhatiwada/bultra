@@ -31,6 +31,7 @@ export function useForm<Values>({ onSubmit, schema, defaultValues }: UseFormProp
     setFieldError,
     touched,
     ...rest
+    // @ts-ignore
   } = useFormik<Values>({
     initialValues: defaultValues,
     onSubmit,

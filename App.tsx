@@ -15,6 +15,7 @@ import { colors } from "styles/colors"
 import { createTheme } from "styles/theme"
 import useCachedResources from "./src/hooks/useCachedResources"
 import useColorScheme from "./src/hooks/useColorScheme"
+import React from "react"
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -37,10 +38,13 @@ export default function App() {
   } else {
     return (
       <QueryClientProvider client={queryClient}>
+        {/*// @ts-ignore*/}
         <ApiProvider>
+          {/*// @ts-ignore*/}
           <AuthProvider>
             <SafeAreaProvider>
               <NativeBaseProvider theme={createTheme(colorScheme)}>
+                {/*// @ts-ignore*/}
                 <ToastProvider>
                   <View style={{ backgroundColor }}>
                     <StatusBar

@@ -43,7 +43,7 @@ export const Logout: FC<LogoutProps> = ({ navigation }) => {
           {t("profile.logout.deleteAccount")}
         </Button>
       </Stack>
-
+      {/*// @ts-ignore*/}
       <BottomSheet
         title={t("profile.logout.logoutConfirm")}
         isOpen={isOpen}

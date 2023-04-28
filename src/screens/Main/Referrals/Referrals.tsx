@@ -21,7 +21,6 @@ import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { getThisMonthRange } from "utils/date"
 import { useFetchReferralLevels } from "hooks/referral/useFetchReferralLevels"
-import { useGetUserProfile } from "hooks/profile/useGetUserProfile"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useToastContext } from "context/ToastContext"
 import { useTranslation } from "react-i18next"
@@ -33,8 +32,8 @@ export const Referrals: FC<ReferralsProps> = () => {
   const { top } = useSafeAreaInsets()
   const { showToast } = useToastContext()
 
-  const { userProfile } = useGetUserProfile()
-  const referralId = userProfile?.referralId || ""
+  // const { userProfile } = useGetUserProfile()
+  const referralId = ""
 
   const [historyDateRange, setHistoryDateRange] = useState<DateRange>(getThisMonthRange())
   const { referralLevels } = useFetchReferralLevels(historyDateRange)
