@@ -40,9 +40,13 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
-      const indexOfElement = findIndex(plans, (plan) => user.UserPlan.Plan.name === plan.name)
-      if (indexOfElement !== -1) {
-        setPlansToShow(plans.filter((plan, index) => indexOfElement < index))
+      if (!isNil(user.UserPlan)) {
+        const indexOfElement = findIndex(plans, (plan) => user.UserPlan.Plan.name === plan.name)
+        if (indexOfElement !== -1) {
+          setPlansToShow(plans.filter((plan, index) => indexOfElement < index))
+        } else {
+          setPlansToShow(plans)
+        }
       } else {
         setPlansToShow(plans)
       }
@@ -125,7 +129,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           <View style={styles.planName}>
             <Typography color="primary.800">{t("plans.selectSubscription.yourPlanIs")}</Typography>
             <Typography color="primary.800" size="headline" weight="bold" ml="1">
-              {!isNil(user.UserPlan.Plan)
+              {!isNil(user.UserPlan)
                 ? t(`plans.selectPlan.${PlanTranslationsTypes[user.UserPlan.Plan.name]}`)
                 : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`)}
             </Typography>
