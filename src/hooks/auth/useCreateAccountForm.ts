@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 
 type CreateAccountForm = {
   email: string
-  referralId: string
+  ref: string
   password: string
   repeatPassword: string
 }
@@ -36,7 +36,7 @@ export const useCreateAccountForm = ({
     onSubmit,
     schema: y.object().shape({
       email: y.string().email().required(),
-      referralId: y.string(),
+      ref: y.string(),
       password: y.string().required(),
       repeatPassword: y
         .string()

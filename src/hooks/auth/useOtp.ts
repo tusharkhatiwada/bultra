@@ -17,5 +17,6 @@ export const useOtp = (options?: Options) => {
   return {
     ...mutation,
     sendOtp: mutation.mutate,
+    isSendOtpLoading: mutation.isLoading,
   }
 }

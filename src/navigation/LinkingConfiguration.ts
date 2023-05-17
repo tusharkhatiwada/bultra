@@ -23,7 +23,12 @@ const linking: LinkingOptions<RootStackParamList> = {
               [Routes.main.wallet.withdraw]: Routes.main.wallet.withdraw,
             },
           },
-          [Routes.main.referrals]: Routes.main.referrals,
+          [Routes.main.referrals.navigator]: {
+            screens: {
+              [Routes.main.referrals.information]: Routes.main.referrals.information,
+              [Routes.main.referrals.levelDetails]: Routes.main.referrals.levelDetails,
+            },
+          },
           [Routes.main.transactionHistory]: Routes.main.transactionHistory,
           [Routes.main.profile.navigator]: {
             screens: {

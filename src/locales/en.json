@@ -187,7 +187,8 @@
         "success": "We will check the USDT amount you have withdrawn and you will receive it back shortly.",
         "error": "There was an error while sending the withdrawal request:",
         "cta": "Finish withdrawal",
-        "goToKYCForm": "Go to KYC form"
+        "goToKYCForm": "Go to KYC form",
+        "addressError": "The address is invalid. Please use a valid Tron address."
       },
 
       "history": {
@@ -199,7 +200,8 @@
           "lastMonth": "Last month",
           "last6Months": "Last 6 months",
           "all": "All"
-        }
+        },
+        "noTransactions": "So far, you haven't made any transactions"
       },
 
       "kyc": {
@@ -268,7 +270,7 @@
       "shareMessage": "Use my Invitation Code to profit on the platform: {{referralId}}",
 
       "rewards": "Rewards",
-      "rewardsDescription": "We offer you an estimate of the profit you will get this month, taking into account your activity in the last months:",
+      "rewardsDescription": "Click to the level to see your referrals:",
       "level": "LEVEL {{number}}"
     },
 
@@ -371,6 +373,14 @@
           "copy-info": "Wallet ID copied to the clipboard.",
           "info": "If you transfer more than <strong>{{price}} USDT</strong>, the remaining money will be used for investment purposes."
         }
+      },
+
+      "secondScreen": {
+        "info": "Welcome to Fast Growing, the most efficient way to profitability and passive income through our trading strategies system.",
+        "currentDeposit": "Your current plan deposit:",
+        "newPlanCoast": "Your new plan cost:",
+        "payment": "Your payment amount:"
+
       },
 
       "toast": {

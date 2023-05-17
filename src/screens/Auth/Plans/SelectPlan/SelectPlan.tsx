@@ -1,15 +1,21 @@
-import { Dispatch, FC, SetStateAction } from "react"
+import { FC } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 
-import { Plan } from "models/Plans"
 import { Typography } from "components/Typography"
+import { GetPriceUpdatePlan } from "../../../../api/domain/auth"
+import { isNil } from "lodash"
+import { Spinner, useTheme } from "native-base"
+import { formatNumberToCurrency } from "../../../../utils/currency"
 
 export type SelectPlanProps = {
-  selectedPlan: Plan
-  setSelectedPlan: Dispatch<SetStateAction<Plan>>
+  selectedPlan?: GetPriceUpdatePlan.Response
 }
 
-export const SelectPlan: FC<SelectPlanProps> = () => {
+export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan }) => {
+  const { colors } = useTheme()
+  if (isNil(selectedPlan)) {
+    return <Spinner />
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.padding}>
@@ -20,42 +26,20 @@ export const SelectPlan: FC<SelectPlanProps> = () => {
         <View style={styles.sumBox}>
           <View style={styles.sumContainer}>
             <Typography>Your current plan deposit:</Typography>
-            <Typography>€ 36,45</Typography>
+            <Typography>{`€ ${formatNumberToCurrency(selectedPlan.current)}`}</Typography>
           </View>
 
           <View style={styles.sumContainer}>
             <Typography>Your new plan cost:</Typography>
-            <Typography>€ 75,00</Typography>
+            <Typography>{`€ ${formatNumberToCurrency(selectedPlan.new)}`}</Typography>
           </View>
           <View style={styles.sumContainer}>
             <Typography>Your payment amount:</Typography>
-            <Typography>€ 38,55</Typography>
+            <Typography color={colors.error[400]}>{`€ ${formatNumberToCurrency(
+              selectedPlan.amount,
+            )}`}</Typography>
           </View>
         </View>
-
-        {/*<Typography color="primary.400" style={styles.description}>*/}
-        {/*  {t("plans.selectPlan.description")}*/}
-        {/*</Typography>*/}
-
-        {/*<View style={styles.switcherBox}>*/}
-        {/*  <View style={styles.iconAndText}>*/}
-        {/*    <Icon name={"sync"} color={"#A1A1AA"} style={styles.icon} />*/}
-        {/*    <Typography size="body">{t("plans.selectPlan.autoRenewal")}</Typography>*/}
-        {/*  </View>*/}
-        {/*  <Switch size="sm" colorScheme="primary" />*/}
-        {/*</View>*/}
-
-        {/*<Stack space="lg" accessibilityRole="radiogroup">*/}
-        {/*  {!isNil(plans) &&*/}
-        {/*    plans.map((plan) => (*/}
-        {/*      <PlanCard*/}
-        {/*        key={plan.id}*/}
-        {/*        selected={isSelected(plan.name)}*/}
-        {/*        selectPlan={setSelectedPlan}*/}
-        {/*        plan={plan}*/}
-        {/*      />*/}
-        {/*    ))}*/}
-        {/*</Stack>*/}
       </View>
     </ScrollView>
   )

@@ -26,6 +26,7 @@ import { createGetUserHttp } from "./profile/http/createGetUserHttp"
 import { createGetPriseUpdatePlanHttp } from "./profile/http/createGetPriseUpdatePlanHttp"
 import { createRefundRequestHttp } from "./Invest/createRefundRequestHttp"
 import { createGetDataInvestHttp } from "./Invest/createGetDataInvestHttp"
+import { createFetchReferralLevelsHttp } from "./referral/http/createFetchReferralLevelsHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -96,7 +97,7 @@ export function createApi(offline: boolean): Api {
       getUserProfile: createGetUserHttp(httpClient),
     },
     referral: {
-      fetchReferralLevels: createFetchReferralLevelsFake(),
+      fetchReferralLevels: createFetchReferralLevelsHttp(httpClient),
     },
     wallet: {
       getWallet: createGetWalletHttp(httpClient),

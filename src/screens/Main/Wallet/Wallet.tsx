@@ -111,14 +111,14 @@ export const Wallet: FC<WalletProps> = ({ navigation }) => {
           </Typography>
         </View>
 
-        <Typography
-          color={hasPositivePercentage ? colors.success[400] : colors.error[400]}
-          style={styles.balanceProfit}
-        >
-          {`${hasPositivePercentage ? "+" : ""}${wallet.profitSummary.last24hours}% ${t(
-            "wallet.last24hours",
-          ).toLowerCase()}`}
-        </Typography>
+        {/*<Typography*/}
+        {/*  color={hasPositivePercentage ? colors.success[400] : colors.error[400]}*/}
+        {/*  style={styles.balanceProfit}*/}
+        {/*>*/}
+        {/*  {`${hasPositivePercentage ? "+" : ""}${wallet.profitSummary.last24hours}% ${t(*/}
+        {/*    "wallet.last24hours",*/}
+        {/*  ).toLowerCase()}`}*/}
+        {/*</Typography>*/}
 
         <Stack space="lg" direction="row" style={styles.buttonContainer}>
           <Button

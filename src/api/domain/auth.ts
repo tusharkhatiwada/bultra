@@ -78,7 +78,7 @@ export namespace CreateAccount {
   export type Params = {
     email: string
     password: string
-    referralId?: string
+    ref?: string
   }
   export type Response = { message: string; codeEndTime: string }
   export type Request = (params: CreateAccount.Params) => Promise<CreateAccount.Response>
@@ -97,7 +97,11 @@ export namespace GetPriceUpdatePlan {
   export type Params = {
     id: string
   }
-  export type Response = []
+  export type Response = {
+    amount: number
+    current: number
+    new: number
+  }
   export type Request = (params: GetPriceUpdatePlan.Params) => Promise<GetPriceUpdatePlan.Response>
 }
 

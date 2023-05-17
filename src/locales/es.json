@@ -167,7 +167,8 @@
         "success": "Revisaremos la cantidad de USDT que va a retirar y lo recibirá en el menor tiempo posible.",
         "error": "Ha habido un error mientras se enviava la solicitud de retirada:",
         "cta": "Finalizar retiro",
-        "goToKYCForm": "Ir al formulario KYC"
+        "goToKYCForm": "Ir al formulario KYC",
+        "addressError": "The address is invalid. Please use a valid Tron address."
       },
 
       "history": {
@@ -179,7 +180,8 @@
           "lastMonth": "Último mes",
           "last6Months": "Últimos 6 meses",
           "all": "Todo"
-        }
+        },
+        "noTransactions": "No has hecho transacciones por el momento"
       },
 
       "kyc": {
@@ -327,7 +329,7 @@
       "selectSubscription": {
         "title": "Subscripción",
         "description": "Elige un tipo de subscripción. Puedes hacer un pago mensual indefinidamente o hacer un pago único, válido para los próximos 2 años:",
-        "yourPlanIs": "Your current plan is {{plan}}",
+        "yourPlanIs": " Current plan:",
         "monthly": {
           "title": "Subscripción mensual",
           "price": "{{price}} <small>USDT</small>",

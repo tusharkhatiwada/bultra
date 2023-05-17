@@ -5,6 +5,7 @@ import { GetUserProfile } from "api/domain/profile"
 import { useApi } from "context/ApiContext"
 
 export const useGetUserProfile = (
+  enabled: boolean,
   options?: UseQueryOptions<GetUserProfile.Response, AxiosError>,
 ) => {
   const { profile } = useApi()
@@ -12,11 +13,12 @@ export const useGetUserProfile = (
   const request = useQuery<GetUserProfile.Response, AxiosError>(
     ["user-profile"],
     () => profile.getUserProfile(),
-    options,
+    { ...options, enabled },
   )
 
   return {
     ...request,
+    removeUser: request.remove,
     userProfile: request.data,
   }
 }

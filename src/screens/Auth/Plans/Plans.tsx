@@ -21,6 +21,7 @@ import { isNil } from "lodash"
 import { Header } from "../../../components/Header"
 import { useAuthContext } from "../../../context/AuthContext"
 import { useChangePlansNavigationProps } from "../../../hooks/auth/useChangePlansNavigationProps"
+import { useGetPriceUpdatePlan } from "../../../hooks/auth/useGetPriceUpdatePlan"
 
 const PLAN_STEP = 1
 const SUBSCRIPTION_STEP = 2
@@ -35,13 +36,15 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
   const [currentStep, setCurrentStep] = useState(defaultStep)
   const [planToConfig, setPlanToConfig] = useState(defaultPlan)
   const [selectedNetwork, setSelectedNetwork] = useState(NetworkTypes.BNB_SMART_CHAIN)
-  // const { priceUpdatePlan } = useGetPriceUpdatePlan({
-  //   id: !isNil(desiredPlan) ? desiredPlan.id : "",
-  // })
+  const { priceUpdatePlan, remove } = useGetPriceUpdatePlan({
+    id: !isNil(desiredPlan) ? desiredPlan.id : "",
+  })
 
-  // t("plans.title")
-
-  //console.log(navigation.setParams({ headerTitle: "TEST" }))
+  useEffect(() => {
+    return () => {
+      remove()
+    }
+  }, [])
 
   const { changeUserPlanLocal } = useAuthContext()
   const { needToChangeNavOptions, onBackPress, headerTitle } = useChangePlansNavigationProps({
@@ -69,38 +72,32 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
   const { planSubscription, isLoading } = usePlanSubscription()
 
   const handleButtonPress = () => {
-    if (currentStep === TOTAL_STEPS) {
-      planSubscription(
-        { id: planToConfig.id },
-        {
-          onSuccess: () => {
-            changeUserPlanLocal(planToConfig)
-            showToast({
-              type: ToastType.info,
-              title: t("plans.toast.title"),
-              description: t("plans.toast.description"),
-            })
-            navigation.dispatch(
-              CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
-            )
-          },
-          onError: (error) => {
-            showToast({
-              type: ToastType.error,
-              title: t("plans.toast.error"),
-            })
-            console.error(error)
-          },
+    planSubscription(
+      { id: planToConfig.id },
+      {
+        onSuccess: () => {
+          changeUserPlanLocal(planToConfig)
+          showToast({
+            type: ToastType.info,
+            title: t("plans.toast.title"),
+            description: t("plans.toast.description"),
+          })
+          navigation.dispatch(
+            CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+          )
         },
-      )
-    } else {
-      setCurrentStep(currentStep + 1)
-      navigation.setParams({ step: currentStep + 1 })
-    }
+        onError: (error) => {
+          showToast({
+            type: ToastType.error,
+            title: t("plans.toast.error"),
+          })
+          console.error(error)
+        },
+      },
+    )
   }
 
   const handleBackButtonPress = () => {
-    console.log("BACK BUTTON PRESSED")
     if (currentStep === 1) {
       navigation.goBack()
     } else {
@@ -119,25 +116,10 @@ export const Plans: FC<PlansProps> = ({ navigation, route }) => {
 
   return (
     <RootView style={[styles.container, { paddingBottom: bottom + space[6] }]}>
-      {/*<View style={styles.padding}>*/}
-      {/*  <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} />*/}
-      {/*</View>*/}
-
-      {currentStep === PLAN_STEP && (
-        <SelectPlan selectedPlan={planToConfig} setSelectedPlan={setPlanToConfig} />
-      )}
-
-      {currentStep === SUBSCRIPTION_STEP && (
-        <SelectSubscription
-          selectedPlan={planToConfig.name}
-          selectedNetwork={selectedNetwork}
-          setSelectedNetwork={setSelectedNetwork}
-        />
-      )}
-
+      <SelectPlan selectedPlan={priceUpdatePlan} />
       <View style={styles.padding}>
         <Button isLoading={isLoading} onPress={handleButtonPress}>
-          {currentStep === TOTAL_STEPS ? t("common.finish") : t("common.continue")}
+          {t("plans.changePlan")}
         </Button>
       </View>
     </RootView>

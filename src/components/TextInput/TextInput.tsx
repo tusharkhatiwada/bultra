@@ -120,11 +120,13 @@ export const TextInput: FC<TextInputProps> = ({
           leftIcon={<WarningOutlineIcon size="xs" />}
           style={styles.message}
         >
-          {_.capitalize(message)}
+          {/*{_.capitalize(message)}*/}
+          {message}
         </FormControl.ErrorMessage>
       ) : (
         <FormControl.HelperText style={styles.message}>
-          {_.capitalize(message)}
+          {/*{_.capitalize(message)}*/}
+          {message}
         </FormControl.HelperText>
       )}
     </FormControl>

@@ -1,4 +1,5 @@
 import * as y from "yup"
+import { useTranslation } from "react-i18next"
 
 import { UseFormProps, useForm } from "hooks/useForm"
 
@@ -30,15 +31,16 @@ export const useWithdrawalRequestForm = ({
   defaultValues = DEFAULT_VALUES,
 }: WithdrawalRequestProps) => {
   // const patternTwoDigisAfterComma = /^(\d+(?:[.,]\d{2})?)$/
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   return useForm({
     defaultValues,
     onSubmit,
     schema: y.object().shape({
-      network: y.string().required(),
-      token: y.string().required(),
-      walletAddress: y.string().required(),
+      walletAddress: y
+        .string()
+        .matches(/T[A-Za-z1-9]{33}/, t("wallet.withdraw.addressError"))
+        .required(),
       amount: y
         .string()
         // .test("is-decimal", t("common.numberInput.2decimals"), (val) => {

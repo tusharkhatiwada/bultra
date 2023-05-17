@@ -1,6 +1,7 @@
 import { dateFilterButtons } from "components/ButtonBar/constants/DateFilterButtons"
 import { FC, useState } from "react"
-import { ScrollView, Spinner, Stack, useTheme } from "native-base"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
+import { Spinner, Stack, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
 import { Trans, useTranslation } from "react-i18next"
 
@@ -80,17 +81,17 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
   const hasPositivePercentage = !isNil(investData) ? investData.profits.last24h.percent >= 0 : false
 
   return (
-    <ScrollView>
-      <RootView
-        style={[
-          styles.container,
-          {
-            paddingHorizontal: space[6],
-            paddingTop: top + space[6],
-            paddingBottom: bottom + space[6],
-          },
-        ]}
-      >
+    <RootView
+      style={[
+        styles.container,
+        {
+          paddingHorizontal: space[6],
+          paddingTop: top + space[6],
+          paddingBottom: bottom + space[6],
+        },
+      ]}
+    >
+      <KeyboardAwareScrollView enableOnAndroid>
         <Typography size="h3" style={styles.title}>
           {t("invest.title")}
         </Typography>
@@ -155,8 +156,8 @@ export const Invest: FC<InvestProps> = ({ navigation }) => {
           defaultValue={"month"}
         />
         <InvestHistoryList walletHistory={walletHistory} isLoading={isWalletLoading} />
-      </RootView>
-    </ScrollView>
+      </KeyboardAwareScrollView>
+    </RootView>
   )
 }
 

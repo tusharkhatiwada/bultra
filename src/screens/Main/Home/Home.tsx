@@ -29,7 +29,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const { isLoggedIn, setSelectedPlan, user } = useAuthContext()
 
-  const { plans } = useGetAllPlans()
+  const { plans } = useGetAllPlans(isLoggedIn)
 
   const [plansToShow, setPlansToShow] = useState<GetPlans.Response | undefined>(undefined)
 
@@ -106,16 +106,18 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
             {t("home.description")}
           </Typography>
 
-          <Typography size="h3" style={styles.profits}>
-            {t("home.profits")}
-          </Typography>
-
-          <Typography color="primary.400" style={styles.profitDescription}>
-            {t("home.profit-description")}
-          </Typography>
+          {isLoggedIn && (
+            <View>
+              <Typography size="h3" style={styles.profits}>
+                {t("home.profits")}
+              </Typography>
+              <Typography color="primary.400" style={styles.profitDescription}>
+                {t("home.profit-description")}
+              </Typography>
+              <ProfitsList profitSummary={profitSummary} />
+            </View>
+          )}
         </View>
-
-        <ProfitsList profitSummary={profitSummary} />
       </ScrollView>
       <View style={viewStyle}>
         {!isLoggedIn && (

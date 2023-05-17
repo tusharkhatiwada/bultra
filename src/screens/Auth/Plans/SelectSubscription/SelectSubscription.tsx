@@ -30,7 +30,7 @@ export const SelectSubscription: FC<SelectSubscriptionProps> = ({
   const { t } = useTranslation()
   const { colors } = useTheme()
   const { showToast } = useToastContext()
-  const { wallet } = useGetWallet()
+  const { wallet, walletTrc } = useGetWallet()
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {

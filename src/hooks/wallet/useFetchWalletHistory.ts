@@ -26,7 +26,7 @@ export const useFetchWalletHistory = (
   const request = useQuery<FetchWalletHistory.Response, AxiosError>(
     ["fetchWalletHistory"],
     () => wallet.fetchWalletHistory(params),
-    options,
+    { ...options, refetchInterval: 15000 },
   )
 
   const result = request.data?.map((transaction) => ({

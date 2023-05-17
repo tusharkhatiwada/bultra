@@ -12,6 +12,7 @@ export type UserInformationV2 = {
   id: string
   status: string
   role: string
+  ref?: string
   Transaction: {
     amount: string
     date: string

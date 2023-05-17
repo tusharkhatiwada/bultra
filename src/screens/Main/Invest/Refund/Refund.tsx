@@ -1,6 +1,7 @@
 import { FC, useState } from "react"
 import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 
 import { Button } from "components/Button"
 import { RootView } from "components/RootView"
@@ -73,7 +74,7 @@ export const Refund: FC<WithdrawProps> = ({ navigation }) => {
         },
       ]}
     >
-      <View>
+      <KeyboardAwareScrollView enableOnAndroid>
         <Typography color="primary.400" style={styles.description}>
           {t("invest.refundInformation")}
         </Typography>
@@ -88,7 +89,7 @@ export const Refund: FC<WithdrawProps> = ({ navigation }) => {
         <Typography size="mini" color="primary.400">
           {t("invest.refundBottomText")}
         </Typography>
-      </View>
+      </KeyboardAwareScrollView>
       <Button onPress={goBack}>{t("invest.finishRefund")}</Button>
     </RootView>
   )

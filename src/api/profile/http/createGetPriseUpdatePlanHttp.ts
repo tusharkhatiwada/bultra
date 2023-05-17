@@ -10,7 +10,5 @@ export const createGetPriseUpdatePlanHttp =
       { params: { id } },
     )
 
-    console.log("!!!!!!!!!!!!!!!", data)
-
     return data
   }

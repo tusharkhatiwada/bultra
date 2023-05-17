@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
 import { Spinner, useTheme } from "native-base"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
+import * as Linking from "expo-linking"
 
 import { Icon } from "components/Icon"
 import { ProfileStackScreenProps } from "models/Navigation"
@@ -27,7 +28,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
 
-  const { user, userV2 } = useAuthContext()
+  const { user } = useAuthContext()
 
   const handleChangeLanguage = (language: string) => {
     changeLanguage(language)
@@ -79,7 +80,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
           )}
 
           <Typography color="primary.400" style={styles.button}>
-            {userV2?.email}
+            {user.email}
           </Typography>
         </View>
 
@@ -99,7 +100,18 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
       </View>
 
       <View>
-        <Pressable onPress={goToSupport} style={styles.link}>
+        {/*<Pressable onPress={goToSupport} style={styles.link}>*/}
+        {/*  <View style={styles.flexRow}>*/}
+        {/*    <Icon name="mobile-alt" color={colors.primary[400]} style={styles.icon} />*/}
+        {/*    <Typography weight="semibold">{t("profile.support.title")}</Typography>*/}
+        {/*  </View>*/}
+        {/*  <Icon name="chevron-right" size="md" />*/}
+        {/*</Pressable>*/}
+
+        <Pressable
+          onPress={() => Linking.openURL("whatsapp://send?phone=+34678372017")}
+          style={styles.link}
+        >
           <View style={styles.flexRow}>
             <Icon name="mobile-alt" color={colors.primary[400]} style={styles.icon} />
             <Typography weight="semibold">{t("profile.support.title")}</Typography>

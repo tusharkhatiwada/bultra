@@ -21,7 +21,6 @@ type customRenderOptions = {
   darkMode?: boolean
   isLoggedIn?: boolean
 }
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -37,10 +36,10 @@ const authContext = {
   token: "stateToken",
   setToken: jest.fn(),
   isLoggedIn: true,
+  setUser: () => {},
   logout: jest.fn(() => Promise.resolve()),
   selectedPlan: FreePlanMock,
   setSelectedPlan: jest.fn(),
-  setUserV2: jest.fn(),
   changeUserPlanLocal: () => {},
 } as AuthContextProps
 

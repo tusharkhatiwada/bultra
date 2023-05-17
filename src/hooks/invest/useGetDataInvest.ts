@@ -11,7 +11,7 @@ export const useGetDataInvest = () => {
     ["getInvestData"],
     () => invest.getDataInvest(),
     {
-      refetchInterval: 5000,
+      refetchInterval: 15000,
     },
   )
 

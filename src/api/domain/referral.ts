@@ -1,12 +1,9 @@
-import { DateRange } from "models/Date"
-import { ReferralLevel } from "models/Referrals"
+import { ReferralLevels } from "models/Referrals"
 
 export namespace FetchReferralLevels {
-  export type Params = DateRange
-  export type Response = ReferralLevel[]
-  export type Request = (
-    params: FetchReferralLevels.Params,
-  ) => Promise<FetchReferralLevels.Response>
+  // export type Params = DateRange
+  export type Response = ReferralLevels
+  export type Request = () => Promise<FetchReferralLevels.Response>
 }
 
 export interface ReferralApi {

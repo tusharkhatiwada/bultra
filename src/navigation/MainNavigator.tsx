@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
 import { useTranslation } from "react-i18next"
 import { InvestNavigator } from "./InvestNavigator"
+import { ReferralsNavigator } from "./ReferralsNavigator"
 
 const BottomTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -59,8 +60,8 @@ export function MainNavigator() {
         })}
       />
       <BottomTab.Screen
-        name={Routes.main.referrals}
-        component={Referrals}
+        name={Routes.main.referrals.navigator}
+        component={ReferralsNavigator}
         options={() => ({
           title: t("referrals.title"),
           tabBarIcon: ({ color }) => <Icon size="xl" name="user-plus" color={color} />,

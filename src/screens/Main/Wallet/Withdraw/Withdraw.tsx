@@ -34,7 +34,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const { showToast } = useToastContext()
   const { addressToSend } = route.params
   const isFocused = useIsFocused()
-  const { wallet, refetch } = useGetWallet()
+  const { refetch, walletTrc } = useGetWallet()
 
   const [tokenBalance, setTokenBalance] = useState<string | null>(null)
   const [infoAmountMessage, setInfoAmountMessage] = useState<
@@ -42,6 +42,13 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   >(undefined)
 
   const { withdrawalRequest, isLoading } = useWithdrawalRequest()
+
+  useEffect(() => {
+    if (!isNil(walletTrc)) {
+      const usdtBalance = walletTrc.balance.find((token) => token.token === "USDT")
+      !isNil(usdtBalance) ? setTokenBalance(usdtBalance.balance) : setTokenBalance("")
+    }
+  }, [walletTrc])
 
   useEffect(() => {
     if (!isNil(tokenBalance)) {
@@ -62,16 +69,16 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const handleGoToQrScanner = () => {
     navigation.push("main/wallet/qr_scanner")
     setInfoAmountMessage(undefined)
-    setTokenBalance(null)
+    // setTokenBalance(null)
     resetForm()
   }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue, values, resetForm } =
     useWithdrawalRequestForm({
-      onSubmit: ({ network, amount, walletAddress }) => {
+      onSubmit: ({ amount, walletAddress }) => {
         withdrawalRequest(
           {
-            blockchain: network,
+            blockchain: !isNil(walletTrc) ? walletTrc.name : "",
             addressTo: walletAddress,
             amount: parseFloatWithLocale(amount),
             token: "USDT",
@@ -127,7 +134,7 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     }
   }, [isFocused])
 
-  if (!wallet) {
+  if (!walletTrc) {
     return (
       <View style={[styles.container, styles.alignCenter]}>
         <Spinner />
@@ -138,14 +145,14 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
   const handleSelectNetwork = (value: string) => {
     setValue("network", value)
     setValue("token", "USDT")
-    if (isNil(wallet)) return
-    const selectedWallet = wallet.wallets.find((network) => network.name === value)
-    if (isNil(selectedWallet)) return
-    const walletTokens = selectedWallet.balance.find((tokenInfo) =>
-      allowedTokens.includes(tokenInfo.token),
-    )
-    if (!isNil(walletTokens)) {
-      setTokenBalance(walletTokens.balance)
+    // if (isNil(wallet)) return
+    // const selectedWallet = wallet.wallets.find((network) => network.name === value)
+    // if (isNil(selectedWallet)) return
+    // // const walletTokens = selectedWallet.balance.find((tokenInfo) =>
+    // //   allowedTokens.includes(tokenInfo.token),
+    // // )
+    if (!isNil(walletTrc)) {
+      setTokenBalance(walletTrc.balance.toString())
     }
   }
 
@@ -167,9 +174,9 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
     }
   }
 
-  const networks = wallet.wallets.map((network) => {
-    return { value: network.name, label: network.name }
-  })
+  // const networks = wallet.wallets.map((network) => {
+  //   return { value: network.name, label: network.name }
+  // })
 
   return (
     <RootView
@@ -192,18 +199,22 @@ export const Withdraw: FC<WithdrawProps> = ({ navigation, route }) => {
           rightIcon="qrcode"
           onIconPress={handleGoToQrScanner}
         />
-        <Select
-          custom
-          placeholder={t("common.select.placeholder", {
-            label: t("wallet.withdraw.network"),
-          })}
-          label={t("wallet.withdraw.network")}
-          bottomLabel={t("wallet.withdraw.selectNetwork")}
-          cta={t("wallet.withdraw.selectNetwork")}
-          options={networks}
-          {...getTextFieldProps("network")}
-          onChange={handleSelectNetwork}
-        />
+        <Typography size="small">{t("wallet.deposit.network")}</Typography>
+        <Typography color="primary.400" style={styles.description}>
+          {walletTrc ? walletTrc.name : ""}
+        </Typography>
+        {/*<Select*/}
+        {/*  custom*/}
+        {/*  placeholder={t("common.select.placeholder", {*/}
+        {/*    label: t("wallet.withdraw.network"),*/}
+        {/*  })}*/}
+        {/*  label={t("wallet.withdraw.network")}*/}
+        {/*  bottomLabel={t("wallet.withdraw.selectNetwork")}*/}
+        {/*  cta={t("wallet.withdraw.selectNetwork")}*/}
+        {/*  options={networks}*/}
+        {/*  {...getTextFieldProps("network")}*/}
+        {/*  onChange={handleSelectNetwork}*/}
+        {/*/>*/}
         <TextInput
           label={t("wallet.withdraw.amount")}
           rightIcon="dollar-sign"

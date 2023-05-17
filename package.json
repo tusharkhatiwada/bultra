@@ -16,7 +16,9 @@
     "pre-push": "yarn lint && yarn typecheck && yarn test",
     "prepare": "husky install",
     "expo-doctor": "node scripts/doctor.js",
-    "g": "hygen generator"
+    "g": "hygen generator",
+    "eas:build-ios": "eas build --platform ios",
+    "eas:submit_latest": "eas submit -p ios --latest"
   },
   "jest": {
     "preset": "jest-expo",

@@ -17,7 +17,11 @@ export const Routes = {
     navigator: "main",
     home: "main/home",
     transactionHistory: "main/transactionHistory",
-    referrals: "main/referrals",
+    referrals: {
+      navigator: "main/referrals",
+      information: "main/referrals/information",
+      levelDetails: "main/referrals/level_details",
+    },
     profile: {
       navigator: "main/profile",
       userProfile: "main/profile/user_profile",

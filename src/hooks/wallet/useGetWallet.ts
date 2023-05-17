@@ -12,7 +12,7 @@ export const useGetWallet = (options?: UseQueryOptions<GetWallet.Response, Axios
   const request = useQuery<GetWallet.Response, AxiosError>(
     ["getWallet"],
     () => wallet.getWallet(),
-    options,
+    { ...options, refetchInterval: 15000 },
   )
 
   const resultWallets: WalletsType[] = []
@@ -33,6 +33,10 @@ export const useGetWallet = (options?: UseQueryOptions<GetWallet.Response, Axios
 
   return {
     ...request,
+    removeWallet: request.remove,
     wallet: isNil(request.data) ? undefined : { ...request.data, ...{ wallets: resultWallets } },
+    walletTrc: !isNil(request.data)
+      ? request.data.wallets.find((network) => network.name === "TRC20")
+      : undefined,
   }
 }

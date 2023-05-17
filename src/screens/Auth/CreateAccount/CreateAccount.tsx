@@ -61,9 +61,9 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue } = useCreateAccountForm({
-    onSubmit: ({ email, password, referralId }) => {
+    onSubmit: ({ email, password, ref }) => {
       createAccount(
-        { email, password, referralId },
+        { email, password, ref },
         {
           onSuccess: (response) => {
             navigation.navigate(Routes.auth.otp, {
@@ -116,7 +116,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
           label={t("createAccount.form.referralId.label")}
           placeholder={t("createAccount.form.referralId.placeholder")}
           autoCapitalize="none"
-          {...getTextFieldProps("referralId")}
+          {...getTextFieldProps("ref")}
         />
 
         <TextInput

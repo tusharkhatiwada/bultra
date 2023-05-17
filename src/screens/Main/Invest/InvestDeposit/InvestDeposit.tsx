@@ -1,6 +1,7 @@
 import { FC, useState } from "react"
 import { Spinner, useTheme } from "native-base"
 import { StyleSheet, View } from "react-native"
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 
 import { Button } from "components/Button"
 import { RootView } from "components/RootView"
@@ -73,7 +74,7 @@ export const InvestDeposit: FC<DepositProps> = ({ navigation }) => {
         },
       ]}
     >
-      <View>
+      <KeyboardAwareScrollView enableOnAndroid>
         <Typography color="primary.400" style={styles.description}>
           {t("invest.description")}
         </Typography>
@@ -88,7 +89,7 @@ export const InvestDeposit: FC<DepositProps> = ({ navigation }) => {
         <Typography size="mini" color="primary.400">
           {t("invest.bottomText")}
         </Typography>
-      </View>
+      </KeyboardAwareScrollView>
       <Button onPress={goBack}>{t("invest.finishInvest")}</Button>
     </RootView>
   )

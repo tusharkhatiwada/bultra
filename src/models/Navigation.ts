@@ -7,6 +7,7 @@ import { WithdrawalRequest } from "api/domain/wallet"
 import { OtpForm } from "../hooks/auth/useOtpForm"
 import { Plan } from "./Plans"
 import { WalletHistory } from "./Wallet"
+import { ReferralLevelType } from "./Referrals"
 
 export type RootStackParamList = {
   [Routes.home]: undefined
@@ -31,6 +32,12 @@ export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = Comp
   NativeStackScreenProps<RootStackParamList>
 >
 
+export type ReferralsStackScreenProps<Screen extends keyof ReferralsStackParamList> =
+  CompositeScreenProps<
+    NativeStackScreenProps<ReferralsStackParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+
 export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> =
   CompositeScreenProps<
     NativeStackScreenProps<ProfileStackParamList, Screen>,
@@ -51,11 +58,17 @@ export type InvestStackScreenProps<Screen extends keyof InvestStackParamList> =
 
 export type MainTabParamList = {
   [Routes.main.home]: undefined
-  [Routes.main.referrals]: undefined
+  [Routes.main.referrals.navigator]: undefined
   [Routes.main.transactionHistory]: undefined
   [Routes.main.invest.navigator]: undefined
   [Routes.main.profile.navigator]: undefined
   [Routes.main.wallet.navigator]: undefined
+}
+
+export type ReferralsStackParamList = {
+  [Routes.main.referrals.information]: undefined
+  [Routes.main.referrals.levelDetails]: { level: ReferralLevelType; levelName: string }
+  [Routes.main.referrals.navigator]: undefined
 }
 
 export type AuthStackParamList = {

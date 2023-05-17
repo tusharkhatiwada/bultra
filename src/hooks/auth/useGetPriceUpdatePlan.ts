@@ -12,6 +12,7 @@ export const useGetPriceUpdatePlan = (params: GetPriceUpdatePlan.Params) => {
   )
 
   return {
+    ...request,
     priceUpdatePlan: request.data,
   }
 }
