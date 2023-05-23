@@ -32,7 +32,7 @@ export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
 
   const httpClient = axios.create({
-    baseURL: "https://exbit.intendex.app/api",
+    baseURL: "https://exbit.dataakkadian.com/api",
   })
 
   const secureStorage = createSecureStorage()
