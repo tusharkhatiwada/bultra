@@ -19,6 +19,7 @@ const typeToAccentColor: { [key: string]: "green" | "blue" | "yellow" } = {
   [PlanTypes.BASIC]: "green",
   [PlanTypes.PREMIUM]: "blue",
   [PlanTypes.VIP]: "yellow",
+  [PlanTypes.PRO]: "green",
 }
 
 export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
@@ -35,7 +36,12 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
 
   return (
     <Pressable onPress={handlePress}>
-      <RootView style={[styles.container, { borderBottomColor: accentColor.dark }]}>
+      <RootView
+        style={[
+          styles.container,
+          { borderBottomColor: accentColor.dark, borderTopColor: accentColor.dark },
+        ]}
+      >
         <View style={styles.rowCenter}>
           <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
             {plan.name === PlanTypes.FREE || plan.name === PlanTypes.BASIC ? (
@@ -52,7 +58,7 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
           </Typography>
         </View>
 
-        <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
+        {/* <Typography size="body" weight="bold" color={isDarkMode ? "black" : undefined}>
           <Trans
             i18nKey={"plans.selectPlan.fee"}
             values={{ fee: plan.percent }}
@@ -60,7 +66,7 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
               small: <Typography size="mini" color="primary.500" style={styles.fee} />,
             }}
           />
-        </Typography>
+        </Typography> */}
 
         <View style={styles.bottomRow}>
           {plan.price > 0 ? (
@@ -84,26 +90,27 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
   )
 }
 
-const _width = Dimensions.get("screen").width * 0.6
+const _width = Dimensions.get("screen").width * 0.8
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
     paddingHorizontal: 24,
     paddingVertical: 17,
     alignSelf: "stretch",
     width: _width,
-    height: 134,
     borderRadius: 4,
     borderBottomWidth: 4,
-    shadowColor: accentColors.black,
+    borderTopWidth: 4,
+    // shadowColor: accentColors.black,
     marginTop: 10,
 
-    shadowOffset: {
-      width: 5,
-      height: 3,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
+    // shadowOffset: {
+    //   width: 5,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 8,
     alignItems: "flex-start",
     justifyContent: "space-between",
     elevation: 12,

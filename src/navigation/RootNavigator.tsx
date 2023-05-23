@@ -13,6 +13,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { handleLinkingUrl } from "utils/linking"
 import { useAuthContext } from "context/AuthContext"
 import { useNavigation } from "@react-navigation/native"
+import { TradingNavigator } from "./TradingNavigator"
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -46,6 +47,11 @@ export function RootNavigator() {
     >
       {/*@ts-ignore*/}
       <Stack.Screen name={Routes.home} component={Home} options={{ headerShown: false }} />
+      <Stack.Screen
+        name={Routes.main.trading.navigator}
+        component={TradingNavigator}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name={Routes.main.navigator}
         component={MainNavigator}

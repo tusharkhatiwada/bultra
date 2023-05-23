@@ -51,7 +51,7 @@
       },
       "errors": {
         "loginFailed": "Login fallado",
-        "checkCredentials": "Por favor, comprueba tu email y contraseña",
+        "checkCredentials": "Por favor, comprueba tu email y contraseña"
       },
       "forgotPassword": "Olvidé mi contraseña",
       "signUp": "¿No tienes cuenta todavía? <bold>Regístrate</bold>"
@@ -132,7 +132,8 @@
       "description": "Bienvenido a Fast Growing, la forma más eficaz de obtener ingresos pasivos rentables a través de nuestras estrategias de trading.",
       "profits": "Beneficios",
       "verify-movements": "Verificar movimientos",
-      "profit-description": "Echa un vistazo a los beneficios que podrias haber obtenido en los últimos meses."
+      "profit-description": "Echa un vistazo a los beneficios que podrias haber obtenido en los últimos meses.",
+      "startEarn": "empezar a ganar"
     },
 
     "wallet": {
@@ -307,6 +308,22 @@
           "success": "Contraseña cambiada correctamente.",
           "error": "Ha habido un error mientras se actualizaba la contraseña:"
         }
+      },
+      "apiKeys": {
+        "title": "Claves API",
+        "form": {
+          "apiKey": {
+            "label": "Clave API",
+            "placeholder": "Escriba su clave API"
+          },
+          "secretKey": {
+            "label": "Secret Key",
+            "placeholder": "Llave secreta"
+          },
+          "submit": "Guardar clave",
+          "success": "Api y claves secretas guardadas con éxito.",
+          "error": "Hubo un error al guardar las claves."
+        }
       }
     },
 
@@ -321,6 +338,7 @@
         "BASIC": "Plan Básico",
         "PREMIUM": "Plan Premium",
         "VIP": "Plan VIP",
+        "PRO": "Plan PRO",
 
         "fee": "{{fee}}% <small>tarifa mensual</small>",
         "price": "{{price}} <small>USDT</small>"
@@ -359,6 +377,12 @@
         "title": "Plan activado",
         "description": "Hemos recibido exitosamente tu transferencia, así que tu plan ya está activo."
       }
+    },
+
+    "startTrading": {
+      "title": "Comienza a negociar",
+      "copy-button": "Copiar correo electrónico al portapapeles",
+      "copy-info": "Correo electrónico copiado en el portapapeles"
     },
 
     "validations": {

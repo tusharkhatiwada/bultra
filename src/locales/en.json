@@ -51,7 +51,7 @@
       },
       "errors": {
         "loginFailed": "Login failed",
-        "checkCredentials": "Please check your email and password",
+        "checkCredentials": "Please check your email and password"
       },
       "forgotPassword": "Forgot my password",
       "verifyMoments": "Verify movements",
@@ -111,7 +111,7 @@
           "label": "Repeat Password",
           "placeholder": "Repeat your password"
         },
-        "submit": "Create account",
+        "submit": "Create account"
       },
 
       "toast": {
@@ -133,7 +133,8 @@
       "description": "Welcome to Fast Growing, the most efficient way to profitability and passive income through our trading strategies system.",
       "profits": "Profits",
       "verify-movements": "Verify momevents",
-      "profit-description": "Take a look at the benefits that you could have achieved in recent months."
+      "profit-description": "Take a look at the benefits that you could have achieved in recent months.",
+      "startEarn": "Start to earn"
     },
 
     "invest": {
@@ -145,8 +146,8 @@
       "finishInvest": "Finish invest",
       "investFinished": "Invest finished",
       "InvestError": "Invest error",
-      "bottomText":  "If the USDT invest is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
-      "refundInformation" : "The amount refunded will be available for reinvestment purposes.",
+      "bottomText": "If the USDT invest is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
+      "refundInformation": "The amount refunded will be available for reinvestment purposes.",
       "refundInputTitle": "USDT amount to refund",
       "refundBottomText": "If the USDT refund is equivalent to 1 or more BTC, you will need to verify your identity with your National ID and an invoice showing your current residence.",
       "finishRefund": "Finish refund",
@@ -326,6 +327,24 @@
           "success": "Password changed successfully.",
           "error": "There was an error while updating the password:"
         }
+      },
+      "apiKeys": {
+        "title": "API Keys",
+        "chooseRiskLevel": "Choose risk level",
+        "changeRiskLevel": "Change risk level",
+        "form": {
+          "apiKey": {
+            "label": "API Key",
+            "placeholder": "Write your API key"
+          },
+          "secretKey": {
+            "label": "Secret Key",
+            "placeholder": "Write your secret key"
+          },
+          "submit": "Save Key",
+          "success": "Api and secret keys saved successfully.",
+          "error": "There was an error while saving keys."
+        }
       }
     },
 
@@ -341,6 +360,7 @@
         "BASIC": "Basic",
         "PREMIUM": "Premium",
         "VIP": "VIP",
+        "PRO": "Pro Plan",
 
         "fee": "{{fee}}% <small>monthly fee</small>",
         "price": "{{price}} <small>USDT</small>"
@@ -380,7 +400,6 @@
         "currentDeposit": "Your current plan deposit:",
         "newPlanCoast": "Your new plan cost:",
         "payment": "Your payment amount:"
-
       },
 
       "toast": {
@@ -388,6 +407,12 @@
         "description": "We have successfully received your transfer, so your plan has just started.",
         "error": "Plan change error"
       }
+    },
+
+    "startTrading": {
+      "title": "Start Trading",
+      "copy-button": "Copy email to clipboard",
+      "copy-info": "Email copied to the clipboard"
     },
 
     "validations": {

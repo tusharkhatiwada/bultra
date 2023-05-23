@@ -43,7 +43,7 @@ export function MainNavigator() {
           tabBarIcon: ({ color }) => <Icon size="xl" name="home" color={color} />,
         })}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name={Routes.main.wallet.navigator}
         component={WalletNavigator}
         options={() => ({
@@ -58,7 +58,7 @@ export function MainNavigator() {
           title: t("invest.title"),
           tabBarIcon: ({ color }) => <Icon size="xl" name="search-dollar" color={color} />,
         })}
-      />
+      /> */}
       <BottomTab.Screen
         name={Routes.main.referrals.navigator}
         component={ReferralsNavigator}

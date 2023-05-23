@@ -3,6 +3,7 @@ export enum PlanTypes {
   BASIC = "Basic Plan",
   PREMIUM = "Premium Plan",
   VIP = "VIP Plan",
+  PRO = "Pro Plan",
 }
 
 export const FreePlanMock = {
@@ -12,11 +13,19 @@ export const FreePlanMock = {
   price: 0,
 }
 
+export const ProPlanMock = {
+  id: "9ca30c0b-31df-4fc9-a1e7-eb6afeeb4b12",
+  name: PlanTypes.PRO,
+  percent: 10,
+  price: 50,
+}
+
 export enum PlanTranslationsTypes {
   "Free Plan" = "FREE",
   "Basic Plan" = "BASIC",
   "Premium Plan" = "PREMIUM",
   "VIP Plan" = "VIP",
+  "Pro Plan" = "PRO",
 }
 
 export const BasicPlan = {
@@ -46,6 +55,12 @@ export const VipPlan = {
   price: 100,
   subscription: 400,
 }
+export const ProPlan = {
+  type: PlanTypes.PRO,
+  fee: 1,
+  price: 50,
+  subscription: 400,
+}
 
 // TODO: This should be a fixture
 export const Plans = {
@@ -53,6 +68,7 @@ export const Plans = {
   [PlanTypes.BASIC]: BasicPlan,
   [PlanTypes.PREMIUM]: PremiumPlan,
   [PlanTypes.VIP]: VipPlan,
+  [PlanTypes.PRO]: ProPlan,
 }
 
 export type Plan = {

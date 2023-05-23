@@ -12,6 +12,7 @@ export const Routes = {
     kyc: "auth/kyc",
     document_photo: "auth/document_photo",
     plans: "auth/plans",
+    start_trading: "auth/start_trading",
   },
   main: {
     navigator: "main",
@@ -43,6 +44,10 @@ export const Routes = {
       deposit: "main/invest/deposit",
       refund: "main/invest/refund",
       qr_scanner: "main/invest/qr_scanner",
+    },
+    trading: {
+      navigator: "main/trading",
+      tradingDetails: "main/trading/detail",
     },
   },
   notFound: "notFound",

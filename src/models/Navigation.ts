@@ -13,6 +13,7 @@ export type RootStackParamList = {
   [Routes.home]: undefined
   [Routes.main.navigator]: NavigatorScreenParams<MainTabParamList> | undefined
   [Routes.auth.navigator]: NavigatorScreenParams<AuthStackParamList> | undefined
+  [Routes.main.trading.navigator]: NavigatorScreenParams<TradingStackParamList> | undefined
   Modal: undefined
   NotFound: undefined
 }
@@ -107,4 +108,8 @@ export type InvestStackParamList = {
   [Routes.main.invest.deposit]: undefined
   [Routes.main.invest.refund]: { addressToSend?: string }
   [Routes.main.invest.qr_scanner]: undefined
+}
+
+export type TradingStackParamList = {
+  [Routes.main.trading.tradingDetails]: undefined
 }

@@ -14,24 +14,40 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTranslation } from "react-i18next"
 import { PlansSelector } from "./PlansSelector"
 import { useGetAllPlans } from "../../../hooks/auth/useGetAllPlans"
-import { Plan, PlanTranslationsTypes, PlanTypes } from "../../../models/Plans"
+import { Plan, PlanTranslationsTypes, PlanTypes, Plans, ProPlanMock } from "../../../models/Plans"
 import { useCheckNeedGoToPlan } from "../../../hooks/auth/useCheckNeedGoToPlan"
 import useColorScheme from "../../../hooks/useColorScheme"
 import { GetPlans } from "../../../api/domain/auth"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
+import { TextInput } from "components/TextInput"
+import { Select } from "components/Select"
+import { riskLevelsList } from "models/RiskLevels"
+import { useToastContext } from "context/ToastContext"
+import { ToastType } from "components/Toast/Toast"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
 export const Home: FC<HomeProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { top, bottom } = useSafeAreaInsets()
+  const storage = createSecureStorage()
+  const { showToast } = useToastContext()
 
   const { t } = useTranslation()
 
   const { isLoggedIn, setSelectedPlan, user } = useAuthContext()
 
-  const { plans } = useGetAllPlans(isLoggedIn)
+  // const { plans } = useGetAllPlans(isLoggedIn)
 
-  const [plansToShow, setPlansToShow] = useState<GetPlans.Response | undefined>(undefined)
+  const [plansToShow, setPlansToShow] = useState<GetPlans.Response>([ProPlanMock])
+  const [tradingInitiated, setTradingInitiated] = useState<boolean | undefined>(false)
+  const [tradingPaymentCompleted, setTradingPaymentCompleted] = useState<boolean | undefined>(false)
+  const [botActivated, setBotActivated] = useState<boolean | undefined>(false)
+  const [riskLevel, setRiskLevel] = useState<string | undefined>()
+
+  const handleChangeRiskLevel = (level: string) => {
+    setRiskLevel(level)
+  }
 
   const { colors } = useTheme()
 
@@ -39,6 +55,29 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const isDarkMode = colorScheme === "dark"
 
   useEffect(() => {
+    const getTradingStatus = async () => {
+      const tradingInitated = (await JSON.parse(
+        storage.get(StorageKey.INITIATE_TRADING) as unknown as string,
+      )) as boolean
+      const paymentCompleted = (await JSON.parse(
+        storage.get(StorageKey.TRADING_PAYMENT_COMPLETE) as unknown as string,
+      )) as boolean
+      const botActivated = (await JSON.parse(
+        storage.get(StorageKey.BOT_ACTIVATED) as unknown as string,
+      )) as boolean
+      tradingInitiated && setTradingInitiated(tradingInitated)
+      paymentCompleted && setTradingPaymentCompleted(paymentCompleted)
+      botActivated && setBotActivated(botActivated)
+    }
+
+    getTradingStatus()
+  }, [])
+
+  // useEffect(() => {
+  //   // setSelectedPlan(plansToShow[0])
+  // }, [])
+
+  /*   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
       if (!isNil(user.UserPlan)) {
         const indexOfElement = findIndex(plans, (plan) => user.UserPlan.Plan.name === plan.name)
@@ -51,8 +90,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         setPlansToShow(plans)
       }
     }
-  }, [plans, user])
-
+  }, [plans, user]) */
+  // Commenting this for now as we are only showing Pro plan statically
   useCheckNeedGoToPlan({ navigationProps: navigation })
 
   const goToSignUp = () => {
@@ -68,10 +107,24 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     })
   }
 
-  const goToPlans = (selectedPlan?: Plan) => {
-    navigation.navigate(Routes.auth.navigator, {
-      screen: Routes.auth.plans,
-      params: { desiredPlan: selectedPlan, step: 1 },
+  // const goToPlans = (selectedPlan?: Plan) => {
+  //   navigation.navigate(Routes.auth.navigator, {
+  //     screen: Routes.auth.plans,
+  //     params: { desiredPlan: selectedPlan, step: 1 },
+  //   })
+  // }
+  const goToStartTrading = () => {
+    navigation.navigate(Routes.main.trading.navigator, {
+      screen: Routes.main.trading.tradingDetails,
+    })
+  }
+
+  const activateBot = () => {
+    setBotActivated(true)
+    showToast({
+      type: ToastType.success,
+      title: "Success",
+      description: "Bot is activated, check your bybit account.",
     })
   }
 
@@ -106,17 +159,17 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
             {t("home.description")}
           </Typography>
 
-          {isLoggedIn && (
-            <View>
-              <Typography size="h3" style={styles.profits}>
-                {t("home.profits")}
-              </Typography>
-              <Typography color="primary.400" style={styles.profitDescription}>
-                {t("home.profit-description")}
-              </Typography>
-              <ProfitsList profitSummary={profitSummary} />
-            </View>
-          )}
+          {/* {!isLoggedIn && ( */}
+          <View>
+            <Typography size="h3" style={styles.profits}>
+              {t("home.profits")}
+            </Typography>
+            <Typography color="primary.400" style={styles.profitDescription}>
+              {t("home.profit-description")}
+            </Typography>
+            <ProfitsList profitSummary={profitSummary} />
+          </View>
+          {/* )} */}
         </View>
       </ScrollView>
       <View style={viewStyle}>
@@ -127,7 +180,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           </Stack>
         )}
 
-        {!isNil(user) && isLoggedIn && (
+        {/* {!isNil(user) && isLoggedIn && (
           <View style={styles.planName}>
             <Typography color="primary.800">{t("plans.selectSubscription.yourPlanIs")}</Typography>
             <Typography color="primary.800" size="headline" weight="bold" ml="1">
@@ -136,11 +189,56 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                 : t(`plans.selectPlan.${PlanTranslationsTypes[PlanTypes.FREE]}`)}
             </Typography>
           </View>
-        )}
+        )} */}
 
-        {!isNil(plansToShow)
-          ? isLoggedIn && <PlansSelector plans={plansToShow} goToPlans={goToPlans} />
-          : isLoggedIn && <Spinner />}
+        {/* {!isNil(plansToShow) */}
+        {/* ? isLoggedIn &&  */}
+
+        {/* {tradingInitiated && !tradingPaymentCompleted && !botActivated && ( */}
+        {/* <>
+          <Spinner />
+          <Typography color="primary.400">
+            Please, when we receive your payment you will be able to activate the bot
+          </Typography>
+        </> */}
+        {/* )} */}
+        {/* {tradingInitiated && tradingPaymentCompleted && botActivated && (
+          <Button onPress={activateBot}>Stop Bot</Button>
+        )} */}
+        <Button onPress={activateBot}>Activate Bot</Button>
+        {/* {tradingInitiated && tradingPaymentCompleted && !botActivated && (
+        )} */}
+        {/* {tradingInitiated && tradingPaymentCompleted && botActivated && (
+          <View>
+            <TextInput
+              label={t("profile.apiKeys.form.apiKey.label")}
+              placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
+              name="apiKeys"
+            />
+
+            <TextInput
+              label={t("profile.apiKeys.form.secretKey.label")}
+              placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
+              name="secretKey"
+            />
+            <Select
+              custom
+              label={t("profile.apiKeys.chooseRiskLevel")}
+              bottomLabel={t("profile.apiKeys.changeRiskLevel")}
+              cta={t("profile.apiKeys.chooseRiskLevel")}
+              value={riskLevel}
+              options={riskLevelsList}
+              onChange={handleChangeRiskLevel}
+            />
+            <Button onPress={() => null}>Save</Button>
+          </View>
+        )}
+        {!tradingInitiated && !tradingPaymentCompleted && !botActivated && (
+          <>
+            <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
+            <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
+          </>
+        )} */}
 
         {/*<ButtonBar onChange={() => {}} buttons={dateFilterButtons} defaultValue={"month"} />*/}
         {/*{user?.status === UserStatus.MISSING_PLAN && (*/}
