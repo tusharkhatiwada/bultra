@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-commit_message="$(cat "$1")"
+commit_message="success"
 
 echo $commit_message
