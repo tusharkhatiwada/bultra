@@ -11,9 +11,9 @@ export const createTheme = (theme: "dark" | "light" = "light") => {
     colors,
     fontConfig: fonts,
     fonts: {
-      heading: "Ubuntu",
-      body: "Ubuntu",
-      mono: "Ubuntu",
+      heading: "Canaro",
+      body: "Canaro",
+      mono: "Canaro",
     },
     lineHeights: themeLineHeights,
     fontSizes: themeFontSizes,

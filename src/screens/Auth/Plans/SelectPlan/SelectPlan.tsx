@@ -20,7 +20,7 @@ export const SelectPlan: FC<SelectPlanProps> = ({ selectedPlan }) => {
     <ScrollView style={styles.container}>
       <View style={styles.padding}>
         <Typography color="primary.400">
-          Welcome to Fast Growing, the most efficient way to profitability and passive income
+          Welcome to Bultra Finance, the most efficient way to profitability and passive income
           through our trading strategies system.
         </Typography>
         <View style={styles.sumBox}>

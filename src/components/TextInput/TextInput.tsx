@@ -88,6 +88,7 @@ export const TextInput: FC<TextInputProps> = ({
       </Typography>
 
       <Input
+        variant="underlined"
         isFullWidth
         isDisabled={isDisabled}
         w="100%"

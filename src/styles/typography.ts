@@ -1,40 +1,40 @@
 export const fonts = {
-  Ubuntu: {
+  Canaro: {
     100: {
-      normal: "Ubuntu-Light",
-      italic: "Ubuntu-LightItalic",
+      normal: "Canaro-Light",
+      italic: "Canaro-LightItalic",
     },
     200: {
-      normal: "Ubuntu-Light",
-      italic: "Ubuntu-LightItalic",
+      normal: "Canaro-Light",
+      italic: "Canaro-LightItalic",
     },
     300: {
-      normal: "Ubuntu-Light",
-      italic: "Ubuntu-LightItalic",
+      normal: "Canaro-Light",
+      italic: "Canaro-LightItalic",
     },
     400: {
-      normal: "Ubuntu-Regular",
-      italic: "Ubuntu-Italic",
+      normal: "Canaro-Book",
+      italic: "Canaro-BookItalic",
     },
     500: {
-      normal: "Ubuntu-Medium",
-      italic: "Ubuntu-MediumItalic",
+      normal: "Canaro-Medium",
+      italic: "Canaro-MediumItalic",
     },
     600: {
-      normal: "Ubuntu-Medium",
-      italic: "Ubuntu-MediumItalic",
+      normal: "Canaro-Medium",
+      italic: "Canaro-MediumItalic",
     },
     700: {
-      normal: "Ubuntu-Bold",
-      italic: "Ubuntu-BoldItalic",
+      normal: "Canaro-Bold",
+      italic: "Canaro-BoldItalic",
     },
     800: {
-      normal: "Ubuntu-Bold",
-      italic: "Ubuntu-BoldItalic",
+      normal: "Canaro-Bold",
+      italic: "Canaro-BoldItalic",
     },
     900: {
-      normal: "Ubuntu-Bold",
-      italic: "Ubuntu-BoldItalic",
+      normal: "Canaro-Bold",
+      italic: "Canaro-BoldItalic",
     },
   },
 }

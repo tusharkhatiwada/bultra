@@ -10,7 +10,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.h1,
         lineHeight: LineHeights.h1,
-        fontFamily: "Ubuntu-Bold",
+        fontFamily: "Canaro-Bold",
       },
     ],
     [
@@ -18,7 +18,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.h2,
         lineHeight: LineHeights.h2,
-        fontFamily: "Ubuntu-Bold",
+        fontFamily: "Canaro-Bold",
       },
     ],
     [
@@ -26,7 +26,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.h3,
         lineHeight: LineHeights.h3,
-        fontFamily: "Ubuntu-Bold",
+        fontFamily: "Canaro-Bold",
       },
     ],
     [
@@ -34,7 +34,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.headline,
         lineHeight: LineHeights.headline,
-        fontFamily: "Ubuntu-Regular",
+        fontFamily: "Canaro-Book",
       },
     ],
     [
@@ -42,7 +42,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.body,
         lineHeight: LineHeights.body,
-        fontFamily: "Ubuntu-Regular",
+        fontFamily: "Canaro-Book",
       },
     ],
     [
@@ -50,7 +50,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.small,
         lineHeight: LineHeights.small,
-        fontFamily: "Ubuntu-Regular",
+        fontFamily: "Canaro-Book",
       },
     ],
     [
@@ -58,7 +58,7 @@ describe("Typography", () => {
       {
         fontSize: FontSizes.mini,
         lineHeight: LineHeights.mini,
-        fontFamily: "Ubuntu-Regular",
+        fontFamily: "Canaro-Book",
       },
     ],
   ])("renders the letter avatar %s size", async (value, expected) => {

@@ -129,8 +129,8 @@
 
     "home": {
       "title": "Home",
-      "greetings": "Welcome to Fast Growing!",
-      "description": "Welcome to Fast Growing, the most efficient way to profitability and passive income through our trading strategies system.",
+      "greetings": "Welcome to Bultra Finance!",
+      "description": "Welcome to Bultra Finance, the most efficient way to profitability and passive income through our trading strategies system.",
       "profits": "Profits",
       "verify-movements": "Verify momevents",
       "profit-description": "Take a look at the benefits that you could have achieved in recent months.",
@@ -396,7 +396,7 @@
       },
 
       "secondScreen": {
-        "info": "Welcome to Fast Growing, the most efficient way to profitability and passive income through our trading strategies system.",
+        "info": "Welcome to Bultra Finance, the most efficient way to profitability and passive income through our trading strategies system.",
         "currentDeposit": "Your current plan deposit:",
         "newPlanCoast": "Your new plan cost:",
         "payment": "Your payment amount:"

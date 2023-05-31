@@ -15,7 +15,7 @@ export const COUNTRY_SELECT_THEME = {
   primaryColor: "#ccc",
   primaryColorVariant: "#eee",
   backgroundColor: "#ffffff",
-  fontFamily: "Ubuntu-Regular",
+  fontFamily: "Canaro-Book",
   onBackgroundTextColor: "#000000",
   fontSize: 16,
   filterPlaceholderTextColor: "#aaa",
@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   textInput: {
-    fontFamily: "Ubuntu-Regular",
+    fontFamily: "Canaro-Book",
   },
   codeText: {
-    fontFamily: "Ubuntu-Regular",
+    fontFamily: "Canaro-Book",
     height: 48,
     marginTop: 30,
   },

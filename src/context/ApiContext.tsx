@@ -10,7 +10,7 @@ type ApiProviderProps = {
 
 // @ts-ignore
 export const ApiProvider: FC<ApiProviderProps> = ({ children, offline }) => {
-  const api = createApi(true || false)
+  const api = createApi(offline || false)
 
   return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>
 }

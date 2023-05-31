@@ -3,7 +3,7 @@ import { Trans, useTranslation } from "react-i18next"
 
 import { AuthStackScreenProps } from "models/Navigation"
 import { Button } from "components/Button"
-import { FC } from "react"
+import React, { FC } from "react"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
 import { RootView } from "components/RootView"
 import { Routes } from "models/Routes"
@@ -21,18 +21,28 @@ import { isNil } from "lodash"
 import { useResendOtp } from "../../../hooks/auth/useResendOtp"
 import { OtpForm } from "../../../hooks/auth/useOtpForm"
 import { useOtp } from "../../../hooks/auth/useOtp"
+import { useGetSalt } from "hooks/hash/useGetSalt"
+import { hashedPassword } from "utils/hash"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
 export type LoginProps = AuthStackScreenProps<typeof Routes.auth.login>
 
 export const Login: FC<LoginProps> = ({ navigation }) => {
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
+  const [state, setState] = React.useState({ email: "", password: "", loading: false })
+  const {
+    data,
+    isLoading: isFetchingSalt,
+    isSuccess,
+  } = useGetSalt({ email_address: state.email, fetching: state.loading })
 
   const { login, isLoading } = useLogin()
   const { resendOtp } = useResendOtp()
-  const { setToken, setUser } = useAuthContext()
+  const { setToken, setUser, login: doLogin } = useAuthContext()
   const { showToast } = useToastContext()
   const { sendOtp } = useOtp()
+  const storage = createSecureStorage()
 
   const { t } = useTranslation()
 
@@ -65,24 +75,30 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     )
   }
 
-  const { getTextFieldProps, handleSubmit, dirty, isValid, resetForm } = useLoginForm({
-    onSubmit: ({ email, password }) => {
+  const handleLogin = React.useCallback(async () => {
+    console.log("state", state.password, data?.salt)
+    if (state?.password && data?.salt) {
+      const password_hashed = await hashedPassword(state.password, data?.salt as string)
       login(
-        { email, password },
+        { email_address: state.email, hashed_password: password_hashed },
         {
-          onSuccess: (response) => {
-            if (isNil(response.status)) {
-              setToken(response.accessToken.accessToken)
-              setUser(response.user)
+          onSuccess: async (response) => {
+            if (response?.message?.includes("wrong")) {
+              showToast({
+                type: ToastType.error,
+                title: "Email & password doesn't match",
+              })
+            } else {
+              storage.set(StorageKey.ACCESS_TOKEN, data.user_id)
+              storage.set(StorageKey.USER_EMAIL, state.email)
+              await doLogin()
               navigation.dispatch(
                 CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
               )
-            } else {
-              resendOtp({ email })
-              navigation.navigate(Routes.auth.otp, { email, submitOtp })
             }
+            setState({ ...state, loading: false })
           },
-          onError: () => {
+          onError: (err) => {
             showToast({
               type: ToastType.error,
               title: t("login.errors.loginFailed"),
@@ -91,6 +107,24 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
           },
         },
       )
+    }
+  }, [state.password, data?.salt])
+
+  React.useEffect(() => {
+    if (data?.message) {
+      showToast({
+        type: ToastType.error,
+        title: "User doesn't exists",
+      })
+      setState({ ...state, loading: false })
+    } else {
+      handleLogin()
+    }
+  }, [isFetchingSalt, isSuccess])
+
+  const { getTextFieldProps, handleSubmit, dirty, isValid, resetForm } = useLoginForm({
+    onSubmit: ({ email_address, hashed_password }) => {
+      setState({ ...state, email: email_address, password: hashed_password, loading: true })
     },
   })
 
@@ -120,7 +154,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             label={t("login.form.email.label")}
             placeholder={t("login.form.email.placeholder")}
             autoCapitalize="none"
-            {...getTextFieldProps("email")}
+            {...getTextFieldProps("email_address")}
           />
 
           <TextInput
@@ -129,7 +163,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
             placeholder={t("login.form.password.placeholder")}
             autoCapitalize="none"
             autoComplete="off"
-            {...getTextFieldProps("password")}
+            {...getTextFieldProps("hashed_password")}
           />
 
           <TouchableOpacity onPress={goToForgotPassword}>
@@ -141,8 +175,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
         <View>
           <Button
-            isLoading={isLoading}
-            isDisabled={!isValid || !dirty}
+            isLoading={isLoading || state.loading}
+            isDisabled={!isValid || !dirty || state.loading}
             onPress={() => handleSubmit()}
             style={styles.button}
           >

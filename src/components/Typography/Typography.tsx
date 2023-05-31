@@ -20,10 +20,10 @@ export const Typography: FC<TypographyProps> = ({
   const isHeading = headingSizes.includes(size)
 
   const fontFamily = useMemo(() => {
-    if (isHeading || weight === "bold") return "Ubuntu-Bold"
-    if (weight === "semibold") return "Ubuntu-Medium"
+    if (isHeading || weight === "bold") return "Canaro-Bold"
+    if (weight === "semibold") return "Canaro-Medium"
 
-    return "Ubuntu-Regular"
+    return "Canaro-Book"
   }, [isHeading])
 
   return (

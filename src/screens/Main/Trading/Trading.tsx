@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native"
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useMemo, useState } from "react"
 import { RootView } from "components/RootView"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "native-base"
@@ -14,6 +14,7 @@ import { Button } from "components/Button"
 import { StorageKey, createSecureStorage } from "services/SecureStorage"
 import { CommonActions } from "@react-navigation/native"
 import { Routes } from "models/Routes"
+import { useStartTrade } from "hooks/trade/useStartTrade"
 
 const internalEmail = "corporative@exchangefusioncorp.com"
 
@@ -23,6 +24,18 @@ export const Trading: FC<any> = ({ navigation }) => {
   const { space } = useTheme()
   const { showToast } = useToastContext()
   const storage = createSecureStorage()
+  const [userEmail, setUserEmail] = useState<string>("")
+  const [startTrading, setStartTrading] = useState<boolean>(false)
+
+  const { data, isLoading, isError } = useStartTrade({ email_address: userEmail, startTrading })
+
+  useEffect(() => {
+    const getUserEmail = async () => {
+      const email = await storage.get(StorageKey.USER_EMAIL)
+      email && setUserEmail(email)
+    }
+    getUserEmail()
+  })
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -35,11 +48,13 @@ export const Trading: FC<any> = ({ navigation }) => {
   }
 
   const initiateTrading = async () => {
+    setStartTrading(true)
     storage.set(StorageKey.INITIATE_TRADING, "true")
     navigation.dispatch(
       CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
     )
   }
+  console.log("==Dtaaaa===", data, isLoading, isError)
 
   return (
     <RootView
@@ -76,6 +91,8 @@ export const Trading: FC<any> = ({ navigation }) => {
           placeholder={t("login.form.email.placeholder")}
           autoCapitalize="none"
           name="email"
+          value={userEmail}
+          onChangeText={(text) => setUserEmail(text)}
         />
         <Typography color="primary.500" style={styles.bodyText}>
           Click finish after you have sent the 50 USDT from your bybit application. We will activate

@@ -3,13 +3,13 @@ import * as y from "yup"
 import { UseFormProps, useForm } from "hooks/useForm"
 
 type LoginForm = {
-  email: string
-  password: string
+  email_address: string
+  hashed_password: string
 }
 
 const DEFAULT_VALUES: LoginForm = {
-  email: "",
-  password: "",
+  email_address: "",
+  hashed_password: "",
 }
 
 type FormProps = UseFormProps<LoginForm>
@@ -24,8 +24,8 @@ export const useLoginForm = ({ onSubmit, defaultValues = DEFAULT_VALUES }: Login
     defaultValues,
     onSubmit,
     schema: y.object().shape({
-      email: y.string().email().required(),
-      password: y.string().required(),
+      email_address: y.string().email().required(),
+      hashed_password: y.string().required(),
     }),
   })
 }

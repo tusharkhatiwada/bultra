@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Fast Growing",
-    "slug": "fast-growing",
-    "description": "Fast Growing description",
+    "name": "Bultra Finance",
+    "slug": "bultra-finance",
+    "description": "Bultra Finance description",
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo-app.png",
@@ -12,32 +12,28 @@
     "splash": {
       "image": "./src/assets/images/splash-screen.png",
       "resizeMode": "cover",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#5E24FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/e7adacde-31b0-4964-82e8-11885fe97998"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-//      "jsEngine": "jsc",
+      //      "jsEngine": "jsc",
       "buildNumber": "1.0.9",
       "bundleIdentifier": "com.exbit.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",
       "usesIcloudStorage": false,
-      "associatedDomains": [
-        "applinks:fastgrowing.com"
-      ]
+      "associatedDomains": ["applinks:fastgrowing.com"]
     },
     "android": {
       "versionCode": 1,
       "package": "com.exbit.app",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/logo-android.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#5E24FF"
       },
       "splash": {
         "statusBar": {
@@ -56,19 +52,14 @@
               "pathPrefix": "/"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-document-picker"
-    ],
+    "plugins": ["expo-document-picker"],
     "extra": {
       "eas": {
         "projectId": "04d8ead6-bd67-4b7b-ad73-df6078e642ad"

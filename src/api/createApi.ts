@@ -27,6 +27,9 @@ import { createGetPriseUpdatePlanHttp } from "./profile/http/createGetPriseUpdat
 import { createRefundRequestHttp } from "./Invest/createRefundRequestHttp"
 import { createGetDataInvestHttp } from "./Invest/createGetDataInvestHttp"
 import { createFetchReferralLevelsHttp } from "./referral/http/createFetchReferralLevelsHttp"
+import { generateSaltHttp } from "./hash/createSaltHttp"
+import { getSaltHttp } from "./hash/getSaltHttp"
+import { startTradeHttp } from "./trade/startTradeHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -41,6 +44,9 @@ export function createApi(offline: boolean): Api {
     const token = await secureStorage.get(StorageKey.ACCESS_TOKEN)
 
     if (config.headers) {
+      config.headers["x-api-key"] = "Wdymg9Ag7-rLOxXFoXgR5AyQUw"
+      config.headers["hash-api-secret"] = "dKJqx2K1ILSdk4FFM1cpNeJ8CAclQtXujVhLMsGQAd8="
+      config.headers["Accept"] = "application/json"
       if (config.headers.Authorization) return config
 
       if (token) {
@@ -109,6 +115,13 @@ export function createApi(offline: boolean): Api {
       investRequest: createInvestRequestHttp(httpClient),
       refundRequest: createRefundRequestHttp(httpClient),
       getDataInvest: createGetDataInvestHttp(httpClient),
+    },
+    hash: {
+      generateSalt: generateSaltHttp(httpClient),
+      getSalt: getSaltHttp(httpClient),
+    },
+    trade: {
+      startTrade: startTradeHttp(httpClient),
     },
   }
 }

@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store"
 
 export enum StorageKey {
   ACCESS_TOKEN = "ACCESS_TOKEN",
+  USER_EMAIL = "USER_EMAIL",
   LANGUAGE = "LANGUAGE",
   INITIATE_TRADING = "INITIATE_TRADING",
   TRADING_PAYMENT_COMPLETE = "TRADING_PAYMENT_COMPLETE",

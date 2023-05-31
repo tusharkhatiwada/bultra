@@ -9,14 +9,14 @@ import { FontAwesome5 } from "@expo/vector-icons"
 import { changeLanguage } from "i18next"
 
 const fonts = {
-  "Ubuntu-Light": require("assets/fonts/Ubuntu-Light.ttf"),
-  "Ubuntu-LightItalic": require("assets/fonts/Ubuntu-LightItalic.ttf"),
-  "Ubuntu-Regular": require("assets/fonts/Ubuntu-Regular.ttf"),
-  "Ubuntu-Italic": require("assets/fonts/Ubuntu-Italic.ttf"),
-  "Ubuntu-Medium": require("assets/fonts/Ubuntu-Medium.ttf"),
-  "Ubuntu-MediumItalic": require("assets/fonts/Ubuntu-MediumItalic.ttf"),
-  "Ubuntu-Bold": require("assets/fonts/Ubuntu-Bold.ttf"),
-  "Ubuntu-BoldItalic": require("assets/fonts/Ubuntu-BoldItalic.ttf"),
+  "Canaro-Light": require("assets/fonts/Canaro-Light.ttf"),
+  "Canaro-LightItalic": require("assets/fonts/Canaro-LightItalic.ttf"),
+  "Canaro-Book": require("assets/fonts/Canaro-Book.ttf"),
+  "Canaro-Italic": require("assets/fonts/Canaro-BookItalic.ttf"),
+  "Canaro-Medium": require("assets/fonts/Canaro-Medium.ttf"),
+  "Canaro-MediumItalic": require("assets/fonts/Canaro-MediumItalic.ttf"),
+  "Canaro-Bold": require("assets/fonts/Canaro-Bold.ttf"),
+  "Canaro-BoldItalic": require("assets/fonts/Canaro-BoldItalic.ttf"),
 }
 
 export default function useCachedResources() {

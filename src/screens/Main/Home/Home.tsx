@@ -1,29 +1,27 @@
-import { ScrollView, Spinner, Stack, useTheme } from "native-base"
-import { StyleSheet, View } from "react-native"
-import { findIndex, isNil } from "lodash"
-
 import { Button } from "components/Button"
-import { FC, useEffect, useState } from "react"
-import { MainTabScreenProps } from "models/Navigation"
-import { ProfitsList } from "screens/Common/ProfitsList"
 import { RootView } from "components/RootView"
-import { Routes } from "models/Routes"
+import { Select } from "components/Select"
+import { TextInput } from "components/TextInput"
+import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
 import { useAuthContext } from "context/AuthContext"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { useToastContext } from "context/ToastContext"
+import { isNil } from "lodash"
+import { MainTabScreenProps } from "models/Navigation"
+import { riskLevelsList } from "models/RiskLevels"
+import { Routes } from "models/Routes"
+import { ScrollView, Spinner, Stack, useTheme } from "native-base"
+import { FC, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PlansSelector } from "./PlansSelector"
-import { useGetAllPlans } from "../../../hooks/auth/useGetAllPlans"
-import { Plan, PlanTranslationsTypes, PlanTypes, Plans, ProPlanMock } from "../../../models/Plans"
+import { StyleSheet, View } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { ProfitsList } from "screens/Common/ProfitsList"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
+import { GetPlans } from "../../../api/domain/auth"
 import { useCheckNeedGoToPlan } from "../../../hooks/auth/useCheckNeedGoToPlan"
 import useColorScheme from "../../../hooks/useColorScheme"
-import { GetPlans } from "../../../api/domain/auth"
-import { StorageKey, createSecureStorage } from "services/SecureStorage"
-import { TextInput } from "components/TextInput"
-import { Select } from "components/Select"
-import { riskLevelsList } from "models/RiskLevels"
-import { useToastContext } from "context/ToastContext"
-import { ToastType } from "components/Toast/Toast"
+import { Plan, ProPlanMock } from "../../../models/Plans"
+import { PlansSelector } from "./PlansSelector"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -56,18 +54,21 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   useEffect(() => {
     const getTradingStatus = async () => {
-      const tradingInitated = (await JSON.parse(
-        storage.get(StorageKey.INITIATE_TRADING) as unknown as string,
-      )) as boolean
-      const paymentCompleted = (await JSON.parse(
-        storage.get(StorageKey.TRADING_PAYMENT_COMPLETE) as unknown as string,
-      )) as boolean
-      const botActivated = (await JSON.parse(
-        storage.get(StorageKey.BOT_ACTIVATED) as unknown as string,
-      )) as boolean
-      tradingInitiated && setTradingInitiated(tradingInitated)
-      paymentCompleted && setTradingPaymentCompleted(paymentCompleted)
-      botActivated && setBotActivated(botActivated)
+      const tradingInitated = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
+      const tradingInitiatedVal = !tradingInitated
+        ? Boolean(tradingInitated)
+        : (JSON.parse(tradingInitated) as boolean)
+      const paymentCompleted = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
+      const paymentCompletedVal = !paymentCompleted
+        ? Boolean(paymentCompleted)
+        : (JSON.parse(paymentCompleted) as boolean)
+      const botActivated = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
+      const botActivateddVal = !botActivated
+        ? Boolean(botActivated)
+        : (JSON.parse(botActivated) as boolean)
+      tradingInitiatedVal && setTradingInitiated(tradingInitiatedVal)
+      paymentCompletedVal && setTradingPaymentCompleted(paymentCompletedVal)
+      botActivateddVal && setBotActivated(botActivateddVal)
     }
 
     getTradingStatus()
@@ -190,60 +191,54 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
             </Typography>
           </View>
         )} */}
-
-        {/* {!isNil(plansToShow) */}
-        {/* ? isLoggedIn &&  */}
-
-        {/* {tradingInitiated && !tradingPaymentCompleted && !botActivated && ( */}
-        {/* <>
-          <Spinner />
-          <Typography color="primary.400">
-            Please, when we receive your payment you will be able to activate the bot
-          </Typography>
-        </> */}
-        {/* )} */}
-        {/* {tradingInitiated && tradingPaymentCompleted && botActivated && (
-          <Button onPress={activateBot}>Stop Bot</Button>
-        )} */}
-        <Button onPress={activateBot}>Activate Bot</Button>
-        {/* {tradingInitiated && tradingPaymentCompleted && !botActivated && (
-        )} */}
-        {/* {tradingInitiated && tradingPaymentCompleted && botActivated && (
-          <View>
-            <TextInput
-              label={t("profile.apiKeys.form.apiKey.label")}
-              placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
-              name="apiKeys"
-            />
-
-            <TextInput
-              label={t("profile.apiKeys.form.secretKey.label")}
-              placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
-              name="secretKey"
-            />
-            <Select
-              custom
-              label={t("profile.apiKeys.chooseRiskLevel")}
-              bottomLabel={t("profile.apiKeys.changeRiskLevel")}
-              cta={t("profile.apiKeys.chooseRiskLevel")}
-              value={riskLevel}
-              options={riskLevelsList}
-              onChange={handleChangeRiskLevel}
-            />
-            <Button onPress={() => null}>Save</Button>
-          </View>
-        )}
-        {!tradingInitiated && !tradingPaymentCompleted && !botActivated && (
+        {isLoggedIn && (
           <>
-            <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
-            <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
-          </>
-        )} */}
+            {!tradingInitiated && !tradingPaymentCompleted && !botActivated && (
+              <>
+                <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
+                <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
+              </>
+            )}
+            {tradingInitiated && !tradingPaymentCompleted && !botActivated && (
+              <>
+                <Spinner />
+                <Typography color="primary.400">
+                  Please, when we receive your payment you will be able to activate the bot
+                </Typography>
+              </>
+            )}
+            {tradingInitiated && tradingPaymentCompleted && !botActivated && (
+              <Button onPress={activateBot}>Activate Bot</Button>
+            )}
 
-        {/*<ButtonBar onChange={() => {}} buttons={dateFilterButtons} defaultValue={"month"} />*/}
-        {/*{user?.status === UserStatus.MISSING_PLAN && (*/}
-        {/*  <Button onPress={goToPlans}>{t("plans.title")}</Button>*/}
-        {/*)}*/}
+            {tradingInitiated && tradingPaymentCompleted && botActivated && (
+              <View>
+                <TextInput
+                  label={t("profile.apiKeys.form.apiKey.label")}
+                  placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
+                  name="apiKeys"
+                />
+
+                <TextInput
+                  label={t("profile.apiKeys.form.secretKey.label")}
+                  placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
+                  name="secretKey"
+                />
+                <Select
+                  custom
+                  label={t("profile.apiKeys.chooseRiskLevel")}
+                  bottomLabel={t("profile.apiKeys.changeRiskLevel")}
+                  cta={t("profile.apiKeys.chooseRiskLevel")}
+                  value={riskLevel}
+                  options={riskLevelsList}
+                  onChange={handleChangeRiskLevel}
+                />
+                <Button onPress={() => null}>Save</Button>
+                <Button onPress={activateBot}>Stop Bot</Button>
+              </View>
+            )}
+          </>
+        )}
       </View>
     </RootView>
   )

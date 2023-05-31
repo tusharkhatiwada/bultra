@@ -3,6 +3,8 @@ import { ProfileApi } from "./profile"
 import { ReferralApi } from "./referral"
 import { WalletApi } from "./wallet"
 import { InvestApi } from "./invest"
+import { HashApi } from "./hash"
+import { TradeApi } from "./trade"
 
 export interface Api {
   auth: AuthApi
@@ -10,4 +12,6 @@ export interface Api {
   referral: ReferralApi
   wallet: WalletApi
   invest: InvestApi
+  hash: HashApi
+  trade: TradeApi
 }

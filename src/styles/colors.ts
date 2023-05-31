@@ -1,6 +1,6 @@
 export const accentColors = {
   white: "#FFFFFF",
-  black: "#000000",
+  black: "#5E24FF",
   red: {
     light: "#FCA5A5",
     dark: "#DC2626",
@@ -42,14 +42,14 @@ const toastColors = () => ({
 export const colors = {
   primary: {
     100: "#F4F4F5",
-    200: "#E4E4E7",
-    300: "#D4D4D8",
+    200: "#FEADFF",
+    300: "#D78BFF",
     400: "#A1A1AA",
-    500: "#71717A",
+    500: "#B069FF",
     600: "#52525B",
     700: "#3F3F46",
-    800: "#27272A",
-    900: "#18181B",
+    800: "#8848FF",
+    900: "#5E24FF",
   },
   secondary: {
     100: "#EDEEF3",

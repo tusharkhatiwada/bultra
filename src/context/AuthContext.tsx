@@ -18,6 +18,7 @@ export type AuthContextProps = {
   user?: UserInformationV2
   changeUserPlanLocal: (plan: Plan) => void
   logout: () => Promise<void>
+  login: () => Promise<void>
   fetchUserOptions?: { refetchInterval: number }
 }
 
@@ -30,7 +31,7 @@ export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInformationV2>()
   const [stateToken, setStateToken] = useState<string | null>(null)
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
-  const { removeWallet } = useGetWallet()
+  // const { removeWallet } = useGetWallet()
 
   storage.get(StorageKey.ACCESS_TOKEN).then((storageToken) => {
     setStateToken(storageToken)
@@ -45,16 +46,24 @@ export const AuthProvider: FC = ({ children }) => {
 
   const logout = async () => {
     setUser(undefined)
-    removeUser()
-    removeWallet()
+    // removeUser()
+    // removeWallet()
     await storage.delete(StorageKey.ACCESS_TOKEN).then(() => {
       setStateToken(null)
+    })
+    await storage.delete(StorageKey.USER_EMAIL)
+  }
+  const login = async () => {
+    // removeUser()
+    // removeWallet()
+    storage.get(StorageKey.ACCESS_TOKEN).then((storageToken) => {
+      setStateToken(storageToken)
     })
   }
 
   const isLoggedIn = Boolean(stateToken)
 
-  const { userProfile, removeUser } = useGetUserProfile(isLoggedIn)
+  // const { userProfile, removeUser } = useGetUserProfile(isLoggedIn)
   const changeUserPlanLocal = (plan: Plan) => {
     const newUser = { ...user }
     if (!isNil(newUser.UserPlan)) {
@@ -64,11 +73,11 @@ export const AuthProvider: FC = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    if (userProfile && stateToken) {
-      setUser(userProfile)
-    }
-  }, [userProfile, stateToken])
+  // useEffect(() => {
+  //   if (userProfile && stateToken) {
+  //     setUser(userProfile)
+  //   }
+  // }, [userProfile, stateToken])
 
   const value = useMemo(
     () => ({
@@ -81,6 +90,7 @@ export const AuthProvider: FC = ({ children }) => {
       changeUserPlanLocal,
       isLoggedIn,
       logout,
+      login,
     }),
     [stateToken, setToken, setUser, selectedPlan, setSelectedPlan],
   )

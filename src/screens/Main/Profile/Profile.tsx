@@ -57,13 +57,13 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
     getCurrentLanguage()
   }, [])
 
-  if (!user) {
-    return (
-      <View style={[styles.container, styles.alignCenter]}>
-        <Spinner />
-      </View>
-    )
-  }
+  // if (!user) {
+  //   return (
+  //     <View style={[styles.container, styles.alignCenter]}>
+  //       <Spinner />
+  //     </View>
+  //   )
+  // }
 
   return (
     <RootView style={[styles.container, { paddingTop: top + space[6] }]}>
@@ -73,14 +73,14 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
             {t("profile.title")}
           </Typography>
 
-          {user.email && (
+          {user?.email && (
             <Typography size="headline" weight="semibold">
-              {user.email}
+              {user?.email}
             </Typography>
           )}
 
           <Typography color="primary.400" style={styles.button}>
-            {user.email}
+            {user?.email}
           </Typography>
         </View>
 

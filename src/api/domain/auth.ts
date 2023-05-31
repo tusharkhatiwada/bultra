@@ -5,13 +5,14 @@ import { UserInformationV2 } from "../../models/Profile"
 
 export namespace Login {
   export type Params = {
-    email: string
-    password: string
+    email_address: string
+    hashed_password: string
   }
   export type Response = {
     status?: string
     accessToken: { accessToken: string }
     user?: UserInformationV2
+    message?: string
   }
   export type Request = (params: Login.Params) => Promise<Login.Response>
 }
@@ -76,9 +77,9 @@ export namespace ResetPassword {
 
 export namespace CreateAccount {
   export type Params = {
-    email: string
-    password: string
-    ref?: string
+    email_address: string
+    hashed_password: string
+    repeat_password: string
   }
   export type Response = { message: string; codeEndTime: string }
   export type Request = (params: CreateAccount.Params) => Promise<CreateAccount.Response>

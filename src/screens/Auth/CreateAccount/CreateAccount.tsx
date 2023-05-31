@@ -1,24 +1,27 @@
 import { FC, useEffect } from "react"
 import { Trans, useTranslation } from "react-i18next"
 
-import { AuthStackScreenProps } from "models/Navigation"
-import { Button } from "components/Button"
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view"
+import { CommonActions } from "@react-navigation/native"
+import { Button } from "components/Button"
 import { RootView } from "components/RootView"
-import { Routes } from "models/Routes"
-import { StyleSheet } from "react-native"
 import { TextInput } from "components/TextInput"
 import { ToastType } from "components/Toast/Toast"
 import { Typography } from "components/Typography"
+import { useToastContext } from "context/ToastContext"
 import { useCreateAccount } from "hooks/auth/useCreateAccount"
 import { useCreateAccountForm } from "hooks/auth/useCreateAccountForm"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { AuthStackScreenProps } from "models/Navigation"
+import { Routes } from "models/Routes"
 import { useTheme } from "native-base"
-import { useToastContext } from "context/ToastContext"
-import { OtpForm } from "../../../hooks/auth/useOtpForm"
-import { CommonActions } from "@react-navigation/native"
-import { useOtp } from "../../../hooks/auth/useOtp"
+import { StyleSheet } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
+import { hashedPassword } from "utils/hash"
 import { useAuthContext } from "../../../context/AuthContext"
+import { useOtp } from "../../../hooks/auth/useOtp"
+import { OtpForm } from "../../../hooks/auth/useOtpForm"
+import { useGenerateSalt } from "hooks/hash/useGenerateSalt"
 
 export type CreateAccountProps = AuthStackScreenProps<typeof Routes.auth.create_account>
 
@@ -28,9 +31,11 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   const { space } = useTheme()
   const { bottom } = useSafeAreaInsets()
   const { sendOtp } = useOtp()
-  const { setToken } = useAuthContext()
+  const { setToken, login } = useAuthContext()
   const { showToast } = useToastContext()
-  const { createAccount, isLoading } = useCreateAccount()
+  const storage = createSecureStorage()
+  const { createAccount, isLoading, error } = useCreateAccount()
+  const { generateSalt, isLoading: isSaltLoading } = useGenerateSalt()
 
   const submitOtp = (form: OtpForm, email: string) => {
     sendOtp(
@@ -61,21 +66,46 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
   }
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, setValue } = useCreateAccountForm({
-    onSubmit: ({ email, password, ref }) => {
-      createAccount(
-        { email, password, ref },
+    onSubmit: async ({ email_address, hashed_password, repeat_password }) => {
+      generateSalt(
+        { email_address },
         {
-          onSuccess: (response) => {
-            navigation.navigate(Routes.auth.otp, {
-              email,
-              codeEndTime: response.codeEndTime,
-              submitOtp,
-            })
+          onSuccess: async (response) => {
+            if (response.salt) {
+              const password_hashed = await hashedPassword(hashed_password, response.salt)
+              createAccount(
+                { email_address, hashed_password: password_hashed, repeat_password },
+                {
+                  onSuccess: async () => {
+                    storage.set(StorageKey.ACCESS_TOKEN, response.user_id)
+                    storage.set(StorageKey.USER_EMAIL, email_address)
+                    await login()
+                    navigation.dispatch(
+                      CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
+                    )
+                  },
+                  onError: () => {
+                    showToast({
+                      type: ToastType.error,
+                      title: t("createAccount.toast.error.title"),
+                      description: t("createAccount.toast.error.description"),
+                    })
+                  },
+                },
+              )
+            } else {
+              showToast({
+                type: ToastType.error,
+                title: t("createAccount.toast.error.title"),
+                description: "Please login to your account instead.",
+              })
+            }
           },
-          onError: () => {
+          onError: (error) => {
+            console.log("==Error salt===", error)
             showToast({
               type: ToastType.error,
-              title: t("createAccount.toast.error.title"),
+              title: "Error encrypting",
               description: t("createAccount.toast.error.description"),
             })
           },
@@ -109,15 +139,15 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
           label={t("createAccount.form.email.label")}
           placeholder={t("createAccount.form.email.placeholder")}
           autoCapitalize="none"
-          {...getTextFieldProps("email")}
+          {...getTextFieldProps("email_address")}
         />
 
-        <TextInput
+        {/* <TextInput
           label={t("createAccount.form.referralId.label")}
           placeholder={t("createAccount.form.referralId.placeholder")}
           autoCapitalize="none"
           {...getTextFieldProps("ref")}
-        />
+        /> */}
 
         <TextInput
           type="password"
@@ -125,7 +155,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
           placeholder={t("createAccount.form.password.placeholder")}
           autoCapitalize="none"
           autoComplete="off"
-          {...getTextFieldProps("password")}
+          {...getTextFieldProps("hashed_password")}
         />
 
         <TextInput
@@ -134,7 +164,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
           placeholder={t("createAccount.form.repeatPassword.placeholder")}
           autoCapitalize="none"
           autoComplete="off"
-          {...getTextFieldProps("repeatPassword")}
+          {...getTextFieldProps("repeat_password")}
         />
 
         <Typography color="primary.400" style={styles.disclaimer}>
@@ -147,7 +177,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
         </Typography>
 
         <Button
-          isLoading={isLoading}
+          isLoading={isLoading || isSaltLoading}
           isDisabled={!isValid || !dirty}
           onPress={() => handleSubmit()}
           style={styles.button}
