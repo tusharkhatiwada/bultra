@@ -24,6 +24,7 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   const storage = createSecureStorage()
 
   const [language, setLanguage] = useState<string | undefined>()
+  const [email, setEmail] = useState<string | undefined>()
 
   const { colors, space } = useTheme()
   const { top } = useSafeAreaInsets()
@@ -51,7 +52,9 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
   useEffect(() => {
     const getCurrentLanguage = async () => {
       const language = await storage.get(StorageKey.LANGUAGE)
+      const email = await storage.get(StorageKey.USER_EMAIL)
       language && setLanguage(language)
+      email && setEmail(email)
     }
 
     getCurrentLanguage()
@@ -75,12 +78,12 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
 
           {user?.email && (
             <Typography size="headline" weight="semibold">
-              {user?.email}
+              {email}
             </Typography>
           )}
 
           <Typography color="primary.400" style={styles.button}>
-            {user?.email}
+            {email}
           </Typography>
         </View>
 

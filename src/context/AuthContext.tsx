@@ -52,6 +52,7 @@ export const AuthProvider: FC = ({ children }) => {
       setStateToken(null)
     })
     await storage.delete(StorageKey.USER_EMAIL)
+    await storage.delete(StorageKey.INITIATE_TRADING)
   }
   const login = async () => {
     // removeUser()

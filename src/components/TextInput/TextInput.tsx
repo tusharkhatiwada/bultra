@@ -110,7 +110,10 @@ export const TextInput: FC<TextInputProps> = ({
           opacity: 1,
           style: [
             styles.input,
-            { backgroundColor: colors.primary[100], color: colors.primary[400] },
+            {
+              backgroundColor: colors.primary[100],
+              color: colors.primary[400],
+            },
           ],
         }}
         {...rest}
@@ -143,6 +146,8 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 46,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   message: {
     minHeight: 18,

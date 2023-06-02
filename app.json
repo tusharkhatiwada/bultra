@@ -6,7 +6,7 @@
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo-app.png",
-    "owner": "supdakon",
+    "owner": "fastgrowing",
     "scheme": "supdanil",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -18,15 +18,18 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/e7adacde-31b0-4964-82e8-11885fe97998"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      //      "jsEngine": "jsc",
       "buildNumber": "1.0.9",
       "bundleIdentifier": "com.exbit.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",
       "usesIcloudStorage": false,
-      "associatedDomains": ["applinks:fastgrowing.com"]
+      "associatedDomains": [
+        "applinks:fastgrowing.com"
+      ]
     },
     "android": {
       "versionCode": 1,
@@ -52,17 +55,22 @@
               "pathPrefix": "/"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": ["expo-document-picker"],
+    "plugins": [
+      "expo-document-picker"
+    ],
     "extra": {
       "eas": {
-        "projectId": "04d8ead6-bd67-4b7b-ad73-df6078e642ad"
+        "projectId": "3a43be74-3f54-43e1-b771-54348fcaa110"
       }
     },
     "runtimeVersion": {

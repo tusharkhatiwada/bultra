@@ -6,7 +6,7 @@ import { Trans, useTranslation } from "react-i18next"
 import { Icon } from "components/Icon"
 import { RootView } from "components/RootView"
 import { Typography } from "components/Typography"
-import { accentColors } from "styles/colors"
+import { accentColors, colors } from "styles/colors"
 import useColorScheme from "hooks/useColorScheme"
 
 export type PlanCardProps = {
@@ -39,11 +39,11 @@ export const PlansSelectorCard: FC<PlanCardProps> = ({ plan, goToLogin }) => {
       <RootView
         style={[
           styles.container,
-          { borderBottomColor: accentColor.dark, borderTopColor: accentColor.dark },
+          { borderBottomColor: colors.primary[400], borderTopColor: colors.primary[400] },
         ]}
       >
         <View style={styles.rowCenter}>
-          <View style={[styles.iconCircle, { backgroundColor: accentColor.dark }]}>
+          <View style={[styles.iconCircle, { backgroundColor: colors.primary[400] }]}>
             {plan.name === PlanTypes.FREE || plan.name === PlanTypes.BASIC ? (
               <Image
                 style={styles.coinImage}

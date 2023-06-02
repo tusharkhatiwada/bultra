@@ -22,6 +22,9 @@ import { useCheckNeedGoToPlan } from "../../../hooks/auth/useCheckNeedGoToPlan"
 import useColorScheme from "../../../hooks/useColorScheme"
 import { Plan, ProPlanMock } from "../../../models/Plans"
 import { PlansSelector } from "./PlansSelector"
+import { useStartTrade } from "hooks/trade/useStartTrade"
+import { useActivateBot } from "hooks/trade/useActivateBot"
+import { useActivateBotForm } from "hooks/trade/useActivateBotForm"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -42,6 +45,21 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [tradingPaymentCompleted, setTradingPaymentCompleted] = useState<boolean | undefined>(false)
   const [botActivated, setBotActivated] = useState<boolean | undefined>(false)
   const [riskLevel, setRiskLevel] = useState<string | undefined>()
+  const [userTradingEmail, setUserTradingEmail] = useState<string>("")
+  const [userId, setUserId] = useState<string>("")
+  const [paymentProcessing, setPaymentProcessing] = useState(false)
+  const [readyToActivate, setReadyToActivate] = useState(false)
+  const [botRunning, setBotRunning] = useState(false)
+  const {
+    data: paymentData,
+    isLoading: paymentDataLoading,
+    isError,
+  } = useStartTrade({
+    email_address: userTradingEmail,
+    startTrading: Boolean(tradingInitiated),
+  })
+
+  const { activateBot: activateBotApi, isLoading, data: activateData } = useActivateBot()
 
   const handleChangeRiskLevel = (level: string) => {
     setRiskLevel(level)
@@ -54,6 +72,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   useEffect(() => {
     const getTradingStatus = async () => {
+      const userEmail =
+        ((await storage.get(StorageKey.USER_TRADING_EMAIL)) as string) ||
+        ((await storage.get(StorageKey.USER_EMAIL)) as string)
+      setUserTradingEmail(userEmail)
+      const userId = (await storage.get(StorageKey.ACCESS_TOKEN)) as string
+      setUserId(userId)
       const tradingInitated = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
       const tradingInitiatedVal = !tradingInitated
         ? Boolean(tradingInitated)
@@ -62,21 +86,40 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       const paymentCompletedVal = !paymentCompleted
         ? Boolean(paymentCompleted)
         : (JSON.parse(paymentCompleted) as boolean)
-      const botActivated = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
+      const botActivated = (await storage.get(StorageKey.BOT_ACTIVATED)) as string | null
       const botActivateddVal = !botActivated
         ? Boolean(botActivated)
         : (JSON.parse(botActivated) as boolean)
+      const botRunning = (await storage.get(StorageKey.BOT_RUNNING)) as string | null
+      const botRunningdVal = !botRunning ? Boolean(botRunning) : (JSON.parse(botRunning) as boolean)
       tradingInitiatedVal && setTradingInitiated(tradingInitiatedVal)
       paymentCompletedVal && setTradingPaymentCompleted(paymentCompletedVal)
       botActivateddVal && setBotActivated(botActivateddVal)
+      botRunningdVal && setBotRunning(botRunningdVal)
     }
 
     getTradingStatus()
   }, [])
 
-  // useEffect(() => {
-  //   // setSelectedPlan(plansToShow[0])
-  // }, [])
+  useEffect(() => {
+    if (paymentData?.message?.includes("recognize") || paymentData?.message?.includes("failure")) {
+      showToast({
+        type: ToastType.error,
+        title: "User doesn't habe bybit account or the transaction failed",
+      })
+      storage.set(StorageKey.INITIATE_TRADING, "false")
+      setTradingInitiated(false)
+    }
+    if (paymentData?.message?.includes("processing")) {
+      setPaymentProcessing(true)
+      setTradingInitiated(false)
+    }
+    if (paymentData?.message?.includes("ready")) {
+      setPaymentProcessing(false)
+      setReadyToActivate(true)
+      setTradingInitiated(false)
+    }
+  }, [paymentData])
 
   /*   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
@@ -93,7 +136,44 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     }
   }, [plans, user]) */
   // Commenting this for now as we are only showing Pro plan statically
-  useCheckNeedGoToPlan({ navigationProps: navigation })
+  // useCheckNeedGoToPlan({ navigationProps: navigation })
+
+  const { getTextFieldProps, handleSubmit, dirty, isValid } = useActivateBotForm({
+    onSubmit: ({ key, secret }) => {
+      if (!riskLevel) {
+        return showToast({
+          type: ToastType.error,
+          title: "Select Risk Level",
+        })
+      }
+
+      activateBotApi(
+        {
+          key,
+          secret,
+          risk_level: riskLevel as string,
+          user_id: userId,
+          email_address: userTradingEmail,
+        },
+        {
+          onSuccess: () => {
+            showToast({
+              type: ToastType.success,
+              title: "Success",
+              description: "Bot activated sucessfully",
+            })
+            storage.set(StorageKey.BOT_RUNNING, "true")
+            setBotRunning(true)
+          },
+          onError: () =>
+            showToast({
+              type: ToastType.error,
+              title: "Error activating bot",
+            }),
+        },
+      )
+    },
+  })
 
   const goToSignUp = () => {
     navigation.navigate(Routes.auth.navigator, {
@@ -121,6 +201,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   }
 
   const activateBot = () => {
+    storage.set(StorageKey.BOT_ACTIVATED, "true")
     setBotActivated(true)
     showToast({
       type: ToastType.success,
@@ -131,8 +212,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const viewStyle = {
     backgroundColor: isDarkMode ? colors.black : "#ffff",
-    paddingHorizontal: space[6],
     paddingBottom: bottom + space[6],
+    marginTop: space[6],
   }
 
   const profitSummary = {
@@ -152,36 +233,31 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <Typography size="h3" style={styles.title}>
+          <Typography color="primary.600" size="h3" style={styles.title}>
             {t("home.greetings")}
           </Typography>
 
-          <Typography color="primary.400" style={styles.description}>
-            {t("home.description")}
-          </Typography>
+          <Typography style={styles.description}>{t("home.description")}</Typography>
 
           {/* {!isLoggedIn && ( */}
           <View>
-            <Typography size="h3" style={styles.profits}>
+            <Typography color="primary.600" size="h3" style={styles.profits}>
               {t("home.profits")}
             </Typography>
-            <Typography color="primary.400" style={styles.profitDescription}>
-              {t("home.profit-description")}
-            </Typography>
+            <Typography style={styles.profitDescription}>{t("home.profit-description")}</Typography>
             <ProfitsList profitSummary={profitSummary} />
           </View>
           {/* )} */}
         </View>
-      </ScrollView>
-      <View style={viewStyle}>
-        {!isLoggedIn && (
-          <Stack space="md">
-            <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
-            <Button onPress={() => goToLogin()}>{t("login.title")}</Button>
-          </Stack>
-        )}
+        <View style={viewStyle}>
+          {!isLoggedIn && (
+            <Stack space="md">
+              <Button onPress={goToSignUp}>{t("createAccount.title")}</Button>
+              <Button onPress={() => goToLogin()}>{t("login.title")}</Button>
+            </Stack>
+          )}
 
-        {/* {!isNil(user) && isLoggedIn && (
+          {/* {!isNil(user) && isLoggedIn && (
           <View style={styles.planName}>
             <Typography color="primary.800">{t("plans.selectSubscription.yourPlanIs")}</Typography>
             <Typography color="primary.800" size="headline" weight="bold" ml="1">
@@ -191,55 +267,60 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
             </Typography>
           </View>
         )} */}
-        {isLoggedIn && (
-          <>
-            {!tradingInitiated && !tradingPaymentCompleted && !botActivated && (
-              <>
-                <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
-                <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
-              </>
-            )}
-            {tradingInitiated && !tradingPaymentCompleted && !botActivated && (
-              <>
-                <Spinner />
-                <Typography color="primary.400">
-                  Please, when we receive your payment you will be able to activate the bot
-                </Typography>
-              </>
-            )}
-            {tradingInitiated && tradingPaymentCompleted && !botActivated && (
-              <Button onPress={activateBot}>Activate Bot</Button>
-            )}
+          {isLoggedIn && (
+            <>
+              {!tradingInitiated && (
+                <>
+                  <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
+                  <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
+                </>
+              )}
+              {paymentProcessing && !tradingInitiated && (
+                <>
+                  <Spinner />
+                  <Typography color="primary.400">
+                    Please, when we receive your payment you will be able to activate the bot
+                  </Typography>
+                </>
+              )}
+              {readyToActivate && !botActivated && (
+                <Button onPress={activateBot}>Activate Bot</Button>
+              )}
 
-            {tradingInitiated && tradingPaymentCompleted && botActivated && (
-              <View>
-                <TextInput
-                  label={t("profile.apiKeys.form.apiKey.label")}
-                  placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
-                  name="apiKeys"
-                />
+              {readyToActivate && botActivated && (
+                <View>
+                  <TextInput
+                    label={t("profile.apiKeys.form.apiKey.label")}
+                    placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
+                    {...getTextFieldProps("key")}
+                  />
 
-                <TextInput
-                  label={t("profile.apiKeys.form.secretKey.label")}
-                  placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
-                  name="secretKey"
-                />
-                <Select
-                  custom
-                  label={t("profile.apiKeys.chooseRiskLevel")}
-                  bottomLabel={t("profile.apiKeys.changeRiskLevel")}
-                  cta={t("profile.apiKeys.chooseRiskLevel")}
-                  value={riskLevel}
-                  options={riskLevelsList}
-                  onChange={handleChangeRiskLevel}
-                />
-                <Button onPress={() => null}>Save</Button>
-                <Button onPress={activateBot}>Stop Bot</Button>
-              </View>
-            )}
-          </>
-        )}
-      </View>
+                  <TextInput
+                    label={t("profile.apiKeys.form.secretKey.label")}
+                    placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
+                    {...getTextFieldProps("secret")}
+                  />
+                  <Select
+                    custom
+                    label={t("profile.apiKeys.chooseRiskLevel")}
+                    bottomLabel={t("profile.apiKeys.changeRiskLevel")}
+                    cta={t("profile.apiKeys.chooseRiskLevel")}
+                    value={riskLevel}
+                    options={riskLevelsList}
+                    onChange={handleChangeRiskLevel}
+                  />
+                  <Button onPress={() => handleSubmit()}>Save</Button>
+                </View>
+              )}
+              {botRunning && (
+                <Button bgColor={"red.500"} onPress={() => null} style={{ marginVertical: 10 }}>
+                  Stop Bot
+                </Button>
+              )}
+            </>
+          )}
+        </View>
+      </ScrollView>
     </RootView>
   )
 }

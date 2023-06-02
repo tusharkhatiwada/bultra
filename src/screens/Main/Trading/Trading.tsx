@@ -1,20 +1,19 @@
-import { View, StyleSheet } from "react-native"
-import { FC, useEffect, useMemo, useState } from "react"
 import { RootView } from "components/RootView"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useTheme } from "native-base"
-import { useTranslation } from "react-i18next"
-import { Typography } from "components/Typography"
 import { TextInput } from "components/TextInput"
+import { Typography } from "components/Typography"
+import { useTheme } from "native-base"
+import { FC, useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { StyleSheet, View } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import * as Clipboard from "expo-clipboard"
-import { useToastContext } from "context/ToastContext"
-import { ToastType } from "components/Toast/Toast"
-import { Button } from "components/Button"
-import { StorageKey, createSecureStorage } from "services/SecureStorage"
 import { CommonActions } from "@react-navigation/native"
+import { Button } from "components/Button"
+import { ToastType } from "components/Toast/Toast"
+import { useToastContext } from "context/ToastContext"
+import * as Clipboard from "expo-clipboard"
 import { Routes } from "models/Routes"
-import { useStartTrade } from "hooks/trade/useStartTrade"
+import { StorageKey, createSecureStorage } from "services/SecureStorage"
 
 const internalEmail = "corporative@exchangefusioncorp.com"
 
@@ -25,9 +24,6 @@ export const Trading: FC<any> = ({ navigation }) => {
   const { showToast } = useToastContext()
   const storage = createSecureStorage()
   const [userEmail, setUserEmail] = useState<string>("")
-  const [startTrading, setStartTrading] = useState<boolean>(false)
-
-  const { data, isLoading, isError } = useStartTrade({ email_address: userEmail, startTrading })
 
   useEffect(() => {
     const getUserEmail = async () => {
@@ -48,13 +44,12 @@ export const Trading: FC<any> = ({ navigation }) => {
   }
 
   const initiateTrading = async () => {
-    setStartTrading(true)
+    storage.set(StorageKey.USER_TRADING_EMAIL, userEmail)
     storage.set(StorageKey.INITIATE_TRADING, "true")
     navigation.dispatch(
       CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
     )
   }
-  console.log("==Dtaaaa===", data, isLoading, isError)
 
   return (
     <RootView
@@ -67,10 +62,10 @@ export const Trading: FC<any> = ({ navigation }) => {
       ]}
     >
       <View>
-        <Typography size="h3" weight="bold">
+        <Typography color="primary.800" size="h3" weight="bold">
           USDT Deposit
         </Typography>
-        <Typography color="primary.500" style={styles.bodyText}>
+        <Typography style={styles.bodyText}>
           Go to Internal transfer and withdraw to the next email:
         </Typography>
         <TextInput
@@ -82,7 +77,7 @@ export const Trading: FC<any> = ({ navigation }) => {
           iconLabel={t("startTrading.copy-button")}
           onIconPress={() => copyToClipboard(internalEmail)}
         />
-        <Typography color="primary.500" style={styles.bodyText}>
+        <Typography style={styles.bodyText}>
           Write the email if you are using a different in bybit account to transfer. If not, let the
           input in blank
         </Typography>
@@ -94,7 +89,7 @@ export const Trading: FC<any> = ({ navigation }) => {
           value={userEmail}
           onChangeText={(text) => setUserEmail(text)}
         />
-        <Typography color="primary.500" style={styles.bodyText}>
+        <Typography style={styles.bodyText}>
           Click finish after you have sent the 50 USDT from your bybit application. We will activate
           the bot when we receive the price of the plan ( up to 24H)
         </Typography>

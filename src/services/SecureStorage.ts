@@ -3,10 +3,12 @@ import * as SecureStore from "expo-secure-store"
 export enum StorageKey {
   ACCESS_TOKEN = "ACCESS_TOKEN",
   USER_EMAIL = "USER_EMAIL",
+  USER_TRADING_EMAIL = "USER_TRADING_EMAIL",
   LANGUAGE = "LANGUAGE",
   INITIATE_TRADING = "INITIATE_TRADING",
   TRADING_PAYMENT_COMPLETE = "TRADING_PAYMENT_COMPLETE",
   BOT_ACTIVATED = "BOT_ACTIVATED",
+  BOT_RUNNING = "BOT_RUNNING",
 }
 
 export interface SecureStorageService {

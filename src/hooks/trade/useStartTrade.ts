@@ -12,11 +12,17 @@ export const useStartTrade = (params: StartTrade.Params) => {
     () => trade.startTrade(params),
     {
       enabled: !!params.startTrading,
+      refetchInterval: (data) => {
+        if (data?.message?.includes("processing")) {
+          return 300000 // 5 minutes polling if the payment is processing
+        }
+        return false
+      },
     },
   )
 
   return {
     ...request,
-    salt: request.data,
+    payment: request.data,
   }
 }
