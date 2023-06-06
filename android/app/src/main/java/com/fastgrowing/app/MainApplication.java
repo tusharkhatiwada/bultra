@@ -1,4 +1,4 @@
-package com.exbit.app;
+package com.bultrafinance.app;
 
 import android.app.Application;
 import android.content.res.Configuration;

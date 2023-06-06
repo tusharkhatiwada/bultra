@@ -115,7 +115,7 @@ android {
 
     namespace "com.fastgrowing"
     defaultConfig {
-        applicationId 'com.exbit.app'
+        applicationId 'com.bultrafinance.app'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
