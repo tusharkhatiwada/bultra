@@ -47,7 +47,7 @@ export const TextInput: FC<TextInputProps> = ({
   const { colors } = useTheme()
 
   const InputIcon = ({ name }: { name: IconProps["name"] }) => (
-    <View style={[styles.icon, isDisabled && { backgroundColor: colors.primary[100] }]}>
+    <View style={[styles.icon, isDisabled && { backgroundColor: colors.coolGray[200] }]}>
       <Icon name={name} />
     </View>
   )
@@ -111,7 +111,7 @@ export const TextInput: FC<TextInputProps> = ({
           style: [
             styles.input,
             {
-              backgroundColor: colors.primary[100],
+              backgroundColor: colors.coolGray[200],
               color: colors.primary[400],
             },
           ],

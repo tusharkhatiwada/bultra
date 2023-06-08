@@ -7,13 +7,17 @@
       "distribution": "internal",
       "channel": "staging"
     },
+    "dev": {
+      "distribution": "internal",
+      "developmentClient": true
+    },
     "testflight": {
       "distribution": "store",
       "channel": "production"
     },
     "production": {
       "channel": "production"
-    },
+    }
   },
   "submit": {
     "production": {

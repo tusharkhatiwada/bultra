@@ -50,6 +50,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [paymentProcessing, setPaymentProcessing] = useState(false)
   const [readyToActivate, setReadyToActivate] = useState(false)
   const [botRunning, setBotRunning] = useState(false)
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
   const {
     data: paymentData,
     isLoading: paymentDataLoading,
@@ -59,7 +60,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     startTrading: Boolean(tradingInitiated),
   })
 
-  const { activateBot: activateBotApi, isLoading, data: activateData } = useActivateBot()
+  const {
+    activateBot: activateBotApi,
+    isLoading,
+    data: activateData,
+    isSuccess: isActivateSuccess,
+  } = useActivateBot()
 
   const handleChangeRiskLevel = (level: string) => {
     setRiskLevel(level)
@@ -105,7 +111,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     if (paymentData?.message?.includes("recognize") || paymentData?.message?.includes("failure")) {
       showToast({
         type: ToastType.error,
-        title: "User doesn't habe bybit account or the transaction failed",
+        title: "User doesn't have bybit account or the transaction failed",
       })
       storage.set(StorageKey.INITIATE_TRADING, "false")
       setTradingInitiated(false)
@@ -120,6 +126,22 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       setTradingInitiated(false)
     }
   }, [paymentData])
+  useEffect(() => {
+    if (isActivateSuccess && activateData.message?.includes("successfully saved")) {
+      setPaymentSuccess(true)
+      setBotRunning(true)
+      storage.set(StorageKey.BOT_RUNNING, "true")
+      showToast({
+        type: ToastType.success,
+        title: "Bot is paid and activated",
+      })
+    } else {
+      showToast({
+        type: ToastType.error,
+        title: "Unable to activate bot",
+      })
+    }
+  }, [isActivateSuccess, activateData])
 
   /*   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
@@ -222,6 +244,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     lastMonth: 6.32,
   }
 
+  console.log("==Payment Data===", paymentData)
+  console.log("===Activate Date===", activateData, isActivateSuccess)
+
   return (
     <RootView style={styles.container}>
       <ScrollView
@@ -269,7 +294,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         )} */}
           {isLoggedIn && (
             <>
-              {!tradingInitiated && (
+              {!tradingInitiated && !paymentProcessing && !readyToActivate && (
                 <>
                   <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
                   <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
@@ -287,7 +312,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                 <Button onPress={activateBot}>Activate Bot</Button>
               )}
 
-              {readyToActivate && botActivated && (
+              {readyToActivate && botActivated && !botRunning && (
                 <View>
                   <TextInput
                     label={t("profile.apiKeys.form.apiKey.label")}
