@@ -7,6 +7,8 @@ import { useApi } from "context/ApiContext"
 export const useStartTrade = (params: StartTrade.Params) => {
   const { trade } = useApi()
 
+  console.log("===Params===", params, !!params.startTrading)
+
   const request = useQuery<StartTrade.Response, AxiosError>(
     ["startTrade", params.email_address, params.startTrading],
     () => trade.startTrade(params),

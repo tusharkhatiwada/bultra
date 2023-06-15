@@ -25,6 +25,7 @@ import { PlansSelector } from "./PlansSelector"
 import { useStartTrade } from "hooks/trade/useStartTrade"
 import { useActivateBot } from "hooks/trade/useActivateBot"
 import { useActivateBotForm } from "hooks/trade/useActivateBotForm"
+import { useStopBot } from "hooks/trade/useStopBot"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -62,10 +63,11 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const {
     activateBot: activateBotApi,
-    isLoading,
     data: activateData,
     isSuccess: isActivateSuccess,
   } = useActivateBot()
+
+  const { stopBot, isLoading: isStopping, data: stopData, isSuccess: isStopSuccess } = useStopBot()
 
   const handleChangeRiskLevel = (level: string) => {
     setRiskLevel(level)
@@ -88,20 +90,20 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       const tradingInitiatedVal = !tradingInitated
         ? Boolean(tradingInitated)
         : (JSON.parse(tradingInitated) as boolean)
-      const paymentCompleted = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
-      const paymentCompletedVal = !paymentCompleted
-        ? Boolean(paymentCompleted)
-        : (JSON.parse(paymentCompleted) as boolean)
+      // const paymentCompleted = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
+      // const paymentCompletedVal = !paymentCompleted
+      //   ? Boolean(paymentCompleted)
+      //   : (JSON.parse(paymentCompleted) as boolean)
       const botActivated = (await storage.get(StorageKey.BOT_ACTIVATED)) as string | null
       const botActivateddVal = !botActivated
         ? Boolean(botActivated)
         : (JSON.parse(botActivated) as boolean)
-      const botRunning = (await storage.get(StorageKey.BOT_RUNNING)) as string | null
-      const botRunningdVal = !botRunning ? Boolean(botRunning) : (JSON.parse(botRunning) as boolean)
+      // const botRunning = (await storage.get(StorageKey.BOT_RUNNING)) as string | null
+      // const botRunningdVal = !botRunning ? Boolean(botRunning) : (JSON.parse(botRunning) as boolean)
       tradingInitiatedVal && setTradingInitiated(tradingInitiatedVal)
-      paymentCompletedVal && setTradingPaymentCompleted(paymentCompletedVal)
+      //   paymentCompletedVal && setTradingPaymentCompleted(paymentCompletedVal)
       botActivateddVal && setBotActivated(botActivateddVal)
-      botRunningdVal && setBotRunning(botRunningdVal)
+      //   botRunningdVal && setBotRunning(botRunningdVal)
     }
 
     getTradingStatus()
@@ -118,30 +120,61 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     }
     if (paymentData?.message?.includes("processing")) {
       setPaymentProcessing(true)
-      setTradingInitiated(false)
+      setTradingInitiated(true)
     }
     if (paymentData?.message?.includes("ready")) {
       setPaymentProcessing(false)
       setReadyToActivate(true)
-      setTradingInitiated(false)
+      setTradingInitiated(true)
+      showToast({
+        type: ToastType.success,
+        title: "Ready to activate",
+      })
     }
   }, [paymentData])
   useEffect(() => {
-    if (isActivateSuccess && activateData.message?.includes("successfully saved")) {
-      setPaymentSuccess(true)
-      setBotRunning(true)
-      storage.set(StorageKey.BOT_RUNNING, "true")
+    if (tradingInitiated) {
+      if (isActivateSuccess && activateData.message?.includes("successfully saved")) {
+        setPaymentSuccess(true)
+        setBotRunning(true)
+        storage.set(StorageKey.BOT_RUNNING, "true")
+        showToast({
+          type: ToastType.success,
+          title: "Bot is paid and activated",
+        })
+      }
+      if (activateData?.message?.includes("user was")) {
+        setPaymentSuccess(true)
+        setBotRunning(true)
+        storage.set(StorageKey.BOT_RUNNING, "true")
+        storage.set(StorageKey.BOT_ACTIVATED, "true")
+        setBotActivated(true)
+        showToast({
+          type: ToastType.error,
+          title: "The user is already activated",
+        })
+      }
+      // else {
+      //   showToast({
+      //     type: ToastType.error,
+      //     title: "Unable to activate bot",
+      //   })
+      // }
+    }
+  }, [isActivateSuccess, activateData, tradingInitiated])
+
+  useEffect(() => {
+    if (stopData && stopData?.message?.includes("bot stopped")) {
+      setBotRunning(false)
+      setTradingInitiated(false)
+      storage.set(StorageKey.INITIATE_TRADING, "false")
+      storage.set(StorageKey.BOT_RUNNING, "false")
       showToast({
         type: ToastType.success,
-        title: "Bot is paid and activated",
-      })
-    } else {
-      showToast({
-        type: ToastType.error,
-        title: "Unable to activate bot",
+        title: "Bot is stopped",
       })
     }
-  }, [isActivateSuccess, activateData])
+  }, [stopData])
 
   /*   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
@@ -185,6 +218,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
               description: "Bot activated sucessfully",
             })
             storage.set(StorageKey.BOT_RUNNING, "true")
+            storage.set(StorageKey.USER_ID, userId)
+            storage.set(StorageKey.BOT_KEY, key)
+            storage.set(StorageKey.BOT_SECRET, secret)
             setBotRunning(true)
           },
           onError: () =>
@@ -224,11 +260,19 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   const activateBot = () => {
     storage.set(StorageKey.BOT_ACTIVATED, "true")
+    setReadyToActivate(false)
     setBotActivated(true)
     showToast({
       type: ToastType.success,
       title: "Success",
       description: "Bot is activated, check your bybit account.",
+    })
+  }
+  const handleBotStop = async () => {
+    stopBot({
+      user_id: "5af1ff48-6118-4386-b005-950e1e0aa18e",
+      key: "dQNkIqTpl5mx055OK6",
+      secret: "1tzjhXH420hhHqPxZtqB9l7VXMWyZ4T1UYDB",
     })
   }
 
@@ -244,8 +288,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     lastMonth: 6.32,
   }
 
-  console.log("==Payment Data===", paymentData)
+  // console.log("==Payment Data===", paymentData)
   console.log("===Activate Date===", activateData, isActivateSuccess)
+  // console.log("===stop Date===", stopData)
 
   return (
     <RootView style={styles.container}>
@@ -294,13 +339,13 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         )} */}
           {isLoggedIn && (
             <>
-              {!tradingInitiated && !paymentProcessing && !readyToActivate && (
+              {!tradingInitiated && (
                 <>
                   <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
                   <Button onPress={() => goToStartTrading()}>{t("home.startEarn")}</Button>
                 </>
               )}
-              {paymentProcessing && !tradingInitiated && (
+              {paymentProcessing && (
                 <>
                   <Spinner />
                   <Typography color="primary.400">
@@ -308,11 +353,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                   </Typography>
                 </>
               )}
-              {readyToActivate && !botActivated && (
-                <Button onPress={activateBot}>Activate Bot</Button>
-              )}
+              {readyToActivate && <Button onPress={activateBot}>Activate Bot</Button>}
 
-              {readyToActivate && botActivated && !botRunning && (
+              {botActivated && (
                 <View>
                   <TextInput
                     label={t("profile.apiKeys.form.apiKey.label")}
@@ -338,7 +381,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                 </View>
               )}
               {botRunning && (
-                <Button bgColor={"red.500"} onPress={() => null} style={{ marginVertical: 10 }}>
+                <Button bgColor={"red.500"} onPress={handleBotStop} style={{ marginVertical: 10 }}>
                   Stop Bot
                 </Button>
               )}

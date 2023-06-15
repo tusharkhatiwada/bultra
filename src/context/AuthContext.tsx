@@ -53,6 +53,9 @@ export const AuthProvider: FC = ({ children }) => {
     })
     await storage.delete(StorageKey.USER_EMAIL)
     await storage.delete(StorageKey.INITIATE_TRADING)
+    await storage.delete(StorageKey.BOT_ACTIVATED)
+    await storage.delete(StorageKey.USER_TRADING_EMAIL)
+    await storage.delete(StorageKey.USER_ID)
   }
   const login = async () => {
     // removeUser()

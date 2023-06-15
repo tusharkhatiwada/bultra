@@ -31,6 +31,7 @@ import { generateSaltHttp } from "./hash/createSaltHttp"
 import { getSaltHttp } from "./hash/getSaltHttp"
 import { startTradeHttp } from "./trade/startTradeHttp"
 import { activateBotHttp } from "./trade/activateBotHttp"
+import { stopBotHttp } from "./trade/stopBotHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -124,6 +125,7 @@ export function createApi(offline: boolean): Api {
     trade: {
       startTrade: startTradeHttp(httpClient),
       activateBot: activateBotHttp(httpClient),
+      stopBot: stopBotHttp(httpClient),
     },
   }
 }

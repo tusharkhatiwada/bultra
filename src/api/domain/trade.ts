@@ -21,8 +21,20 @@ export namespace ActivateBot {
   }
   export type Request = (params: ActivateBot.Params) => Promise<ActivateBot.Response>
 }
+export namespace StopBot {
+  export type Params = {
+    key: string
+    secret: string
+    user_id: string
+  }
+  export type Response = {
+    message?: string
+  }
+  export type Request = (params: StopBot.Params) => Promise<StopBot.Response>
+}
 
 export interface TradeApi {
   startTrade: StartTrade.Request
   activateBot: ActivateBot.Request
+  stopBot: StopBot.Request
 }
