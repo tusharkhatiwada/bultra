@@ -13,7 +13,8 @@
     },
     "testflight": {
       "distribution": "store",
-      "channel": "production"
+      "channel": "production",
+      "autoIncrement": true
     },
     "production": {
       "channel": "production"

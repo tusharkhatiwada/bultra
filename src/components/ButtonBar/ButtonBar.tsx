@@ -7,6 +7,7 @@ import { Typography } from "components/Typography"
 import { useTranslation } from "react-i18next"
 import { TransactionRange } from "../../models/Wallet"
 import { isNil } from "lodash"
+import { accentColors } from "styles/colors"
 
 export type ButtonBarElement = {
   label: TranslationKeys
@@ -46,7 +47,10 @@ export const ButtonBar: FC<ButtonBarProps> = ({ buttons, onChange, value }) => {
               styles.button,
               {
                 // TODO: Change selected color
-                backgroundColor: selected === button.value ? colors.info[500] : colors.primary[100],
+                backgroundColor:
+                  selected === button.value ? colors.primary[500] : colors.primary[100],
+                borderColor: selected === button.value ? accentColors.gold : "transparent",
+                borderWidth: selected === button.value ? 2 : 0,
               },
             ]}
             onPress={() => {
@@ -54,7 +58,7 @@ export const ButtonBar: FC<ButtonBarProps> = ({ buttons, onChange, value }) => {
               setSelected(button.value)
             }}
           >
-            <Typography color={colors.black}>{t(button.label as TranslationKeys)}</Typography>
+            <Typography color={colors.white}>{t(button.label as TranslationKeys)}</Typography>
           </Button>
         ))}
       </HStack>

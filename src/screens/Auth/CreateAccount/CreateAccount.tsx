@@ -79,6 +79,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
                   onSuccess: async () => {
                     storage.set(StorageKey.ACCESS_TOKEN, response.user_id)
                     storage.set(StorageKey.USER_EMAIL, email_address)
+                    storage.set(StorageKey.USER_ID, response.user_id)
                     await login()
                     navigation.dispatch(
                       CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
@@ -142,12 +143,12 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
           {...getTextFieldProps("email_address")}
         />
 
-        {/* <TextInput
+        <TextInput
           label={t("createAccount.form.referralId.label")}
           placeholder={t("createAccount.form.referralId.placeholder")}
           autoCapitalize="none"
           {...getTextFieldProps("ref")}
-        /> */}
+        />
 
         <TextInput
           type="password"

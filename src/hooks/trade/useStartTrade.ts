@@ -20,6 +20,7 @@ export const useStartTrade = (params: StartTrade.Params) => {
         }
         return false
       },
+      retry: false,
     },
   )
 

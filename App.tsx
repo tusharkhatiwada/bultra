@@ -22,11 +22,7 @@ export default function App() {
   const colorScheme = useColorScheme()
 
   const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: Infinity,
-      },
-    },
+    defaultOptions: {},
   })
 
   LogBox.ignoreLogs(["i18next::pluralResolver"])

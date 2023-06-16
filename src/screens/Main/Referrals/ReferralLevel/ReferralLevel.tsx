@@ -49,7 +49,8 @@ export const ReferralLevel: FC<ReferralLevelProps> = ({ level, levelNumber, goTo
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    height: 48,
+    borderBottomColor: accentColors.blue.light,
+    height: 52,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: accentColors.gold,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 2,
+    paddingVertical: 4,
     borderRadius: 4,
   },
   referrals: {

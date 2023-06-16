@@ -8,12 +8,14 @@ type CreateAccountForm = {
   email_address: string
   hashed_password: string
   repeat_password: string
+  ref: string
 }
 
 const DEFAULT_VALUES: CreateAccountForm = {
   email_address: "",
   hashed_password: "",
   repeat_password: "",
+  ref: "",
 }
 
 type FormProps = UseFormProps<CreateAccountForm>

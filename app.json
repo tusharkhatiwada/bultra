@@ -18,14 +18,18 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/e7adacde-31b0-4964-82e8-11885fe97998"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "buildNumber": "1.0.9",
+      "buildNumber": "1.0.10",
       "bundleIdentifier": "com.bultrafinance.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",
       "usesIcloudStorage": false,
-      "associatedDomains": ["applinks:fastgrowing.com"]
+      "associatedDomains": [
+        "applinks:fastgrowing.com"
+      ]
     },
     "android": {
       "versionCode": 1,
@@ -51,14 +55,19 @@
               "pathPrefix": "/"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": ["expo-document-picker"],
+    "plugins": [
+      "expo-document-picker"
+    ],
     "extra": {
       "eas": {
         "projectId": "3a43be74-3f54-43e1-b771-54348fcaa110"

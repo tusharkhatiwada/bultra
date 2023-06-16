@@ -61,7 +61,6 @@ export function createApi(offline: boolean): Api {
 
   httpClient.interceptors.response.use(
     (res) => {
-      console.info(res.config.url)
       return res
     },
     (error) => {

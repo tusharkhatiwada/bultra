@@ -35,6 +35,8 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     data,
     isLoading: isFetchingSalt,
     isSuccess,
+    fetchStatus,
+    isError,
   } = useGetSalt({ email_address: state.email, fetching: state.loading })
 
   const { login, isLoading } = useLogin()
@@ -83,6 +85,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         { email_address: state.email, hashed_password: password_hashed },
         {
           onSuccess: async (response) => {
+            console.log("===login response====", response)
             if (response?.message?.includes("wrong")) {
               showToast({
                 type: ToastType.error,
@@ -90,6 +93,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
               })
             } else {
               storage.set(StorageKey.ACCESS_TOKEN, data.user_id)
+              storage.set(StorageKey.USER_ID, data.user_id)
               storage.set(StorageKey.USER_EMAIL, state.email)
               await doLogin()
               navigation.dispatch(
@@ -120,7 +124,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     } else {
       handleLogin()
     }
-  }, [isFetchingSalt, isSuccess])
+  }, [isSuccess])
 
   const { getTextFieldProps, handleSubmit, dirty, isValid, resetForm } = useLoginForm({
     onSubmit: ({ email_address, hashed_password }) => {
@@ -175,7 +179,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
 
         <View>
           <Button
-            isLoading={isLoading || state.loading}
+            isLoading={isLoading || state.loading || fetchStatus === "fetching"}
             isDisabled={!isValid || !dirty || state.loading}
             onPress={() => handleSubmit()}
             style={styles.button}
