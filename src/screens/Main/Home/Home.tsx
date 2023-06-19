@@ -46,7 +46,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [tradingPaymentCompleted, setTradingPaymentCompleted] = useState<boolean | undefined>(false)
   const [botActivated, setBotActivated] = useState<boolean | undefined>(false)
   const [riskLevel, setRiskLevel] = useState<string | undefined>()
-  const [userTradingEmail, setUserTradingEmail] = useState<string>("")
+  const [userTradingEmail, setUserTradingEmail] = useState<string | undefined>("")
   const [userId, setUserId] = useState<string>("")
   const [paymentProcessing, setPaymentProcessing] = useState(false)
   const [readyToActivate, setReadyToActivate] = useState(false)
@@ -58,7 +58,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     fetchStatus,
     isError,
   } = useStartTrade({
-    email_address: userTradingEmail,
+    email_address: userTradingEmail as string,
     startTrading: tradingInitiated,
   })
 
@@ -82,9 +82,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
   useEffect(() => {
     const getTradingStatus = async () => {
-      const userEmail =
-        ((await storage.get(StorageKey.USER_TRADING_EMAIL)) as string) ||
-        ((await storage.get(StorageKey.USER_EMAIL)) as string)
+      const userEmail = (await storage.get(StorageKey.USER_TRADING_EMAIL)) as string
       setUserTradingEmail(userEmail)
       const userId = (await storage.get(StorageKey.ACCESS_TOKEN)) as string
       setUserId(userId)
@@ -92,6 +90,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       const tradingInitiatedVal = !tradingInitatedData
         ? Boolean(tradingInitatedData)
         : (JSON.parse(tradingInitatedData) as boolean)
+      if (tradingInitiatedVal) {
+        setPaymentProcessing(true)
+      }
       // const paymentCompleted = (await storage.get(StorageKey.INITIATE_TRADING)) as string | null
       // const paymentCompletedVal = !paymentCompleted
       //   ? Boolean(paymentCompleted)
@@ -112,24 +113,25 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    if (
-      isError ||
-      paymentData === null ||
-      paymentData?.message?.includes("recognize") ||
-      paymentData?.message?.includes("failure")
-    ) {
-      showToast({
-        type: ToastType.error,
-        title: "User doesn't have bybit account or the transaction failed",
-      })
-      storage.set(StorageKey.INITIATE_TRADING, "false")
-      setTradingInitiated(false)
-    }
-    if (paymentData?.message?.includes("processing")) {
-      setPaymentProcessing(true)
-      setTradingInitiated(true)
-    }
-    if (paymentData?.message?.includes("ready")) {
+    console.log("===Payment Data===", paymentData)
+    // if (
+    //   isError ||
+    //   paymentData === null ||
+    //   paymentData?.message?.includes("recognize") ||
+    //   paymentData?.message?.includes("failure")
+    // ) {
+    //   showToast({
+    //     type: ToastType.error,
+    //     title: "User doesn't have bybit account or the transaction failed",
+    //   })
+    //   storage.set(StorageKey.INITIATE_TRADING, "false")
+    //   setTradingInitiated(false)
+    // }
+    // if (paymentData?.message?.includes("processing")) {
+    //   setPaymentProcessing(true)
+    //   setTradingInitiated(true)
+    // }
+    if (paymentData && paymentData?.message?.includes("ready")) {
       setPaymentProcessing(false)
       setReadyToActivate(true)
       setTradingInitiated(true)
@@ -141,6 +143,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   }, [paymentData])
   useEffect(() => {
     if (tradingInitiated) {
+      console.log("===Activate Data===", activateData)
       if (isActivateSuccess && activateData.message?.includes("successfully saved")) {
         setPaymentSuccess(true)
         setBotRunning(true)
@@ -163,6 +166,18 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         showToast({
           type: ToastType.error,
           title: "The user is already activated",
+        })
+      }
+      if (activateData?.message?.includes("The bot was activated")) {
+        setPaymentSuccess(true)
+        setBotRunning(true)
+        setReadyToActivate(false)
+        storage.set(StorageKey.BOT_RUNNING, "true")
+        storage.set(StorageKey.BOT_ACTIVATED, "true")
+        setBotActivated(false)
+        showToast({
+          type: ToastType.error,
+          title: activateData?.message,
         })
       }
       // else {
@@ -219,7 +234,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           secret,
           risk_level: riskLevel as string,
           user_id: userId,
-          email_address: userTradingEmail,
+          email_address: userTradingEmail as string,
         },
         {
           onError: () =>
@@ -287,7 +302,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     lastMonth: 6.32,
   }
 
-  console.log("==Payment Data===", paymentData, paymentDataLoading)
+  // console.log("==Payment Data===", paymentData, paymentDataLoading)
   // console.log("===Activate Date===", activateData, errorStartTrading, isError)
   // console.log("===stop Date===", stopData)
 
