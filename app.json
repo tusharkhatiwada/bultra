@@ -22,7 +22,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "1.0.11",
+      "buildNumber": "1.0.12",
       "bundleIdentifier": "com.bultrafinance.app",
       "supportsTablet": true,
       "icon": "./src/assets/images/logo-app.png",

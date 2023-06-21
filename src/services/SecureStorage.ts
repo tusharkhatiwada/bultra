@@ -12,6 +12,7 @@ export enum StorageKey {
   BOT_RUNNING = "BOT_RUNNING",
   BOT_KEY = "BOT_KEY",
   BOT_SECRET = "BOT_SECRET",
+  RISK_LEVEL = "RISK_LEVEL",
 }
 
 export interface SecureStorageService {

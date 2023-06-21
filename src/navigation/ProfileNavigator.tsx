@@ -7,6 +7,7 @@ import { Routes } from "models/Routes"
 import { Support } from "screens/Main/Profile/Support"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTranslation } from "react-i18next"
+import { ApiKeys } from "screens/Main/Profile/ApiKeys"
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>()
 
@@ -36,6 +37,16 @@ export function ProfileNavigator() {
         options={{
           header: ({ navigation }) => (
             <Header canGoBack navigation={navigation} title={t("profile.changePassword.title")} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.main.profile.apiKeys}
+        // @ts-ignore
+        component={ApiKeys}
+        options={{
+          header: ({ navigation }) => (
+            <Header canGoBack navigation={navigation} title={t("profile.apiKeys.title")} />
           ),
         }}
       />

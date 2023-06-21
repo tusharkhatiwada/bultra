@@ -52,6 +52,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [readyToActivate, setReadyToActivate] = useState(false)
   const [botRunning, setBotRunning] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
+  const [hasApiKeys, setHasApiKeys] = useState(false)
   const {
     data: paymentData,
     isLoading: paymentDataLoading,
@@ -101,19 +102,21 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       const botActivateddVal = !botActivated
         ? Boolean(botActivated)
         : (JSON.parse(botActivated) as boolean)
-      // const botRunning = (await storage.get(StorageKey.BOT_RUNNING)) as string | null
-      // const botRunningdVal = !botRunning ? Boolean(botRunning) : (JSON.parse(botRunning) as boolean)
+      const botRunning = (await storage.get(StorageKey.BOT_RUNNING)) as string | null
+      const botRunningdVal = !botRunning ? Boolean(botRunning) : (JSON.parse(botRunning) as boolean)
+      const hasApiKeysData = (await storage.get(StorageKey.BOT_KEY)) as string | null
+      const hasApiKeysVal = Boolean(hasApiKeysData)
+      setHasApiKeys(hasApiKeysVal)
       tradingInitiatedVal && setTradingInitiated(tradingInitiatedVal)
       //   paymentCompletedVal && setTradingPaymentCompleted(paymentCompletedVal)
       botActivateddVal && setBotActivated(botActivateddVal)
-      //   botRunningdVal && setBotRunning(botRunningdVal)
+      botRunningdVal && setBotRunning(botRunningdVal)
     }
 
     getTradingStatus()
   }, [])
 
   useEffect(() => {
-    console.log("===Payment Data===", paymentData)
     // if (
     //   isError ||
     //   paymentData === null ||
@@ -135,10 +138,10 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       setPaymentProcessing(false)
       setReadyToActivate(true)
       setTradingInitiated(true)
-      showToast({
-        type: ToastType.success,
-        title: "Ready to activate",
-      })
+      // showToast({
+      //   type: ToastType.success,
+      //   title: "Ready to activate",
+      // })
     }
   }, [paymentData])
   useEffect(() => {
@@ -153,7 +156,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         setBotActivated(false)
         showToast({
           type: ToastType.success,
-          title: "Bot is paid and activated",
+          title: t("home.botPaid"),
         })
       }
       if (activateData?.message?.includes("user was")) {
@@ -165,7 +168,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         setBotActivated(false)
         showToast({
           type: ToastType.error,
-          title: "The user is already activated",
+          title: t("home.userAlreadyActivated"),
         })
       }
       if (activateData?.message?.includes("The bot was activated")) {
@@ -192,12 +195,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   useEffect(() => {
     if (stopData && stopData?.message?.includes("bot stopped")) {
       setBotRunning(false)
-      setTradingInitiated(false)
-      storage.set(StorageKey.INITIATE_TRADING, "false")
+      setTradingInitiated(true)
+      storage.set(StorageKey.INITIATE_TRADING, "true")
       storage.set(StorageKey.BOT_RUNNING, "false")
       showToast({
         type: ToastType.success,
-        title: "Bot is stopped",
+        title: t("home.botStopped"),
       })
     }
   }, [stopData])
@@ -224,7 +227,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       if (!riskLevel) {
         return showToast({
           type: ToastType.error,
-          title: "Select Risk Level",
+          title: t("profile.apiKeys.chooseRiskLevel"),
         })
       }
 
@@ -237,6 +240,11 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           email_address: userTradingEmail as string,
         },
         {
+          onSuccess: () => {
+            storage.set(StorageKey.BOT_KEY, key)
+            storage.set(StorageKey.BOT_SECRET, secret)
+            storage.set(StorageKey.RISK_LEVEL, riskLevel)
+          },
           onError: () =>
             showToast({
               type: ToastType.error,
@@ -279,15 +287,19 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     showToast({
       type: ToastType.success,
       title: "Success",
-      description: "Bot is activated, check your bybit account.",
+      description: t("home.botActivated"),
     })
   }
   const handleBotStop = async () => {
     stopBot({
-      user_id: "5af1ff48-6118-4386-b005-950e1e0aa18e",
-      key: "dQNkIqTpl5mx055OK6",
-      secret: "1tzjhXH420hhHqPxZtqB9l7VXMWyZ4T1UYDB",
+      user_id: userId,
+      key: (await storage.get(StorageKey.BOT_KEY)) as string,
+      secret: (await storage.get(StorageKey.BOT_SECRET)) as string,
     })
+  }
+  const handleBotStart = async () => {
+    storage.set(StorageKey.BOT_RUNNING, "true")
+    setBotRunning(true)
   }
 
   const viewStyle = {
@@ -302,8 +314,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     lastMonth: 6.32,
   }
 
-  // console.log("==Payment Data===", paymentData, paymentDataLoading)
-  // console.log("===Activate Date===", activateData, errorStartTrading, isError)
+  console.log("==Payment Data===", paymentData)
+  // console.log("===Activate Date===", activateData)
   // console.log("===stop Date===", stopData)
 
   return (
@@ -364,22 +376,20 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
               {fetchStatus === "fetching" && (
                 <View style={{ flex: 1, flexDirection: "row", gap: 2, paddingVertical: 10 }}>
                   <Spinner />
-                  <Typography color="primary.400">
-                    Please wait while we check your account
-                  </Typography>
+                  <Typography color="primary.400">{t("home.checkingAccount")}</Typography>
                 </View>
               )}
               {paymentProcessing && (
                 <View style={{ flex: 1, flexDirection: "row", gap: 2, paddingVertical: 10 }}>
                   <Spinner />
-                  <Typography color="primary.400">
-                    Please, when we receive your payment you will be able to activate the bot
-                  </Typography>
+                  <Typography color="primary.400">{t("home.receivingPayment")}</Typography>
                 </View>
               )}
-              {readyToActivate && <Button onPress={activateBot}>Activate Bot</Button>}
+              {!botActivated && readyToActivate && !botRunning && (
+                <Button onPress={activateBot}>{t("home.activateBot")}</Button>
+              )}
 
-              {botActivated && (
+              {botActivated && !botRunning && tradingInitiated && !hasApiKeys && (
                 <View style={{ marginVertical: 10 }}>
                   <Typography color="primary.400" size="h3" style={styles.title}>
                     Bybit Keys
@@ -413,9 +423,18 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                   </Button>
                 </View>
               )}
+              {botActivated && !botRunning && tradingInitiated && hasApiKeys && (
+                <Button
+                  bgColor={"primary.600"}
+                  onPress={handleBotStart}
+                  style={{ marginVertical: 10 }}
+                >
+                  {t("home.startBot")}
+                </Button>
+              )}
               {botRunning && (
                 <Button bgColor={"red.500"} onPress={handleBotStop} style={{ marginVertical: 10 }}>
-                  Stop Bot
+                  {t("home.stopBot")}
                 </Button>
               )}
             </>

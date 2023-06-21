@@ -35,13 +35,13 @@ export const Logout: FC<LogoutProps> = ({ navigation }) => {
           {t("profile.logout.title")}
         </Button>
 
-        <Button
+        {/* <Button
           leftIcon={<Icon name="trash-alt" size="md" />}
           variant="outline"
           colorScheme="error"
         >
           {t("profile.logout.deleteAccount")}
-        </Button>
+        </Button> */}
       </Stack>
       {/*// @ts-ignore*/}
       <BottomSheet

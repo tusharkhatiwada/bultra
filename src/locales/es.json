@@ -133,7 +133,16 @@
       "profits": "Beneficios",
       "verify-movements": "Verificar movimientos",
       "profit-description": "Echa un vistazo a los beneficios que podrias haber obtenido en los últimos meses.",
-      "startEarn": "empezar a ganar"
+      "startEarn": "empezar a ganar",
+      "startBot": "Iniciar bot",
+      "stopBot": "Detener bot",
+      "activateBot": "Activar bot",
+      "botStopped": "El bot está detenido",
+      "botActivated": "El bot está activado, verifica tu cuenta de Bybit",
+      "checkingAccount": "Por favor, espera mientras verificamos tu cuenta",
+      "receivingPayment": "Por favor, cuando recibamos tu pago podrás activar el bot",
+      "userAlreadyActivated": "El usuario ya está activado",
+      "botPaid": "El bot está pagado y activado"
     },
 
     "wallet": {

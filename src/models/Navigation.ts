@@ -93,6 +93,7 @@ export type ProfileStackParamList = {
   [Routes.main.profile.support]: undefined
   [Routes.main.profile.changePassword]: undefined
   [Routes.main.profile.logout]: undefined
+  [Routes.main.profile.apiKeys]: undefined
 }
 
 export type WalletStackParamList = {

@@ -49,6 +49,10 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
     navigation.navigate(Routes.main.profile.logout)
   }
 
+  const goToApiKeys = async () => {
+    navigation.navigate(Routes.main.profile.apiKeys)
+  }
+
   useEffect(() => {
     const getCurrentLanguage = async () => {
       const language = await storage.get(StorageKey.LANGUAGE)
@@ -110,6 +114,14 @@ export const Profile: FC<ProfileProps> = ({ navigation }) => {
         {/*  </View>*/}
         {/*  <Icon name="chevron-right" size="md" />*/}
         {/*</Pressable>*/}
+
+        <Pressable onPress={goToApiKeys} style={styles.link}>
+          <View style={styles.flexRow}>
+            <Icon name="lock" color={colors.primary[400]} style={styles.icon} />
+            <Typography weight="semibold">{t("profile.apiKeys.title")}</Typography>
+          </View>
+          <Icon name="chevron-right" size="md" />
+        </Pressable>
 
         <Pressable
           onPress={() => Linking.openURL("whatsapp://send?phone=+34678372017")}

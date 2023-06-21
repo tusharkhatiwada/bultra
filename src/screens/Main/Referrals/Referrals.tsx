@@ -5,7 +5,7 @@ import {
   DateFilterValue,
   dateFilterButtons,
 } from "components/ButtonBar/constants/DateFilterButtons"
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useMemo, useState } from "react"
 import { Pressable, ScrollView, Share, StyleSheet, View } from "react-native"
 import { Spinner, Stack, useTheme } from "native-base"
 
@@ -108,6 +108,14 @@ export const Referrals: FC<ReferralsProps> = ({ navigation }) => {
     setHistoryDateRange(result)
   }
 
+  const referralCode = useMemo(() => {
+    // generate a random referral code, example BF - random number + 5 digits random letters
+    const random = Math.floor(Math.random() * 100)
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    const randomLetters = Array.from({ length: 5 }, () => letters[Math.floor(Math.random() * 26)])
+    return user?.ref ?? `BF - ${random}${randomLetters.join("")}`
+  }, [])
+
   // if (!referralLevels) {
   //   return (
   //     <View style={[styles.container, styles.alignCenter]}>
@@ -148,7 +156,7 @@ export const Referrals: FC<ReferralsProps> = ({ navigation }) => {
           <Typography color="primary.400">{t("referrals.description")}</Typography>
 
           <View style={[styles.refContainer, { backgroundColor: colors.primary[50] }]}>
-            <Typography color="primary.400">{user?.ref ? user?.ref : "BF - 0997643"}</Typography>
+            <Typography color="primary.400">{referralCode}</Typography>
             <View style={styles.iconsBox}>
               <Pressable
                 onPress={handleCopyReferralId}

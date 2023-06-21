@@ -134,7 +134,16 @@
       "profits": "Profits",
       "verify-movements": "Verify momevents",
       "profit-description": "Take a look at the benefits that you could have achieved in recent months.",
-      "startEarn": "Start to earn"
+      "startEarn": "Start to earn",
+      "startBot": "Start Bot",
+      "stopBot": "Stop Bot",
+      "activateBot": "Activate Bot",
+      "botStopped": "Bot is stopped",
+      "botActivated": " Bot is activated, check your bybit account.",
+      "checkingAccount": "Please wait while we check your account",
+      "receivingPayment": "Please, when we receive your payment you will be able to activate the bot",
+      "userAlreadyActivated": "The user is already activated",
+      "botPaid": "Bot is paid and activated"
     },
 
     "invest": {

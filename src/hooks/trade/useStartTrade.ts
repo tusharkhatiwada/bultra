@@ -9,7 +9,7 @@ export const useStartTrade = (params: StartTrade.Params) => {
   const storage = createSecureStorage()
   const { trade } = useApi()
 
-  // console.log("===Params===", params, !!params.startTrading && !!params.email_address)
+  console.log("===Params===", params, !!params.startTrading && !!params.email_address)
 
   const request = useQuery<StartTrade.Response, AxiosError>(
     ["startTrade", params.email_address, params.startTrading],

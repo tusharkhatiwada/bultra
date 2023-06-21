@@ -29,6 +29,7 @@ export const Routes = {
       support: "main/profile/support",
       changePassword: "main/profile/change_password",
       logout: "main/profile/logout",
+      apiKeys: "main/profile/api_keys",
     },
     wallet: {
       navigator: "main/wallet",
