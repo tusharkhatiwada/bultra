@@ -10,7 +10,7 @@ import { isNil } from "lodash"
 import { MainTabScreenProps } from "models/Navigation"
 import { riskLevelsList } from "models/RiskLevels"
 import { Routes } from "models/Routes"
-import { ScrollView, Spinner, Stack, useTheme } from "native-base"
+import { ScrollView, Spinner, Stack, useTheme, WarningIcon } from "native-base"
 import { FC, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { StyleSheet, View } from "react-native"
@@ -26,6 +26,9 @@ import { useStartTrade } from "hooks/trade/useStartTrade"
 import { useActivateBot } from "hooks/trade/useActivateBot"
 import { useActivateBotForm } from "hooks/trade/useActivateBotForm"
 import { useStopBot } from "hooks/trade/useStopBot"
+import { accentColors } from "styles/colors"
+import { Icon } from "components/Icon"
+import { useGetActivateStatus } from "hooks/trade/useGetActivateStatus"
 
 export type HomeProps = MainTabScreenProps<typeof Routes.main.home>
 
@@ -53,6 +56,8 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [botRunning, setBotRunning] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [hasApiKeys, setHasApiKeys] = useState(false)
+  const [lessPayment, setLessPayment] = useState("")
+  const { data: activateStatus, refetch } = useGetActivateStatus({ userId })
   const {
     data: paymentData,
     isLoading: paymentDataLoading,
@@ -134,10 +139,17 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     //   setPaymentProcessing(true)
     //   setTradingInitiated(true)
     // }
+    if (paymentData && paymentData?.message?.includes("less than")) {
+      // split string with :
+      const splitString = paymentData?.message?.split(":")
+      const paidAmount = splitString?.[1]
+      setLessPayment(t("home.lessPaidError", { value: paidAmount }))
+    }
     if (paymentData && paymentData?.message?.includes("ready")) {
       setPaymentProcessing(false)
       setReadyToActivate(true)
       setTradingInitiated(true)
+      setLessPayment("")
       // showToast({
       //   type: ToastType.success,
       //   title: "Ready to activate",
@@ -145,57 +157,58 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     }
   }, [paymentData])
   useEffect(() => {
-    if (tradingInitiated) {
-      console.log("===Activate Data===", activateData)
-      if (isActivateSuccess && activateData.message?.includes("successfully saved")) {
-        setPaymentSuccess(true)
-        setBotRunning(true)
-        setReadyToActivate(false)
-        storage.set(StorageKey.BOT_RUNNING, "true")
-        storage.set(StorageKey.BOT_ACTIVATED, "true")
-        setBotActivated(false)
-        showToast({
-          type: ToastType.success,
-          title: t("home.botPaid"),
-        })
-      }
-      if (activateData?.message?.includes("user was")) {
-        setPaymentSuccess(true)
-        setBotRunning(true)
-        setReadyToActivate(false)
-        storage.set(StorageKey.BOT_RUNNING, "true")
-        storage.set(StorageKey.BOT_ACTIVATED, "true")
-        setBotActivated(false)
-        showToast({
-          type: ToastType.error,
-          title: t("home.userAlreadyActivated"),
-        })
-      }
-      if (activateData?.message?.includes("The bot was activated")) {
-        setPaymentSuccess(true)
-        setBotRunning(true)
-        setReadyToActivate(false)
-        storage.set(StorageKey.BOT_RUNNING, "true")
-        storage.set(StorageKey.BOT_ACTIVATED, "true")
-        setBotActivated(false)
-        showToast({
-          type: ToastType.error,
-          title: activateData?.message,
-        })
-      }
-      // else {
-      //   showToast({
-      //     type: ToastType.error,
-      //     title: "Unable to activate bot",
-      //   })
-      // }
+    console.log("===Activate Data===", activateData)
+    if (isActivateSuccess && activateData.message_activate?.includes("successfully saved")) {
+      setPaymentSuccess(true)
+      setBotRunning(true)
+      setReadyToActivate(false)
+      storage.set(StorageKey.BOT_RUNNING, "true")
+      storage.set(StorageKey.BOT_ACTIVATED, "true")
+      setBotActivated(false)
+      showToast({
+        type: ToastType.success,
+        title: t("home.botPaid"),
+      })
     }
-  }, [isActivateSuccess, activateData, tradingInitiated])
+    if (activateData?.message_activate?.includes("user was")) {
+      setPaymentSuccess(true)
+      setBotRunning(true)
+      setReadyToActivate(false)
+      storage.set(StorageKey.BOT_RUNNING, "true")
+      storage.set(StorageKey.BOT_ACTIVATED, "true")
+      setBotActivated(false)
+      showToast({
+        type: ToastType.error,
+        title: t("home.userAlreadyActivated"),
+      })
+    }
+    if (activateData?.message_activate?.includes("The bot was activated")) {
+      setPaymentSuccess(true)
+      setBotRunning(true)
+      setReadyToActivate(false)
+      storage.set(StorageKey.BOT_RUNNING, "true")
+      storage.set(StorageKey.BOT_ACTIVATED, "true")
+      setBotActivated(false)
+      showToast({
+        type: ToastType.error,
+        title: t("home.activatedMore"),
+      })
+    }
+    // else {
+    //   showToast({
+    //     type: ToastType.error,
+    //     title: "Unable to activate bot",
+    //   })
+    // }
+  }, [isActivateSuccess, activateData])
 
   useEffect(() => {
+    console.log("===Stop data===", stopData)
     if (stopData && stopData?.message?.includes("bot stopped")) {
       setBotRunning(false)
       setTradingInitiated(true)
+      setPaymentProcessing(false)
+      refetch()
       storage.set(StorageKey.INITIATE_TRADING, "true")
       storage.set(StorageKey.BOT_RUNNING, "false")
       showToast({
@@ -204,6 +217,16 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
       })
     }
   }, [stopData])
+
+  useEffect(() => {
+    if (
+      activateStatus &&
+      (activateStatus?.message?.includes("the state of the bot is: activate") ||
+        activateStatus?.message?.includes("the state of the bot is: deactivate"))
+    ) {
+      setPaymentProcessing(false)
+    }
+  }, [activateStatus])
 
   /*   useEffect(() => {
     if (!isNil(user) && !isNil(plans)) {
@@ -240,10 +263,12 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
           email_address: userTradingEmail as string,
         },
         {
-          onSuccess: () => {
+          onSuccess: (data) => {
+            console.log("===save success===", data)
             storage.set(StorageKey.BOT_KEY, key)
             storage.set(StorageKey.BOT_SECRET, secret)
             storage.set(StorageKey.RISK_LEVEL, riskLevel)
+            setHasApiKeys(true)
           },
           onError: () =>
             showToast({
@@ -314,7 +339,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     lastMonth: 6.32,
   }
 
-  console.log("==Payment Data===", paymentData)
+  // console.log("==Payment Data===", paymentData)
+  // console.log("==Status===", activateStatus)
+  // console.log("===has api keys===", hasApiKeys)
   // console.log("===Activate Date===", activateData)
   // console.log("===stop Date===", stopData)
 
@@ -365,7 +392,7 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
         )} */}
           {isLoggedIn && (
             <>
-              {!tradingInitiated && (
+              {activateStatus?.message?.includes("the bot first") && !paymentProcessing && (
                 <>
                   <PlansSelector plans={plansToShow as Plan[]} goToPlans={() => null} />
                   <Button onPress={() => goToStartTrading()} isLoading={fetchStatus === "fetching"}>
@@ -379,60 +406,91 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
                   <Typography color="primary.400">{t("home.checkingAccount")}</Typography>
                 </View>
               )}
-              {paymentProcessing && (
-                <View style={{ flex: 1, flexDirection: "row", gap: 2, paddingVertical: 10 }}>
-                  <Spinner />
+              {fetchStatus !== "fetching" && paymentProcessing && (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    gap: 2,
+                    paddingVertical: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={{ marginRight: 5 }}>
+                    <Spinner />
+                  </View>
                   <Typography color="primary.400">{t("home.receivingPayment")}</Typography>
                 </View>
               )}
-              {!botActivated && readyToActivate && !botRunning && (
-                <Button onPress={activateBot}>{t("home.activateBot")}</Button>
-              )}
-
-              {botActivated && !botRunning && tradingInitiated && !hasApiKeys && (
-                <View style={{ marginVertical: 10 }}>
-                  <Typography color="primary.400" size="h3" style={styles.title}>
-                    Bybit Keys
-                  </Typography>
-                  <TextInput
-                    label={t("profile.apiKeys.form.apiKey.label")}
-                    placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
-                    {...getTextFieldProps("key")}
-                  />
-
-                  <TextInput
-                    label={t("profile.apiKeys.form.secretKey.label")}
-                    placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
-                    {...getTextFieldProps("secret")}
-                  />
-                  <Select
-                    custom
-                    label={t("profile.apiKeys.chooseRiskLevel")}
-                    bottomLabel={t("profile.apiKeys.changeRiskLevel")}
-                    cta={t("profile.apiKeys.chooseRiskLevel")}
-                    value={riskLevel}
-                    options={riskLevelsList}
-                    onChange={handleChangeRiskLevel}
-                  />
-                  <Button
-                    onPress={() => handleSubmit()}
-                    isLoading={isActivateLoading}
-                    disabled={isActivateLoading}
-                  >
-                    Save
-                  </Button>
+              {fetchStatus !== "fetching" && lessPayment && (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    gap: 2,
+                    paddingVertical: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  <WarningIcon size={5} color={accentColors.red.dark} style={{ marginRight: 5 }} />
+                  <Typography color={accentColors.red.dark}>{lessPayment}</Typography>
                 </View>
               )}
-              {botActivated && !botRunning && tradingInitiated && hasApiKeys && (
-                <Button
-                  bgColor={"primary.600"}
-                  onPress={handleBotStart}
-                  style={{ marginVertical: 10 }}
-                >
-                  {t("home.startBot")}
-                </Button>
-              )}
-              {botRunning && (
+              {activateStatus?.message?.includes("the state of the bot is: deactivate") &&
+                !botActivated &&
+                !botRunning &&
+                !hasApiKeys && <Button onPress={activateBot}>{t("home.activateBot")}</Button>}
+
+              {botActivated &&
+                activateStatus?.message?.includes("the state of the bot is: deactivate") &&
+                !hasApiKeys && (
+                  <View style={{ marginVertical: 10 }}>
+                    <Typography color="primary.400" size="h3" style={styles.title}>
+                      Bybit Keys
+                    </Typography>
+                    <TextInput
+                      label={t("profile.apiKeys.form.apiKey.label")}
+                      placeholder={t("profile.apiKeys.form.apiKey.placeholder")}
+                      {...getTextFieldProps("key")}
+                    />
+
+                    <TextInput
+                      label={t("profile.apiKeys.form.secretKey.label")}
+                      placeholder={t("profile.apiKeys.form.secretKey.placeholder")}
+                      {...getTextFieldProps("secret")}
+                    />
+                    <Select
+                      custom
+                      label={t("profile.apiKeys.chooseRiskLevel")}
+                      bottomLabel={t("profile.apiKeys.changeRiskLevel")}
+                      cta={t("profile.apiKeys.chooseRiskLevel")}
+                      value={riskLevel}
+                      options={riskLevelsList}
+                      onChange={handleChangeRiskLevel}
+                    />
+                    <Button
+                      onPress={() => handleSubmit()}
+                      isLoading={isActivateLoading}
+                      disabled={isActivateLoading}
+                    >
+                      Save
+                    </Button>
+                  </View>
+                )}
+              {(activateStatus?.message?.includes("the state of the bot is: deactivate") ||
+                stopData?.message?.includes("bot stopped")) &&
+                hasApiKeys &&
+                !botRunning && (
+                  <Button
+                    bgColor={"primary.600"}
+                    onPress={handleBotStart}
+                    style={{ marginVertical: 10 }}
+                  >
+                    {t("home.startBot")}
+                  </Button>
+                )}
+              {(activateStatus?.message?.includes("the state of the bot is: activate") ||
+                botRunning) && (
                 <Button bgColor={"red.500"} onPress={handleBotStop} style={{ marginVertical: 10 }}>
                   {t("home.stopBot")}
                 </Button>

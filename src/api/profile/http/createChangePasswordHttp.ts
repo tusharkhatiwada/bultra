@@ -4,10 +4,10 @@ import { ChangePassword } from "api/domain/profile"
 
 export const createChangePasswordHttp =
   (client: AxiosInstance): ChangePassword.Request =>
-  async ({ password, oldPassword }) => {
-    const { data }: AxiosResponse<string> = await client.patch("user/changePassword", {
-      password,
-      oldPassword,
+  async ({ email_address, hashed_password }) => {
+    const { data }: AxiosResponse<ChangePassword.Response> = await client.post("password", {
+      email_address,
+      hashed_password,
     })
 
     return data

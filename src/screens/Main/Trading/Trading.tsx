@@ -31,7 +31,7 @@ export const Trading: FC<any> = ({ navigation }) => {
       email && setUserEmail(email)
     }
     getUserEmail()
-  })
+  }, [])
 
   const copyToClipboard = async (value: string) => {
     await Clipboard.setStringAsync(value).then(() => {
@@ -65,9 +65,7 @@ export const Trading: FC<any> = ({ navigation }) => {
         <Typography color="primary.800" size="h3" weight="bold">
           USDT Deposit
         </Typography>
-        <Typography style={styles.bodyText}>
-          Go to Internal transfer and withdraw to the next email:
-        </Typography>
+        <Typography style={styles.bodyText}>{t("trading.withdrawNote")}</Typography>
         <TextInput
           label={""}
           name="internalEmail"
@@ -77,10 +75,7 @@ export const Trading: FC<any> = ({ navigation }) => {
           iconLabel={t("startTrading.copy-button")}
           onIconPress={() => copyToClipboard(internalEmail)}
         />
-        <Typography style={styles.bodyText}>
-          Write the email if you are using a different in bybit account to transfer. If not, let the
-          input in blank
-        </Typography>
+        <Typography style={styles.bodyText}>{t("trading.emailNote")}</Typography>
         <TextInput
           label={""}
           placeholder={t("login.form.email.placeholder")}
@@ -89,10 +84,7 @@ export const Trading: FC<any> = ({ navigation }) => {
           value={userEmail}
           onChangeText={(text) => setUserEmail(text)}
         />
-        <Typography style={styles.bodyText}>
-          Click finish after you have sent the 50 USDT from your bybit application. We will activate
-          the bot when we receive the price of the plan ( up to 24H)
-        </Typography>
+        <Typography style={styles.bodyText}>{t("trading.finishNote")}</Typography>
       </View>
 
       <Button onPress={initiateTrading}>{t("common.finish")}</Button>

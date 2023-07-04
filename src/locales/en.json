@@ -84,6 +84,9 @@
 
         "submit": "Confirm password"
       },
+      "errors": {
+        "wrongPassword": "Existing password is wrong"
+      },
 
       "toast": {
         "title": "Password successfully changed",
@@ -143,7 +146,9 @@
       "checkingAccount": "Please wait while we check your account",
       "receivingPayment": "Please, when we receive your payment you will be able to activate the bot",
       "userAlreadyActivated": "The user is already activated",
-      "botPaid": "Bot is paid and activated"
+      "botPaid": "Bot is paid and activated",
+      "lessPaidError": "You only transferred {{value}} USDT. You need to transfer 50 USDT",
+      "activatedMore": "The bot was activated more than once. You need to stop and activate again"
     },
 
     "invest": {
@@ -270,6 +275,12 @@
           "requestPermissionsCta": "Request permissions"
         }
       }
+    },
+
+    "trading": {
+      "withdrawNote": "Go to Internal transfer and withdraw to the next email:",
+      "emailNote": "Write the email if you are using a different in bybit account to transfer. If not, let the input in blank.",
+      "finishNote": "Click finish after you have sent the 50 USDT from your bybit application. We will activate the bot when we receive the price of the plan ( up to 24H)"
     },
 
     "referrals": {

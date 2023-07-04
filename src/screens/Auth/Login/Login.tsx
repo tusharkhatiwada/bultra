@@ -85,16 +85,16 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
         { email_address: state.email, hashed_password: password_hashed },
         {
           onSuccess: async (response) => {
-            console.log("===login response====", response)
             if (response?.message?.includes("wrong")) {
               showToast({
                 type: ToastType.error,
-                title: "Email & password doesn't match",
+                title: t("login.errors.checkCredentials"),
               })
             } else {
               storage.set(StorageKey.ACCESS_TOKEN, data.user_id)
               storage.set(StorageKey.USER_ID, data.user_id)
               storage.set(StorageKey.USER_EMAIL, state.email)
+              storage.set(StorageKey.HASHED_PASSWORD, password_hashed)
               await doLogin()
               navigation.dispatch(
                 CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),
@@ -118,7 +118,7 @@ export const Login: FC<LoginProps> = ({ navigation }) => {
     if (data?.message) {
       showToast({
         type: ToastType.error,
-        title: "User doesn't exists",
+        title: t("login.errors.loginFailed"),
       })
       setState({ ...state, loading: false })
     } else {

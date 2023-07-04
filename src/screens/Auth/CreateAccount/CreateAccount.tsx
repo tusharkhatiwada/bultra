@@ -80,6 +80,7 @@ export const CreateAccount: FC<CreateAccountProps> = ({ navigation, route }) => 
                     storage.set(StorageKey.ACCESS_TOKEN, response.user_id)
                     storage.set(StorageKey.USER_EMAIL, email_address)
                     storage.set(StorageKey.USER_ID, response.user_id)
+                    storage.set(StorageKey.HASHED_PASSWORD, password_hashed)
                     await login()
                     navigation.dispatch(
                       CommonActions.reset({ index: 0, routes: [{ name: Routes.main.navigator }] }),

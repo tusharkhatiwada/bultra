@@ -5,6 +5,7 @@ import { WalletApi } from "./wallet"
 import { InvestApi } from "./invest"
 import { HashApi } from "./hash"
 import { TradeApi } from "./trade"
+import { PnlApi } from "./pnl"
 
 export interface Api {
   auth: AuthApi
@@ -14,4 +15,5 @@ export interface Api {
   invest: InvestApi
   hash: HashApi
   trade: TradeApi
+  pnl: PnlApi
 }

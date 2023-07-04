@@ -50,9 +50,10 @@ export namespace ResendOtp {
 
 export namespace ForgotPassword {
   export type Params = {
-    email: string
+    email_address: string
+    hashed_password: string
   }
-  export type Response = { message: string; codeEndTime: string }
+  export type Response = { message: string }
   export type Request = (params: ForgotPassword.Params) => Promise<ForgotPassword.Response>
 }
 

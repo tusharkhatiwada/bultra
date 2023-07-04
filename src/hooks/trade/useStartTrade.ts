@@ -9,8 +9,6 @@ export const useStartTrade = (params: StartTrade.Params) => {
   const storage = createSecureStorage()
   const { trade } = useApi()
 
-  console.log("===Params===", params, !!params.startTrading && !!params.email_address)
-
   const request = useQuery<StartTrade.Response, AxiosError>(
     ["startTrade", params.email_address, params.startTrading],
     () => trade.startTrade(params),
@@ -19,7 +17,6 @@ export const useStartTrade = (params: StartTrade.Params) => {
       refetchInterval: (data) => {
         if (data !== undefined && !data?.message?.includes("ready")) {
           storage.set(StorageKey.INITIATE_TRADING, "true")
-          console.log("===Refetching====", data)
           return 30000
         }
         return false

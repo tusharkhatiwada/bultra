@@ -3,6 +3,7 @@ import "./src/config/yupLocale"
 
 import { LogBox, View } from "react-native"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import "@expo/match-media"
 
 import { ApiProvider } from "context/ApiContext"
 import { AuthProvider } from "context/AuthContext"

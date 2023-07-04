@@ -32,6 +32,8 @@ import { getSaltHttp } from "./hash/getSaltHttp"
 import { startTradeHttp } from "./trade/startTradeHttp"
 import { activateBotHttp } from "./trade/activateBotHttp"
 import { stopBotHttp } from "./trade/stopBotHttp"
+import { getActivateStatusHttp } from "./trade/getActivateStatus"
+import { getPnlHttp } from "./pnl/http/getPnlHttp"
 
 export function createApi(offline: boolean): Api {
   if (offline) return createApiFake()
@@ -64,6 +66,7 @@ export function createApi(offline: boolean): Api {
       return res
     },
     (error) => {
+      console.log("===API Error===", error)
       const {
         response: { data, config },
       } = error
@@ -125,6 +128,10 @@ export function createApi(offline: boolean): Api {
       startTrade: startTradeHttp(httpClient),
       activateBot: activateBotHttp(httpClient),
       stopBot: stopBotHttp(httpClient),
+      getActivateStatus: getActivateStatusHttp(httpClient),
+    },
+    pnl: {
+      getPnl: getPnlHttp(httpClient),
     },
   }
 }

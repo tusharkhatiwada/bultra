@@ -2,10 +2,10 @@ import { UserInformationV2 } from "models/Profile"
 
 export namespace ChangePassword {
   export type Params = {
-    oldPassword: string
-    password: string
+    email_address: string
+    hashed_password: string
   }
-  export type Response = string
+  export type Response = { message: string }
   export type Request = (params: ChangePassword.Params) => Promise<ChangePassword.Response>
 }
 

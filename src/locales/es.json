@@ -83,6 +83,9 @@
 
         "submit": "Confirmar contraseña"
       },
+      "errors": {
+        "wrongPassword": "Contraseña existente incorrecta"
+      },
 
       "toast": {
         "title": "Contraseña cambiada exitosamente",
@@ -142,7 +145,9 @@
       "checkingAccount": "Por favor, espera mientras verificamos tu cuenta",
       "receivingPayment": "Por favor, cuando recibamos tu pago podrás activar el bot",
       "userAlreadyActivated": "El usuario ya está activado",
-      "botPaid": "El bot está pagado y activado"
+      "botPaid": "El bot está pagado y activado",
+      "lessPaidError": "Solo transfirió {{value}} USDT. Necesitas transferir 50 USDT",
+      "activatedMore": "El bot se activó más de una vez. Tienes que parar y volver a activar"
     },
 
     "wallet": {
@@ -250,6 +255,12 @@
           "requestPermissionsCta": "Solicitar permiso"
         }
       }
+    },
+
+    "trading": {
+      "withdrawNote": "Ve a Transferencia interna y retira al siguiente correo electrónico:",
+      "emailNote": "Escribe el correo electrónico si estás usando una cuenta diferente en Bybit para la transferencia. Si no, deja el campo en blanco.",
+      "finishNote": "Haz clic en Finalizar después de haber enviado los 50 USDT desde tu aplicación de Bybit. Activaremos el bot cuando recibamos el pago del plan (hasta 24 horas)."
     },
 
     "referrals": {

@@ -11,5 +11,6 @@ export const hashedPassword = async (password: string, salt: string) => {
     Crypto.CryptoDigestAlgorithm.SHA256,
     data.toString("base64"),
   )
+  console.log("===Hashed Password====", hashedData)
   return hashedData
 }

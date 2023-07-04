@@ -3,9 +3,10 @@ import { ForgotPassword } from "api/domain/auth"
 
 export const createForgotPasswordHttp =
   (client: AxiosInstance): ForgotPassword.Request =>
-  async ({ email }) => {
-    const { data }: AxiosResponse<ForgotPassword.Response> = await client.post("/user/sendCode", {
-      email,
+  async ({ email_address, hashed_password }) => {
+    const { data }: AxiosResponse<ForgotPassword.Response> = await client.post("password", {
+      email_address,
+      hashed_password,
     })
 
     return data
