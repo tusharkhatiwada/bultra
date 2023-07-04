@@ -1,0 +1,22 @@
+{
+  "background_color": "#5E24FF",
+  "description": "Bultra Finance description",
+  "display": "standalone",
+  "lang": "en",
+  "name": "Bultra Finance",
+  "short_name": "Bultra Finance",
+  "start_url": "/?utm_source=web_app_manifest",
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "itunes",
+      "id": "com.bultrafinance.app"
+    },
+    {
+      "platform": "play",
+      "url": "http://play.google.com/store/apps/details?id=com.bultrafinance.app",
+      "id": "com.bultrafinance.app"
+    }
+  ],
+  "prefer_related_applications": true
+}

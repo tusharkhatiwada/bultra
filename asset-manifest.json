@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.js": "/bultra/static/js/main.8840b4ae.js",
+    "static/js/123.3af35d02.js": "/bultra/static/js/123.3af35d02.js",
+    "static/media/FontAwesome5_Solid.ttf": "/bultra/static/media/FontAwesome5_Solid.07c3313b24f7b1ca85ee.ttf",
+    "static/media/FontAwesome5_Brands.ttf": "/bultra/static/media/FontAwesome5_Brands.9e138496e8f1719c6ebf.ttf",
+    "static/media/Canaro-LightItalic.ttf": "/bultra/static/media/Canaro-LightItalic.c6ac3e26c3eb11349724.ttf",
+    "static/media/Canaro-MediumItalic.ttf": "/bultra/static/media/Canaro-MediumItalic.68b8c4c24ba7cd9748a1.ttf",
+    "static/media/Canaro-BookItalic.ttf": "/bultra/static/media/Canaro-BookItalic.d40d25f44cd6b9ee2d12.ttf",
+    "static/media/Canaro-BoldItalic.ttf": "/bultra/static/media/Canaro-BoldItalic.eb2f8417e356576815a2.ttf",
+    "static/media/Canaro-Light.ttf": "/bultra/static/media/Canaro-Light.8b131d84fc85cdc02561.ttf",
+    "static/media/Canaro-Medium.ttf": "/bultra/static/media/Canaro-Medium.ca4a1a2722eb02570a52.ttf",
+    "static/media/Canaro-Book.ttf": "/bultra/static/media/Canaro-Book.06c3877ff053a79a242f.ttf",
+    "static/media/Canaro-Bold.ttf": "/bultra/static/media/Canaro-Bold.fae90cf0dc827cf61b79.ttf",
+    "static/media/FontAwesome5_Regular.ttf": "/bultra/static/media/FontAwesome5_Regular.1017bce89c72f95bcf8e.ttf",
+    "favicon.ico": "/bultra/favicon.ico",
+    "index.html": "/bultra/index.html",
+    "static/media/close.android.png": "/bultra/static/media/close.android.0d17e0283034f44be356.png",
+    "favicon-32.png": "/bultra/favicon-32.png",
+    "static/media/close.ios.png": "/bultra/static/media/close.ios.81d829c35aa7afa6d25d.png",
+    "favicon-16.png": "/bultra/favicon-16.png",
+    "manifest.json": "/bultra/manifest.json",
+    "serve.json": "/bultra/serve.json",
+    "main.8840b4ae.js.map": "/bultra/static/js/main.8840b4ae.js.map",
+    "123.3af35d02.js.map": "/bultra/static/js/123.3af35d02.js.map"
+  },
+  "entrypoints": [
+    "static/js/123.3af35d02.js",
+    "static/js/main.8840b4ae.js"
+  ]
+}
